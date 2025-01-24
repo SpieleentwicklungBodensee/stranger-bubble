@@ -196,12 +196,37 @@ class TitleScreen(Screen):
             if entry == 'START GAME':
                 nextScreen = GameScreen()
             elif entry == 'JOIN GAME':
-                pass
+                nextScreen = JoinScreen()
             elif entry == 'EXIT':
                 running = False
 
         elif key == pygame.K_ESCAPE:
             running = False
+
+
+class JoinScreen(Screen):
+    def __init__(self):
+        super().__init__()
+
+    def render(self):
+        screen.fill(CL_BG_DARK)
+        font.centerText(screen, 'SCANNING FOR GAMES ON YOUR NETWORK...', y=8, fgcolor=CL_TXT_PURPLE)
+
+        font.centerText(screen, 'NOT IMPLEMENTED YET', y=20)
+        font.centerText(screen, 'PRESS ANY KEY', y=21)
+
+    def keydown(self, key, shift=False):
+        pass
+
+    def keyup(self, key, shift=False):
+        global nextScreen
+        global running
+
+        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
+            nextScreen = TitleScreen()
+
+        elif key == pygame.K_ESCAPE:
+            nextScreen = TitleScreen()
 
 
 running = True
