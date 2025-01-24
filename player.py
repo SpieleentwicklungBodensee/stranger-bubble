@@ -1,10 +1,10 @@
 class Player:
-    def __init__(self, id="None", x=1, y=1, maxx=29, maxy=16):
+    def __init__(self, id="None", x=1, y=1, maxx=30, maxy=17):
         self.spriteid = str(id)
         self.x = x
         self.y = y
-        self.minx = 2
-        self.miny = 2
+        self.minx = 1
+        self.miny = 1
         self.maxx = maxx
         self.maxy = maxy    
         self.status = "None"
