@@ -151,8 +151,8 @@ class GameScreen(Screen):
 
 class TitleScreen(Screen):
     def render(self):
-        screen.fill((40,60,80))
-        font.centerText(screen, 'STRANGER BUBBLE', y=4)
+        screen.fill((16,6,26))
+        font.centerText(screen, 'STRANGER BUBBLE', y=4, fgcolor=(248,48,166))
         font.centerText(screen, 'PRESS SPACE TO START', y=12)
 
     def keyup(self, key, shift=False):
