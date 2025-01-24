@@ -79,8 +79,9 @@ def render():
                 screen.blit(tiles['x'], (x * TW, y * TH))
 
             # draw overlay
-            if currentOverlay[y][x] != ' ':
-                screen.blit(tiles[currentOverlay[y][x]], (x * 16, y * 16))
+            if currentOverlay is not None:
+                if currentOverlay[y][x] != ' ':
+                    screen.blit(tiles[currentOverlay[y][x]], (x * 16, y * 16))
 
 
     pygame.display.flip()
@@ -96,6 +97,8 @@ def controls():
             running = False
 
         if e.type == pygame.KEYDOWN:
+            shift = e.mod & pygame.KMOD_SHIFT
+
             if e.key == pygame.K_ESCAPE:
                 running = False
 
@@ -103,10 +106,16 @@ def controls():
                 pygame.display.toggle_fullscreen()
 
             elif e.key == pygame.K_F12:
-                if currentOverlay == overlay1:
-                    currentOverlay = overlay2
+                if shift:
+                    if currentOverlay is not None:
+                        currentOverlay = None
+                    else:
+                        currentOverlay = overlay1
                 else:
-                    currentOverlay = overlay1
+                    if currentOverlay == overlay1:
+                        currentOverlay = overlay2
+                    else:
+                        currentOverlay = overlay1
 
 
 def update():
