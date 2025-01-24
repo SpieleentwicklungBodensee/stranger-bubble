@@ -17,6 +17,10 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'O': pygame.image.load('gfx/overlay.png'),
          }
 
+sprites = {'player1': pygame.image.load('gfx/man.png'),
+           'player2': pygame.image.load('gfx/man.png'),
+           }
+
 
 level = ['##############################',
          '#             xx             #',
