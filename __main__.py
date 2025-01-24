@@ -108,8 +108,8 @@ class GameScreen(Screen):
     def __init__(self):
         Screen.__init__(self)
         self.currentOverlay = overlay1
-        self.player1 = Player(1, 5, 5)
-        self.player2 = Player(2, 8, 8)
+        self.player1 = Player('player1', 5, 5)
+        self.player2 = Player('player2', 8, 8)
 
 
     def render(self):
@@ -125,8 +125,9 @@ class GameScreen(Screen):
 
 
         #draw player/s
-        screen.blit(sprites['player1'], (self.player1.getx() * TW, self.player1.getx() * TH))
-        screen.blit(sprites['player2'], (self.player2.getx() * TW, self.player2.getx() * TH))
+        self.player1.getPlayerSpriteId
+        screen.blit(sprites[self.player1.getPlayerSpriteId], (self.player1.getx() * TW, self.player1.getx() * TH))
+        screen.blit(sprites[self.player2.getPlayerSpriteId], (self.player2.getx() * TW, self.player2.getx() * TH))
 
 
 
