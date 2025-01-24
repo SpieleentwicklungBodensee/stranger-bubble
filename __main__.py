@@ -156,17 +156,49 @@ class GameScreen(Screen):
 
 
 class TitleScreen(Screen):
+    def __init__(self):
+        super().__init__()
+        self.cursorY = 0
+
+        self.menu = ['START GAME',
+                     'JOIN GAME',
+                     'EXIT',
+                     ]
+
     def render(self):
         screen.fill(CL_BG_DARK)
         bigfont.centerText(screen, 'STRANGER BUBBLE', y=4, fgcolor=CL_TXT_PURPLE)
-        font.centerText(screen, 'PRESS SPACE TO START', y=12, fgcolor=CL_TXT_PURPLE)
+        #font.centerText(screen, 'PRESS SPACE TO START', y=12, fgcolor=CL_TXT_PURPLE)
+
+        for i, entry in enumerate(self.menu):
+            font.centerText(screen, entry, y=18 + i * 2, fgcolor=CL_TXT_PURPLE)
+
+        if tick % 32 > 8:
+            font.drawText(screen, '}', x=23, y=18 + self.cursorY * 2, fgcolor=CL_TXT_PURPLE)
+
+
+    def keydown(self, key, shift=False):
+        if key == pygame.K_DOWN:
+            self.cursorY += 1
+            self.cursorY %= len(self.menu)
+
+        elif key == pygame.K_UP:
+            self.cursorY -= 1
+            self.cursorY %= len(self.menu)
 
     def keyup(self, key, shift=False):
         global nextScreen
         global running
 
         if key == pygame.K_SPACE:
-            nextScreen = GameScreen()
+            entry = self.menu[self.cursorY]
+
+            if entry == 'START GAME':
+                nextScreen = GameScreen()
+            elif entry == 'JOIN GAME':
+                pass
+            elif entry == 'EXIT':
+                running = False
 
         elif key == pygame.K_ESCAPE:
             running = False
@@ -174,6 +206,7 @@ class TitleScreen(Screen):
 
 running = True
 clock = pygame.time.Clock()
+tick = 0
 
 currentScreen = TitleScreen()
 nextScreen = None
@@ -205,6 +238,7 @@ while running:
 
     # limit to 60 fps
     clock.tick(60)
+    tick += 1
 
     # switch to next screen
     if nextScreen is not None:
