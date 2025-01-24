@@ -41,6 +41,12 @@ class Player:
 
     def getPlayerPosition(self):
         return self.x, self.y
+    
+    def getx(self):
+        return self.x
+    
+    def gety(self):
+        return self.y    
 
     def getPlayerId(self):
         return self.id

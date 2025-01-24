@@ -104,6 +104,7 @@ class GameScreen(Screen):
         Screen.__init__(self)
         self.currentOverlay = overlay1
         self.player1 = Player(1, 5, 5)
+        self.player2 = Player(2, 8, 8)
 
 
     def render(self):
@@ -115,7 +116,14 @@ class GameScreen(Screen):
                 # draw overlay
                 if self.currentOverlay is not None:
                     if self.currentOverlay[y][x] != ' ':
-                        screen.blit(tiles[self.currentOverlay[y][x]], (x * 16, y * 16))
+                        screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TW))
+                
+
+        #draw player/s
+        screen.blit(sprites['player1'], (self.player1.getx() * TW, self.player1.getx() * TW))
+        screen.blit(sprites['player2'], (self.player2.getx() * TW, self.player2.getx() * TW))
+
+
 
     def keydown(self, key, shift=False):
         global running
