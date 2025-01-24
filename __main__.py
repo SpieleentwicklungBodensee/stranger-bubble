@@ -109,8 +109,8 @@ class GameScreen(Screen):
     def __init__(self):
         Screen.__init__(self)
         self.currentOverlay = overlay1
-        self.player1 = Player('player1', 3, 3, LEV_W-1, 7)
-        self.player2 = Player('player2', 15, 8, LEV_W-1, LEV_H-1)
+        self.player1 = Player('player1', 3, 3, LEV_W, LEV_H)
+        self.player2 = Player('player2', 15, 8, LEV_W, LEV_H)
 
     def render(self):
         for y, line in enumerate(level):
