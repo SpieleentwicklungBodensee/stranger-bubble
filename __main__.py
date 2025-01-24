@@ -78,67 +78,99 @@ overlay2 = ['                              ',
 currentOverlay = overlay1
 
 
-def render():
-    screen.fill((40,60,80))
+class Screen:
+    def __init__(self):
+        pass
 
-    font.centerText(screen, 'STRANGER BUBBLE', y=4)
+    def render(self):
+        pass
 
-    for y, line in enumerate(level):
-        for x, tile in enumerate(line):
-            # draw actual tile
-            screen.blit(tiles[tile], (x * TW, y * TH))
+    def keydown(self):
+        pass
 
-            # draw overlay
-            if currentOverlay is not None:
-                if currentOverlay[y][x] != ' ':
-                    screen.blit(tiles[currentOverlay[y][x]], (x * 16, y * 16))
+    def keyup(self):
+        pass
 
-    pygame.display.flip()
+    def update(self):
+        pass
 
 
-def controls():
-    events = pygame.event.get()
 
-    global running, currentOverlay
+class GameScreen(Screen):
+    def render(self):
+        screen.fill((40,60,80))
 
-    for e in events:
-        if e.type == pygame.QUIT:
+        font.centerText(screen, 'STRANGER BUBBLE', y=4)
+
+        for y, line in enumerate(level):
+            for x, tile in enumerate(line):
+                # draw actual tile
+                screen.blit(tiles[tile], (x * TW, y * TH))
+
+                # draw overlay
+                if currentOverlay is not None:
+                    if currentOverlay[y][x] != ' ':
+                        screen.blit(tiles[currentOverlay[y][x]], (x * 16, y * 16))
+
+
+    def keydown(self, key, shift=False):
+        global running
+        global currentOverlay
+
+        if key == pygame.K_ESCAPE:
             running = False
 
-        if e.type == pygame.KEYDOWN:
-            shift = e.mod & pygame.KMOD_SHIFT
+        elif key == pygame.K_F11:
+            pygame.display.toggle_fullscreen()
 
-            if e.key == pygame.K_ESCAPE:
-                running = False
-
-            elif e.key == pygame.K_F11:
-                pygame.display.toggle_fullscreen()
-
-            elif e.key == pygame.K_F12:
-                if shift:
-                    if currentOverlay is not None:
-                        currentOverlay = None
-                    else:
-                        currentOverlay = overlay1
+        elif key == pygame.K_F12:
+            if shift:
+                if currentOverlay is not None:
+                    currentOverlay = None
                 else:
-                    if currentOverlay == overlay1:
-                        currentOverlay = overlay2
-                    else:
-                        currentOverlay = overlay1
+                    currentOverlay = overlay1
+            else:
+                if currentOverlay == overlay1:
+                    currentOverlay = overlay2
+                else:
+                    currentOverlay = overlay1
+
+    def keyup(self, key, shift=False):
+        pass
 
 
-def update():
-    pass
+    def update(self):
+        pass
 
 
 running = True
 clock = pygame.time.Clock()
 
-while running:
-    render()
-    controls()
-    update()
+currentScreen = GameScreen()
 
+while running:
+    # draw the current screen
+    currentScreen.render()
+    pygame.display.flip()
+
+    # handle events in current screen
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
+            running = False
+
+        elif e.type == pygame.KEYDOWN:
+            shift = e.mod & pygame.KMOD_SHIFT
+            currentScreen.keydown(e.key, shift=shift)
+
+        elif e.type == pygame.KEYUP:
+            shift = e.mod & pygame.KMOD_SHIFT
+            currentScreen.keyup(e.key, shift=shift)
+
+    # update the current screen
+    currentScreen.update()
+
+    # limit to 60 fps
     clock.tick(60)
+
 
 pygame.quit()
