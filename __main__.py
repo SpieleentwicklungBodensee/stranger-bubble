@@ -32,6 +32,9 @@ def controls():
             if e.key == pygame.K_ESCAPE:
                 running = False
 
+            elif e.key == pygame.K_F11:
+                pygame.display.toggle_fullscreen()
+
 
 def update():
     pass
