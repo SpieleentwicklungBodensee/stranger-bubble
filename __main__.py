@@ -9,6 +9,7 @@ LEV_W, LEV_H = 30, 17
 
 CL_BG_DARK =(16,6,26)
 CL_TXT_PURPLE = (248,48,166)
+CL_TXT_CYAN = (96,255, 250)
 
 
 pygame.display.init()
@@ -198,7 +199,7 @@ class TitleScreen(Screen):
         #font.centerText(screen, 'PRESS SPACE TO START', y=12, fgcolor=CL_TXT_PURPLE)
 
         for i, entry in enumerate(self.menu):
-            font.centerText(screen, entry, y=18 + i * 2, fgcolor=CL_TXT_PURPLE)
+            font.centerText(screen, entry, y=18 + i * 2, fgcolor=CL_TXT_CYAN)
 
         if tick % 32 > 8:
             font.drawText(screen, '}', x=23, y=18 + self.cursorY * 2, fgcolor=CL_TXT_PURPLE)
