@@ -9,7 +9,7 @@ LEV_W, LEV_H = 30, 17
 pygame.display.init()
 screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
 
-font = BitmapFont('gfx/heimatfont.png')
+font = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H)
 
 tiles = {'#': pygame.image.load('gfx/wall.png'),
          ' ': pygame.image.load('gfx/floor.png'),
@@ -85,10 +85,10 @@ class Screen:
     def render(self):
         pass
 
-    def keydown(self):
+    def keydown(self, key, shift=False):
         pass
 
-    def keyup(self):
+    def keyup(self, key, shift=False):
         pass
 
     def update(self):
@@ -117,10 +117,7 @@ class GameScreen(Screen):
         global running
         global currentOverlay
 
-        if key == pygame.K_ESCAPE:
-            running = False
-
-        elif key == pygame.K_F11:
+        if key == pygame.K_F11:
             pygame.display.toggle_fullscreen()
 
         elif key == pygame.K_F12:
@@ -136,17 +133,38 @@ class GameScreen(Screen):
                     currentOverlay = overlay1
 
     def keyup(self, key, shift=False):
-        pass
+        global nextScreen
 
+        if key == pygame.K_ESCAPE:
+            nextScreen = TitleScreen()
 
     def update(self):
         pass
 
 
+class TitleScreen(Screen):
+    def render(self):
+        screen.fill((40,60,80))
+        font.centerText(screen, 'STRANGER BUBBLE', y=4)
+        font.centerText(screen, 'PRESS SPACE TO START', y=12)
+
+    def keyup(self, key, shift=False):
+        global nextScreen
+        global running
+
+        if key == pygame.K_SPACE:
+            nextScreen = GameScreen()
+
+        elif key == pygame.K_ESCAPE:
+            running = False
+
+
 running = True
 clock = pygame.time.Clock()
 
-currentScreen = GameScreen()
+currentScreen = TitleScreen()
+nextScreen = None
+
 
 while running:
     # draw the current screen
@@ -171,6 +189,11 @@ while running:
 
     # limit to 60 fps
     clock.tick(60)
+
+    # switch to next screen
+    if nextScreen is not None:
+        currentScreen = nextScreen
+        nextScreen = None
 
 
 pygame.quit()
