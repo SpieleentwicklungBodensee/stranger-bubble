@@ -15,6 +15,7 @@ pygame.display.init()
 screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
 
 font = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H)
+bigfont = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H, zoom=2)
 
 tiles = {'#': pygame.image.load('gfx/wall.png'),
          ' ': pygame.image.load('gfx/floor.png'),
@@ -121,7 +122,7 @@ class GameScreen(Screen):
                 if self.currentOverlay is not None:
                     if self.currentOverlay[y][x] != ' ':
                         screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TH))
-                
+
 
         #draw player/s
         screen.blit(sprites['player1'], (self.player1.getx() * TW, self.player1.getx() * TH))
@@ -157,8 +158,8 @@ class GameScreen(Screen):
 class TitleScreen(Screen):
     def render(self):
         screen.fill(CL_BG_DARK)
-        font.centerText(screen, 'STRANGER BUBBLE', y=4, fgcolor=CL_TXT_PURPLE)
-        font.centerText(screen, 'PRESS SPACE TO START', y=12)
+        bigfont.centerText(screen, 'STRANGER BUBBLE', y=4, fgcolor=CL_TXT_PURPLE)
+        font.centerText(screen, 'PRESS SPACE TO START', y=12, fgcolor=CL_TXT_PURPLE)
 
     def keyup(self, key, shift=False):
         global nextScreen
