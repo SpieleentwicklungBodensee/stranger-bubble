@@ -190,7 +190,7 @@ class TitleScreen(Screen):
         global nextScreen
         global running
 
-        if key == pygame.K_SPACE:
+        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
             entry = self.menu[self.cursorY]
 
             if entry == 'START GAME':
