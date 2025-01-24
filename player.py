@@ -49,4 +49,4 @@ class Player:
         return self.y    
 
     def getPlayerSpriteId(self):
-        return self.id
+        return str(self.spriteid)
