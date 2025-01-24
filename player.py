@@ -1,6 +1,6 @@
 class Player:
     def __init__(self, id, x=1, y=1):
-        self.id = int(id)
+        self.spriteid = str(id)
         self.x = x
         self.y = y
         self.minx = 2
@@ -48,5 +48,5 @@ class Player:
     def gety(self):
         return self.y    
 
-    def getPlayerId(self):
+    def getPlayerSpriteId(self):
         return self.id
