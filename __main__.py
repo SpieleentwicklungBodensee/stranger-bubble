@@ -75,8 +75,6 @@ overlay2 = ['                              ',
             'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
             ]
 
-currentOverlay = overlay1
-
 
 class Screen:
     def __init__(self):
@@ -97,6 +95,10 @@ class Screen:
 
 
 class GameScreen(Screen):
+    def __init__(self):
+        Screen.__init__(self)
+        self.currentOverlay = overlay1
+
     def render(self):
         screen.fill((40,60,80))
 
@@ -108,29 +110,27 @@ class GameScreen(Screen):
                 screen.blit(tiles[tile], (x * TW, y * TH))
 
                 # draw overlay
-                if currentOverlay is not None:
-                    if currentOverlay[y][x] != ' ':
-                        screen.blit(tiles[currentOverlay[y][x]], (x * 16, y * 16))
-
+                if self.currentOverlay is not None:
+                    if self.currentOverlay[y][x] != ' ':
+                        screen.blit(tiles[self.currentOverlay[y][x]], (x * 16, y * 16))
 
     def keydown(self, key, shift=False):
         global running
-        global currentOverlay
 
         if key == pygame.K_F11:
             pygame.display.toggle_fullscreen()
 
         elif key == pygame.K_F12:
             if shift:
-                if currentOverlay is not None:
-                    currentOverlay = None
+                if self.currentOverlay is not None:
+                    self.currentOverlay = None
                 else:
-                    currentOverlay = overlay1
+                    self.currentOverlay = overlay1
             else:
-                if currentOverlay == overlay1:
-                    currentOverlay = overlay2
+                if self.currentOverlay == overlay1:
+                    self.currentOverlay = overlay2
                 else:
-                    currentOverlay = overlay1
+                    self.currentOverlay = overlay1
 
     def keyup(self, key, shift=False):
         global nextScreen
