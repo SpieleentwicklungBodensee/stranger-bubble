@@ -125,9 +125,8 @@ class GameScreen(Screen):
 
 
         #draw player/s
-        self.player1.getPlayerSpriteId
-        screen.blit(sprites[self.player1.getPlayerSpriteId], (self.player1.getx() * TW, self.player1.getx() * TH))
-        screen.blit(sprites[self.player2.getPlayerSpriteId], (self.player2.getx() * TW, self.player2.getx() * TH))
+        screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.getx() * TH))
+        screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW, self.player2.getx() * TH))
 
 
 

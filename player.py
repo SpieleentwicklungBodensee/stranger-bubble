@@ -1,5 +1,5 @@
 class Player:
-    def __init__(self, id, x=1, y=1):
+    def __init__(self, id="None", x=1, y=1):
         self.spriteid = str(id)
         self.x = x
         self.y = y
