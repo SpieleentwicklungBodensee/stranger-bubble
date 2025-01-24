@@ -68,21 +68,12 @@ def render():
     for y, line in enumerate(level):
         for x, tile in enumerate(line):
             # draw actual tile
-
-            if tile == '#':
-                screen.blit(tiles['#'], (x * TW, y * TH))
-
-            if tile == ' ':
-                screen.blit(tiles[' '], (x * TW, y * TH))
-
-            if tile == 'x':
-                screen.blit(tiles['x'], (x * TW, y * TH))
+            screen.blit(tiles[tile], (x * TW, y * TH))
 
             # draw overlay
             if currentOverlay is not None:
                 if currentOverlay[y][x] != ' ':
                     screen.blit(tiles[currentOverlay[y][x]], (x * 16, y * 16))
-
 
     pygame.display.flip()
 
