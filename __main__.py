@@ -116,12 +116,12 @@ class GameScreen(Screen):
                 # draw overlay
                 if self.currentOverlay is not None:
                     if self.currentOverlay[y][x] != ' ':
-                        screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TW))
+                        screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TH))
                 
 
         #draw player/s
-        screen.blit(sprites['player1'], (self.player1.getx() * TW, self.player1.getx() * TW))
-        screen.blit(sprites['player2'], (self.player2.getx() * TW, self.player2.getx() * TW))
+        screen.blit(sprites['player1'], (self.player1.getx() * TW, self.player1.getx() * TH))
+        screen.blit(sprites['player2'], (self.player2.getx() * TW, self.player2.getx() * TH))
 
 
 
