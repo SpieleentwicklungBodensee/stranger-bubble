@@ -57,6 +57,8 @@ overlay2 = ['                    ',
             'OOOOOOOOOOOOOOOOOOOO',
             ]
 
+currentOverlay = overlay1
+
 
 def render():
     screen.fill((40,60,80))
@@ -66,15 +68,19 @@ def render():
     for y, line in enumerate(level):
         for x, tile in enumerate(line):
             # draw actual tile
-            
+
             if tile == '#':
-                screen.blit(tiles['#'], (x * TW, y * TH))   
+                screen.blit(tiles['#'], (x * TW, y * TH))
 
             if tile == ' ':
                 screen.blit(tiles[' '], (x * TW, y * TH))
 
             if tile == 'x':
-                screen.blit(tiles['x'], (x * TW, y * TH))   
+                screen.blit(tiles['x'], (x * TW, y * TH))
+
+            # draw overlay
+            if currentOverlay[y][x] != ' ':
+                screen.blit(tiles[currentOverlay[y][x]], (x * 16, y * 16))
 
 
     pygame.display.flip()
@@ -83,7 +89,7 @@ def render():
 def controls():
     events = pygame.event.get()
 
-    global running
+    global running, currentOverlay
 
     for e in events:
         if e.type == pygame.QUIT:
@@ -95,6 +101,12 @@ def controls():
 
             elif e.key == pygame.K_F11:
                 pygame.display.toggle_fullscreen()
+
+            elif e.key == pygame.K_F12:
+                if currentOverlay == overlay1:
+                    currentOverlay = overlay2
+                else:
+                    currentOverlay = overlay1
 
 
 def update():
