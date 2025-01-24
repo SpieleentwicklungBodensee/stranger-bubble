@@ -12,22 +12,48 @@ font = BitmapFont('gfx/heimatfont.png')
 tiles = {'#': pygame.image.load('gfx/wall.png'),
          ' ': pygame.image.load('gfx/floor.png'),
          'x': pygame.image.load('gfx/lava.png'),
+         'O': pygame.image.load('gfx/overlay.png'),
          }
 
 
 level = ['####################',
-         '#                  #',
+         '#             xx   #',
          '#                  #',
          '#        xx        #',
-         '#     xxxx         #',
-         '#      xx          #',
-         '#                  #',
-         '#                  #',
-         '#                  #',
+         '#     xxxx     xx  #',
+         '########### ########',
+         '#           xx     #',
+         '#    xx      x     #',
+         '#  xxxxx           #',
          '#                  #',
          '####################',
          ]
 
+overlay1 = ['OOOOOOOOOOOOOOOOOOOO',
+            'O   OOOOOOOOOOOOOOOO',
+            'O   OOOOOO  OOOOOOOO',
+            'OOOOOO  OO  OOOO  OO',
+            'OOOOOO  OOOOOOOO  OO',
+            'OOOOOOOOOOOOOOOOOOOO',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            ]
+
+overlay2 = ['                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            '                    ',
+            'OOOOOOOOOOOOOOOOOOOO',
+            'OOOOOOOOOOOOOOOOOOOO',
+            'OOOOOOOO  OOOOOO   O',
+            'OO  OOOO  OOO  O   O',
+            'OO  OOOOOOOOO  OOOOO',
+            'OOOOOOOOOOOOOOOOOOOO',
+            ]
 
 
 def render():
