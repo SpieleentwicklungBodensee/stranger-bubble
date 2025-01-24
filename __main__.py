@@ -107,10 +107,6 @@ class GameScreen(Screen):
 
 
     def render(self):
-        screen.fill((40,60,80))
-
-        font.centerText(screen, 'STRANGER BUBBLE', y=4)
-
         for y, line in enumerate(level):
             for x, tile in enumerate(line):
                 # draw actual tile
