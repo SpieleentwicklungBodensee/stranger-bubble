@@ -114,10 +114,13 @@ def update():
 
 
 running = True
+clock = pygame.time.Clock()
 
 while running:
     render()
     controls()
     update()
+
+    clock.tick(60)
 
 pygame.quit()
