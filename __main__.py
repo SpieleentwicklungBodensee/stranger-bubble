@@ -124,10 +124,7 @@ class GameScreen(Screen):
     def keydown(self, key, shift=False):
         global running
 
-        if key == pygame.K_F11:
-            pygame.display.toggle_fullscreen()
-
-        elif key == pygame.K_F12:
+        if key == pygame.K_F12:
             if shift:
                 if self.currentOverlay is not None:
                     self.currentOverlay = None
@@ -186,6 +183,9 @@ while running:
         elif e.type == pygame.KEYDOWN:
             shift = e.mod & pygame.KMOD_SHIFT
             currentScreen.keydown(e.key, shift=shift)
+
+            if e.key == pygame.K_F11:
+                pygame.display.toggle_fullscreen()
 
         elif e.type == pygame.KEYUP:
             shift = e.mod & pygame.KMOD_SHIFT
