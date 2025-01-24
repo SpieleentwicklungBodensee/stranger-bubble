@@ -9,6 +9,25 @@ screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
 
 font = BitmapFont('gfx/heimatfont.png')
 
+tiles = {'#': pygame.image.load('gfx/wall.png'),
+         ' ': pygame.image.load('gfx/floor.png'),
+         'x': pygame.image.load('gfx/lava.png'),
+         }
+
+
+level = ['####################',
+         '#                  #',
+         '#                  #',
+         '#        xx        #',
+         '#     xxxx         #',
+         '#      xx          #',
+         '#                  #',
+         '#                  #',
+         '#                  #',
+         '#                  #',
+         '####################',
+         ]
+
 
 
 def render():
