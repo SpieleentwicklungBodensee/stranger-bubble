@@ -2,9 +2,9 @@ import pygame
 from bitmapfont import BitmapFont
 
 
-SCR_W, SCR_H = 320, 180
+SCR_W, SCR_H = 480, 270
 TW, TH = 16, 16
-LEV_W, LEV_H = 20, 11
+LEV_W, LEV_H = 30, 17
 
 pygame.display.init()
 screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
@@ -18,43 +18,61 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          }
 
 
-level = ['####################',
-         '#             xx   #',
-         '#                  #',
-         '#        xx        #',
-         '#     xxxx     xx  #',
-         '########### ########',
-         '#           xx     #',
-         '#    xx      x     #',
-         '#  xxxxx           #',
-         '#                  #',
-         '####################',
+level = ['##############################',
+         '#             xx             #',
+         '#                            #',
+         '#                    xxx     #',
+         '#                  xxxx      #',
+         '#                            #',
+         '#        xx            xx    #',
+         '#     xxxx     xx            #',
+         '########### ##################',
+         '#                            #',
+         '#           xx               #',
+         '#    xx      x               #',
+         '#  xxxxx            xx       #',
+         '#                    xxx     #',
+         '#        xx                  #',
+         '#                            #',
+         '##############################',
          ]
 
-overlay1 = ['OOOOOOOOOOOOOOOOOOOO',
-            'O   OOOOOOOOOOOOOOOO',
-            'O   OOOOOO  OOOOOOOO',
-            'OOOOOO  OO  OOOO  OO',
-            'OOOOOO  OOOOOOOO  OO',
-            'OOOOOOOOOOOOOOOOOOOO',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
+overlay1 = ['OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
+            'OOOOOOOOOOOOOOOOOOOOOOOO   OOO',
+            'OOO   OOOOOOOOOOOOOOOOOO   OOO',
+            'OOO   OOOOOO  OOOOOOOOOOOOOOOO',
+            'OOOOOOOO  OO  OOOO  OOOOOOOOOO',
+            'OOOOOOOO  OOOOOOOO  OOOOOOOOOO',
+            'OOOOOOOOOOOOOOOOOOOOOO  OOOOOO',
+            'OOOOOOOOOOOOOOOOOOOOOO  OOOOOO',
+            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
+            '                              ',
+            '                              ',
+            '                              ',
+            '                              ',
+            '                              ',
+            '                              ',
+            '                              ',
+            '                              ',
             ]
 
-overlay2 = ['                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            '                    ',
-            'OOOOOOOOOOOOOOOOOOOO',
-            'OOOOOOOOOOOOOOOOOOOO',
-            'OOOOOOOO  OOOOOO   O',
-            'OO  OOOO  OOO  O   O',
-            'OO  OOOOOOOOO  OOOOO',
-            'OOOOOOOOOOOOOOOOOOOO',
+overlay2 = ['                              ',
+            '                              ',
+            '                              ',
+            '                              ',
+            '                              ',
+            '                              ',
+            '                              ',
+            '                              ',
+            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
+            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
+            'OOOOOOOOOO  OOOOOO   OOOOOOOOO',
+            'OOOO  OOOO  OOO  O   OOOOOOOOO',
+            'OOOO  OOOOOOOOO  OOOOOOOOOOOOO',
+            'OOOOOOOOOOOOOOOOOOOOOOOO   OOO',
+            'OOOOOOOO  OOOOOOOOOOOOOO   OOO',
+            'OOOOOOOO  OOOOOOOOOOOOOOOOOOOO',
+            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
             ]
 
 currentOverlay = overlay1
