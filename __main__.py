@@ -7,6 +7,10 @@ SCR_W, SCR_H = 480, 270
 TW, TH = 16, 16
 LEV_W, LEV_H = 30, 17
 
+CL_BG_DARK =(16,6,26)
+CL_TXT_PURPLE = (248,48,166)
+
+
 pygame.display.init()
 screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
 
@@ -152,8 +156,8 @@ class GameScreen(Screen):
 
 class TitleScreen(Screen):
     def render(self):
-        screen.fill((16,6,26))
-        font.centerText(screen, 'STRANGER BUBBLE', y=4, fgcolor=(248,48,166))
+        screen.fill(CL_BG_DARK)
+        font.centerText(screen, 'STRANGER BUBBLE', y=4, fgcolor=CL_TXT_PURPLE)
         font.centerText(screen, 'PRESS SPACE TO START', y=12)
 
     def keyup(self, key, shift=False):
