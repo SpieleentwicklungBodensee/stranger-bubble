@@ -1,5 +1,6 @@
 import pygame
 from bitmapfont import BitmapFont
+from player import Player
 
 
 SCR_W, SCR_H = 480, 270
@@ -102,6 +103,8 @@ class GameScreen(Screen):
     def __init__(self):
         Screen.__init__(self)
         self.currentOverlay = overlay1
+        self.player1 = Player(1, 5, 5)
+
 
     def render(self):
         screen.fill((40,60,80))

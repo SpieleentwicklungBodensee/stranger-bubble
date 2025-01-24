@@ -6,41 +6,41 @@ class Player:
         self.minx = 2
         self.miny = 2
         self.maxx = 480-2
-        self.maxy = 270-2        
+        self.maxy = 270-2    
         self.status = "None"
 
-    def setMaxx(x):
-        Player.maxx = int(x)
+    def setMaxx(self, x):
+        self.maxx = int(x)
 
-    def setMaxy(y):
-        Player.maxy = int(y)
+    def setMaxy(self, y):
+        self.maxy = int(y)
 
-    def go_up():
-        if Player.y == Player.miny:
-            Player.status = "blocked"
+    def go_up(self):
+        if self.y == self.miny:
+            self.status = "blocked"
         else:
-            Player.y = Player.y - 1
+            self.y = self.y - 1
 
-    def go_down():
-        if Player.y == Player.maxy:
-            Player.status = "blocked"
+    def go_down(self):
+        if self.y == self.maxy:
+            self.status = "blocked"
         else:
-            Player.y = Player.y + 1
+            self.y = self.y + 1
 
-    def go_left():
-        if Player.x == Player.minx:
-            Player.status = "blocked"
+    def go_left(self):
+        if self.x == self.minx:
+            self.status = "blocked"
         else:
-            Player.x = Player.x - 1
+            self.x = self.x - 1
 
-    def go_right():
-        if Player.x == Player.maxx:
-            Player.status = "blocked"
+    def go_right(self):
+        if self.x == self.maxx:
+            self.status = "blocked"
         else:
-            Player.x = Player.x + 1
+            self.x = self.x + 1
 
-    def getPlayerPosition():
-        return Player.x, Player.y
+    def getPlayerPosition(self):
+        return self.x, self.y
 
-    def getPlayerId():
-        return Player.id
+    def getPlayerId(self):
+        return self.id
