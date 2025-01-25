@@ -23,7 +23,7 @@ CL_TXT_CYAN = (96,255, 250)
 
 
 pygame.display.init()
-screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
+screen = pygame.display.set_mode((SCR_W, SCR_H))#, flags=pygame.SCALED)
 
 font = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H)
 bigfont = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H, zoom=2)
@@ -76,7 +76,7 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
            'p2l2': pygame.image.load('gfx/player2left2.png'),
            'p2l3': pygame.image.load('gfx/player2left3.png'),
            'p2l4': pygame.image.load('gfx/player2left4.png'),
-           
+
            }
 
 
@@ -182,44 +182,40 @@ class GameScreen(Screen):
 
         self.keyItem1 = KeyItem('a', 'b', 'c', 'd')
         self.keyItem2 = KeyItem('1', '2', '3', 'f')
-        self.keyItem = self.keyItem1
+        #self.keyItem = self.keyItem1
 
 
     def render(self):
+        screen.fill((0, 0, 0))
+
         for y, line in enumerate(level):
             for x, tile in enumerate(line):
                 # draw actual tile
                 screen.blit(tiles[tile], (x * TW, y * TH))
 
                 #draw or hide keys
-                if tile == self.keyItem.key1.getSym():
-                    self.keyItem.setKey1Pos(x, y)
-                    if self.keyItem.key1.getTaken() == True:
-                        screen.blit(tiles[' '], (x * TW, y * TH))
-                if tile == self.keyItem.key2.getSym():
-                    self.keyItem.setKey2Pos(x, y)
-                    if self.keyItem.key2.getTaken() == True or self.keyItem.key1.getTaken() == False:
-                        screen.blit(tiles[' '], (x * TW, y * TH))
-                if tile == self.keyItem.key3.getSym():
-                    self.keyItem.setKey3Pos(x, y)
-                    if self.keyItem.key3.getTaken() == True or self.keyItem.key2.getTaken() == False:
-                        screen.blit(tiles[' '], (x * TW, y * TH))
-                if self.keyItem.getDoorState() != 'locked':
-                    if tile == self.keyItem.getSymDoor():
-                        screen.blit(tiles[' '], (x * TW, y * TH))
-                        setTile(' ', x, y)
+                for keyItem in (self.keyItem1, self.keyItem2):
+                    if tile == keyItem.key1.getSym():
+                        keyItem.setKey1Pos(x, y)
+                        if keyItem.key1.getTaken() == True:
+                            screen.blit(tiles[' '], (x * TW, y * TH))
+                    if tile == keyItem.key2.getSym():
+                        keyItem.setKey2Pos(x, y)
+                        if keyItem.key2.getTaken() == True or keyItem.key1.getTaken() == False:
+                            screen.blit(tiles[' '], (x * TW, y * TH))
+                    if tile == keyItem.key3.getSym():
+                        keyItem.setKey3Pos(x, y)
+                        if keyItem.key3.getTaken() == True or keyItem.key2.getTaken() == False:
+                            screen.blit(tiles[' '], (x * TW, y * TH))
+                    if keyItem.getDoorState() != 'locked':
+                        if tile == keyItem.getSymDoor():
+                            screen.blit(tiles[' '], (x * TW, y * TH))
+                            setTile(' ', x, y)
 
                 # draw overlay
                 if self.currentOverlay is not None:
                     if self.currentOverlay[y][x] != ' ':
                         screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TH))
-
-        if self.currentOverlay is overlay2:
-            #draw keyItems - door
-            if self.keyItem.getDoorState() != 'locked':
-                if tile == self.keyItem.getSymDoor():
-                    screen.blit(tiles[' '], (x * TW, y * TH))
-
 
         #draw player/s
         screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.gety() * TH))
@@ -262,16 +258,19 @@ class GameScreen(Screen):
 
     def update(self):
         self.proofEventPlayer()
-        self.logicFortheKey()
+
+        self.logicFortheKey(self.keyItem1)
+        self.logicFortheKey(self.keyItem2)
 
         network.sendPosition(self.curPlayer.getPlayerPosition())
-        network.sendKeyItemState(self.keyItem)
+        network.sendKeyItemState(self.keyItem1)
+        network.sendKeyItemState(self.keyItem2)
 
     def serverCallback(self, data, addr):
         if addr != network.clientAddr:
             return
 
-        print('received: ', data)
+        #print('received: ', data)
 
         if data.startswith(b'PLAYER2_POS'):
             pos = data.split(b'=')[1]
@@ -279,6 +278,10 @@ class GameScreen(Screen):
 
             self.player2.x = int(x)
             self.player2.y = int(y)
+
+        elif data.startswith(b'KEYITEM1'):
+            pickled = data.split(b'=')[1]
+            self.keyItem1 = pickle.loads(pickled)
 
         elif data.startswith(b'KEYITEM2'):
             pickled = data.split(b'=')[1]
@@ -288,7 +291,7 @@ class GameScreen(Screen):
             self.gameoverHandler()
 
     def clientCallback(self, data):
-        print('received: ', data)
+        #print('received: ', data)
 
         if data.startswith(b'PLAYER1_POS'):
             pos = data.split(b'=')[1]
@@ -300,6 +303,10 @@ class GameScreen(Screen):
         elif data.startswith(b'KEYITEM1'):
             pickled = data.split(b'=')[1]
             self.keyItem1 = pickle.loads(pickled)
+
+        elif data.startswith(b'KEYITEM2'):
+            pickled = data.split(b'=')[1]
+            self.keyItem2 = pickle.loads(pickled)
 
         elif data == b'GAMEOVER':
             self.gameoverHandler()
@@ -317,21 +324,21 @@ class GameScreen(Screen):
                 self.gameoverHandler()
                 network.sendGameOver()
 
-    def logicFortheKey(self):
-        if self.keyItem.unlocked == False:
-            if self.keyItem.key1.getTaken() == False:
-                if self.curPlayer.getx() == self.keyItem.key1.getx() and self.curPlayer.gety() == self.keyItem.key1.gety():
-                    self.keyItem.key1.setTaken(True)
+    def logicFortheKey(self, keyItem):
+        if keyItem.unlocked == False:
+            if keyItem.key1.getTaken() == False:
+                if self.curPlayer.getx() == keyItem.key1.getx() and self.curPlayer.gety() == keyItem.key1.gety():
+                    keyItem.key1.setTaken(True)
             else:
-                if self.keyItem.key2.getTaken() == False:
-                    if self.curPlayer.getx() == self.keyItem.key2.getx() and self.curPlayer.gety() == self.keyItem.key2.gety():
-                        self.keyItem.key2.setTaken(True)
+                if keyItem.key2.getTaken() == False:
+                    if self.curPlayer.getx() == keyItem.key2.getx() and self.curPlayer.gety() == keyItem.key2.gety():
+                        keyItem.key2.setTaken(True)
                 else:
-                    if self.keyItem.key3.getTaken() == False:
-                        if self.curPlayer.getx() == self.keyItem.key3.getx() and self.curPlayer.gety() == self.keyItem.key3.gety():
-                            self.keyItem.key3.setTaken(True)
+                    if keyItem.key3.getTaken() == False:
+                        if self.curPlayer.getx() == keyItem.key3.getx() and self.curPlayer.gety() == keyItem.key3.gety():
+                            keyItem.key3.setTaken(True)
                     else:
-                        self.keyItem.setDoorState('unlocked')
+                        keyItem.setDoorState('unlocked')
 
 
 class GameOverScreen(Screen):
