@@ -54,6 +54,7 @@ def serverThread():
     while running:
         data, addr = serverSocket.recvfrom(1024)
         serverCallback(data, addr)
+    print('server stopped')
 
 
 # -- client
@@ -89,6 +90,7 @@ def clientThread():
     while running:
         data = clientSocket.recv(1024)
         clientCallback(data)
+    print('client stopped')
 
 
 # -- game-specific messages

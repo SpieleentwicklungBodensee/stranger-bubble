@@ -397,6 +397,7 @@ class WaitScreen(Screen):
                         self.client = client
                 except socket.timeout:
                     pass
+            print('stopped discover')
 
         thread = threading.Thread(target=discover)
         thread.start()
@@ -426,6 +427,7 @@ class WaitScreen(Screen):
         elif key == pygame.K_ESCAPE:
             nextScreen = TitleScreen()
             self.discovering = False
+            network.shutdownServer()
 
     def update(self):
         pass
