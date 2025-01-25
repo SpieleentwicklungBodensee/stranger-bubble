@@ -96,7 +96,7 @@ def clientThread():
 
 # -- game-specific messages
 
-def sendPosition(playerpos):
+def sendPosition(playerpos):    # deprecated
     if NETWORK_ROLE == 'server':
         if not clientAddr:
             return
@@ -106,6 +106,17 @@ def sendPosition(playerpos):
     else:
         msg = 'PLAYER2_POS=%s/%s' % playerpos
         clientSocket.send(bytes(msg, 'utf8'))
+
+def sendPlayerState(player):
+    if NETWORK_ROLE == 'server':
+        if not clientAddr:
+            return
+
+        msg = b'PLAYER1=' + pickle.dumps(player, protocol=5)
+        serverSocket.sendto(msg, clientAddr)
+    else:
+        msg = b'PLAYER2=' + pickle.dumps(player, protocol=5)
+        clientSocket.send(msg)
 
 def sendKeyItemState(keyitem):
     if NETWORK_ROLE == 'server':

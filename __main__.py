@@ -289,11 +289,13 @@ class GameScreen(Screen):
         self.logicFortheKey(self.keyItem1)
         self.logicFortheKey(self.keyItem2)
 
-        network.sendPosition(self.curPlayer.getPlayerPosition())
+        #network.sendPosition(self.curPlayer.getPlayerPosition())
 
         if self.curPlayer == self.player1:
+            network.sendPlayerState(self.player1)
             network.sendKeyItemState(self.keyItem1)
         else:
+            network.sendPlayerState(self.player2)
             network.sendKeyItemState(self.keyItem2)
 
         self.processMessages()
@@ -311,19 +313,27 @@ class GameScreen(Screen):
 
     def processMessages(self):
         for data in list(self.messages):
-            if data.startswith(b'PLAYER1_POS'):
+            if data.startswith(b'PLAYER1_POS'): # deprecated
                 pos = data.split(b'=')[1]
                 x, y = pos.split(b'/')
 
                 self.player1.x = int(x)
                 self.player1.y = int(y)
 
-            elif data.startswith(b'PLAYER2_POS'):
+            elif data.startswith(b'PLAYER2_POS'): # deprecated
                 pos = data.split(b'=')[1]
                 x, y = pos.split(b'/')
 
                 self.player2.x = int(x)
                 self.player2.y = int(y)
+
+            elif data.startswith(b'PLAYER1'):
+                pickled = data.split(b'=')[1]
+                self.player1 = pickle.loads(pickled)
+
+            elif data.startswith(b'PLAYER2'):
+                pickled = data.split(b'=')[1]
+                self.player2 = pickle.loads(pickled)
 
             elif data.startswith(b'KEYITEM1'):
                 pickled = data.split(b'=')[1]
