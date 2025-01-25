@@ -187,10 +187,10 @@ class Screen:
     def update(self):
         pass
 
-    def serverCallback(self, addr):
+    def serverCallback(self, data, addr):
         pass
 
-    def clientCallback(self):
+    def clientCallback(self, data):
         pass
 
 
