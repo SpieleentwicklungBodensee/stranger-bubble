@@ -349,7 +349,7 @@ class GameScreen(Screen):
 
     def proofEventPlayer(self):
         #proof is current player death, because of lava
-        if 'x' == level[self.curPlayer.gety()][self.curPlayer.getx()]:
+        if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['x', 'o', 'p']:
             if self.curPlayer.getStatusState() != 'death':
                 self.curPlayer.setStatusState('death')
                 #print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
