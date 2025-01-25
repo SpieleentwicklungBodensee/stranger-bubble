@@ -38,7 +38,7 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'c': pygame.image.load('gfx/coin.png'),
          '1': pygame.image.load('gfx/key.png'),
          '2': pygame.image.load('gfx/cassette.png'),
-         '3': pygame.image.load('gfx/coin.png'),         
+         '3': pygame.image.load('gfx/coin.png'),
          }
 
 sprites = {'player1': pygame.image.load('gfx/man-green.png'),
@@ -190,18 +190,6 @@ class GameScreen(Screen):
         #draw player/s
         screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.gety() * TH))
         screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW, self.player2.gety() * TH))
-        self.proofEventPlayer()
-        self.logicFortheKey()
-
-
-    def proofEventPlayer(self):
-        #proof is current player death, because of lava
-        if 'x' == level[self.curPlayer.gety()][self.curPlayer.getx()]:
-            if self.curPlayer.getStatusState() != 'death':
-                self.curPlayer.setStatusState('death')
-                print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
-                self.gameoverHandler()
-                network.sendGameOver()
 
     def keydown(self, key, shift=False):
         global running
@@ -239,6 +227,9 @@ class GameScreen(Screen):
             nextScreen = TitleScreen()
 
     def update(self):
+        self.proofEventPlayer()
+        self.logicFortheKey()
+
         network.sendPosition(self.curPlayer.getPlayerPosition())
 
     def serverCallback(self, data, addr):
@@ -273,6 +264,15 @@ class GameScreen(Screen):
     def gameoverHandler(self):
         global nextScreen
         nextScreen = GameOverScreen()
+
+    def proofEventPlayer(self):
+        #proof is current player death, because of lava
+        if 'x' == level[self.curPlayer.gety()][self.curPlayer.getx()]:
+            if self.curPlayer.getStatusState() != 'death':
+                self.curPlayer.setStatusState('death')
+                print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
+                self.gameoverHandler()
+                network.sendGameOver()
 
     def logicFortheKey(self):
         if self.keyItem.unlocked == False:
