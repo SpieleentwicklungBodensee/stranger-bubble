@@ -103,8 +103,8 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
 
 
 level_orig = ['##############################',
-              '#      #o     xx      o      #',
-              '#     a    #     ##       o  #',
+              '#  o   #o     xx      o      #',
+              '#   o a    #     ##       o  #',
               '# #    #   # # # #   xxx     #',
               '#  #####   #  #    xxxx    o #',
               '#        o  #        #   o   #',
@@ -162,14 +162,17 @@ overlay2 = ['                              ',
             'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
             ]
 
+global key1MsgCounter
+global key2MsgCounter
+global key3MsgCounter
+key1MsgCounter = 0
+key2MsgCounter = 0
+key3MsgCounter = 0
+
+
 def setTile(t, x, y):
     level[y] = level[y][:x] + t + level[y][x+1:]
 
-def setOverlay1(t, x, y):
-    level[y] = level[y][:x] + t + level[y][x+1:]
-
-def setOverlay2(t, x, y):
-    level[y] = level[y][:x] + t + level[y][x+1:]
 
 class Screen:
     def __init__(self):
@@ -234,14 +237,17 @@ class GameScreen(Screen):
                         keyItem.setKey1Pos(x, y)
                         if keyItem.key1.getTaken() == True:
                             screen.blit(tiles[' '], (x * TW, y * TH))
+
                     if tile == keyItem.key2.getSym():
                         keyItem.setKey2Pos(x, y)
                         if keyItem.key2.getTaken() == True or keyItem.key1.getTaken() == False:
                             screen.blit(tiles[' '], (x * TW, y * TH))
+
                     if tile == keyItem.key3.getSym():
                         keyItem.setKey3Pos(x, y)
                         if keyItem.key3.getTaken() == True or keyItem.key2.getTaken() == False:
                             screen.blit(tiles[' '], (x * TW, y * TH))
+                            
                     if keyItem.getDoorState() != 'locked':
                         if tile == keyItem.getSymDoor():
                             setTile(' ', x, y)
@@ -263,6 +269,24 @@ class GameScreen(Screen):
                         screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'p':
                         screen.blit(tiles['p'], (x * TW, y * TH))
+
+        #draw key taken info
+        
+        global key1MsgCounter
+        global key2MsgCounter
+        global key3MsgCounter
+
+        if key1MsgCounter > 0:
+            key1MsgCounter = key1MsgCounter - 1
+            font.centerText(screen, 'KEY ONE TAKEN', y=4, fgcolor=CL_TXT_CYAN)
+
+        if key2MsgCounter > 0:
+            key2MsgCounter = key2MsgCounter - 1
+            font.centerText(screen, 'KEY TWO TAKEN DOORS HALF UNLOCKED', y=4, fgcolor=CL_TXT_CYAN)
+
+        if key3MsgCounter > 0:
+            key3MsgCounter = key3MsgCounter - 1
+            bigfont.centerText(screen, 'DOOR UNLOCKED', y=4, fgcolor=CL_TXT_CYAN)
 
 
         #draw player/s
@@ -389,18 +413,25 @@ class GameScreen(Screen):
             nextScreen = GameWinScreen()
 
     def logicFortheKey(self, keyItem):
+        global key1MsgCounter
+        global key2MsgCounter
+        global key3MsgCounter
+        maxMsgDelayTime = 240
         if keyItem.unlocked == False:
             if keyItem.key1.getTaken() == False:
                 if self.curPlayer.getx() == keyItem.key1.getx() and self.curPlayer.gety() == keyItem.key1.gety():
                     keyItem.key1.setTaken(True)
+                    key1MsgCounter = maxMsgDelayTime
             else:
                 if keyItem.key2.getTaken() == False:
                     if self.curPlayer.getx() == keyItem.key2.getx() and self.curPlayer.gety() == keyItem.key2.gety():
                         keyItem.key2.setTaken(True)
+                        key2MsgCounter = maxMsgDelayTime
                 else:
                     if keyItem.key3.getTaken() == False:
                         if self.curPlayer.getx() == keyItem.key3.getx() and self.curPlayer.gety() == keyItem.key3.gety():
                             keyItem.key3.setTaken(True)
+                            key3MsgCounter = maxMsgDelayTime
                     else:
                         keyItem.setDoorState('unlocked')
 
