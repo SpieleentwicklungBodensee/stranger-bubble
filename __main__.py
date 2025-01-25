@@ -21,7 +21,6 @@ CL_BG_DARK = (16,6,26)
 CL_TXT_PURPLE = (248,48,166)
 CL_TXT_CYAN = (96,255, 250)
 
-
 pygame.display.init()
 screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
 
@@ -76,7 +75,6 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
            'p2l2': pygame.image.load('gfx/player2left2.png'),
            'p2l3': pygame.image.load('gfx/player2left3.png'),
            'p2l4': pygame.image.load('gfx/player2left4.png'),
-           
            }
 
 
@@ -137,10 +135,9 @@ overlay2 = ['                              ',
             'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
             ]
 
-
-
 def setTile(t, x, y):
     level[y] = level[y][:x] + t + level[y][x+1:]
+
 
 class Screen:
     def __init__(self):
@@ -220,7 +217,6 @@ class GameScreen(Screen):
                 if tile == self.keyItem.getSymDoor():
                     screen.blit(tiles[' '], (x * TW, y * TH))
 
-
         #draw player/s
         screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.gety() * TH))
         screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW, self.player2.gety() * TH))
@@ -252,7 +248,6 @@ class GameScreen(Screen):
                     self.currentOverlay = overlay2
                 else:
                     self.currentOverlay = overlay1
-
 
     def keyup(self, key, shift=False):
         global nextScreen
@@ -382,6 +377,7 @@ class GameOverScreen(Screen):
         global nextScreen
         nextScreen = GameScreen()
 
+
 class TitleScreen(Screen):
     def __init__(self):
         super().__init__()
@@ -401,7 +397,6 @@ class TitleScreen(Screen):
 
         if tick % 32 > 8:
             font.drawText(screen, '}', x=23, y=18 + self.cursorY * 2, fgcolor=CL_TXT_PURPLE)
-
 
     def keydown(self, key, shift=False):
         if key == pygame.K_DOWN:
@@ -550,7 +545,6 @@ class JoinScreen(Screen):
 
     def update(self):
         pass
-
 
 running = True
 clock = pygame.time.Clock()
