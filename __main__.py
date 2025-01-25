@@ -32,8 +32,12 @@ try:
 
     if settings.SCALED:
         displayflags |= pygame.SCALED
+
+    if settings.NETWORK_NAME:
+        networkName = str(settings.NETWORK_NAME)[:16].upper()
 except:
     displayflags = pygame.SCALED
+    networkName = None
 
 pygame.display.init()
 screen = pygame.display.set_mode((SCR_W, SCR_H), flags=displayflags)
@@ -683,7 +687,10 @@ class WaitScreen(Screen):
         network.reset()
         network.initServer(port=6000, callback=self.serverCallback)
 
-        self.coolRandomName = ''.join(random.choices(string.ascii_uppercase, k=4))
+        if networkName:
+            self.coolRandomName = networkName
+        else:
+            self.coolRandomName = ''.join(random.choices(string.ascii_uppercase, k=4))
 
         def discover():
             while self.discovering:
@@ -769,7 +776,7 @@ class JoinScreen(Screen):
             coolRandomName = server[0].decode('utf8')
             serverName = server[1][0]
             font.drawText(screen, coolRandomName, x=20, y=12+i*2, fgcolor=CL_TXT_CYAN)
-            font.drawText(screen, serverName, x=25, y=12+i*2, fgcolor=CL_TXT_PURPLE)
+            font.drawText(screen, serverName, x=21 + len(coolRandomName), y=12+i*2, fgcolor=CL_TXT_PURPLE)
 
             if i == self.cursorY:
                 if tick % 32 > 8:
