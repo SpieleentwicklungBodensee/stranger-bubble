@@ -100,7 +100,7 @@ level_orig = ['##############################',
               '#  c  xxxx     xx   #  #d##  #',
               '############        ###   ####',
               '#    1     ######    #    #  #',
-              '#   ######  xx    ####       #',
+              '#   ######  xx  ######       #',
               '#    xx  #   x       ##f######',
               '#  xxxxx            xx       #',
               '#      ##   ###      xxx     #',
@@ -184,7 +184,7 @@ class GameScreen(Screen):
         global level
         level = list(level_orig)    # copy level
 
-        self.player1 = Player('p1', 3, 3, LEV_W-2, LEV_H-2)
+        self.player1 = Player('p1', 3, 3, LEV_W-2, LEV_H-2, ['#', 'd', 'f'])
         self.player2 = Player('p2', 26, 13, LEV_W-2, LEV_H-2)
         self.player1.setStatusState('alive')
         self.player2.setStatusState('alive')

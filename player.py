@@ -7,7 +7,7 @@ FD_LEFT = 3
 FD_UP = 4
 
 class Player:
-    def __init__(self, id="none", x=1, y=1, maxx=30, maxy=17):
+    def __init__(self, id="none", x=1, y=1, maxx=30, maxy=17, blocklist=['#']):
         self.spriteid = str(id)
         self.x = x
         self.y = y
@@ -18,6 +18,7 @@ class Player:
         self.status = str(id)
         self.walking = False
         self.facing = FD_NONE
+        self.blocklist = blocklist
 
     def setMaxx(self, x):
         self.maxx = int(x)
@@ -38,7 +39,7 @@ class Player:
             return -1
         else:
             nextField = level[self.y-1][self.x]
-            if nextField in ['#', 'd']:
+            if nextField in self.blocklist:
                 return -1
             else:
                 self.y = self.y - 1
@@ -51,7 +52,7 @@ class Player:
             return -1
         else:
             nextField = level[self.y+1][self.x]
-            if nextField in ['#', 'd']:
+            if nextField in self.blocklist:
                 return -1
             else:
                 self.y = self.y + 1
@@ -64,7 +65,7 @@ class Player:
             return -1
         else:
             nextField = level[self.y][self.x-1]
-            if nextField in ['#', 'd']:
+            if nextField in self.blocklist:
                 return -1
             else:
                 self.x = self.x - 1
@@ -77,7 +78,7 @@ class Player:
             return -1
         else:
             nextField = level[self.y][self.x+1]
-            if nextField in ['#', 'd']:
+            if nextField in self.blocklist:
                 return -1
             else:
                 self.x = self.x + 1

@@ -26,7 +26,7 @@ class KeyItem:
         self.key3.setKeyPos(x, y)
 
     def getSymDoor(self):
-        return self.symDoor            
+        return self.symDoor
 
 
 class Keykey:
