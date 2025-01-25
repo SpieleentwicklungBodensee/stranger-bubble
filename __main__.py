@@ -163,6 +163,11 @@ overlay2 = ['                              ',
 def setTile(t, x, y):
     level[y] = level[y][:x] + t + level[y][x+1:]
 
+def setOverlay1(t, x, y):
+    level[y] = level[y][:x] + t + level[y][x+1:]
+
+def setOverlay2(t, x, y):
+    level[y] = level[y][:x] + t + level[y][x+1:]
 
 class Screen:
     def __init__(self):
@@ -195,7 +200,7 @@ class GameScreen(Screen):
         level = list(level_orig)    # copy level
 
         self.player1 = Player('p1', 3, 3, LEV_W-2, LEV_H-2, ['#', 'd', 'f'])
-        self.player2 = Player('p2', 26, 13, LEV_W-2, LEV_H-2)
+        self.player2 = Player('p2', 26, 13, LEV_W-2, LEV_H-2, ['#', 'd', 'f'])
         self.player1.setStatusState('alive')
         self.player2.setStatusState('alive')
 
@@ -244,6 +249,19 @@ class GameScreen(Screen):
                 if self.currentOverlay is not None:
                     if self.currentOverlay[y][x] != ' ':
                         screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TH))
+
+                if self.curPlayer is self.player1:
+                    if tile == 'p':
+                        screen.blit(tiles[' '], (x * TW, y * TH))
+                    if tile == 'o':
+                        screen.blit(tiles['o'], (x * TW, y * TH))
+                
+                if self.curPlayer is self.player2:
+                    if tile == 'o':
+                        screen.blit(tiles[' '], (x * TW, y * TH))
+                    if tile == 'p':
+                        screen.blit(tiles['p'], (x * TW, y * TH))               
+    
 
         #draw player/s
         screen.blit(sprites[self.player1.getPlayerSpriteId(tick)], (self.player1.getx() * TW, self.player1.gety() * TH))

@@ -96,7 +96,7 @@ class Player:
         return self.x
     
     def gety(self):
-        return self.y
+        return self.y  
 
     def getPlayerSpriteId(self, tick):
 
