@@ -353,7 +353,7 @@ class WaitScreen(Screen):
         font.centerText(screen, 'WAITING FOR PLAYER 2...', y=8, fgcolor=CL_TXT_PURPLE)
 
         if self.client:
-            font.centerText(screen, 'FOUND %s:%s' % self.client, y=12)
+            font.centerText(screen, 'FOUND %s' % self.client[0], y=12)
 
         font.centerText(screen, 'PRESS SPACE TO SKIP', y=20, fgcolor=(255, 255, 255))
 
@@ -413,7 +413,7 @@ class JoinScreen(Screen):
         font.centerText(screen, 'SCANNING FOR GAMES ON YOUR NETWORK...', y=8, fgcolor=CL_TXT_PURPLE)
 
         for i, server in enumerate(self.servers):
-            font.centerText(screen, '%s:%s' % server, y=12+i*2)
+            font.centerText(screen, '%s' % server[0], y=12+i*2)
 
             if i == self.cursorY:
                 if tick % 32 > 8:
