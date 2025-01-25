@@ -256,6 +256,10 @@ class GameOverScreen(Screen):
             network.sendRestart()
             self.restartHandler()
 
+        elif key == pygame.K_ESCAPE:
+            global nextScreen
+            nextScreen = TitleScreen()
+
     def serverCallback(self, data, addr):
         if addr != network.clientAddr:
             return
