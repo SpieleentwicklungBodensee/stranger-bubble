@@ -54,7 +54,7 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'g': pygame.image.load('gfx/overlay_tl.png'),
          'h': pygame.image.load('gfx/overlay_t.png'),
          'i': pygame.image.load('gfx/overlay_tr.png'),
-         'j': pygame.image.load('gfx/overlay_l.png'),                           
+         'j': pygame.image.load('gfx/overlay_l.png'),
          'k': pygame.image.load('gfx/overlay_r.png'),
          'l': pygame.image.load('gfx/overlay_bl.png'),
          'm': pygame.image.load('gfx/overlay_b.png'),
@@ -288,8 +288,11 @@ class GameScreen(Screen):
         self.logicFortheKey(self.keyItem2)
 
         network.sendPosition(self.curPlayer.getPlayerPosition())
-        network.sendKeyItemState(self.keyItem1)
-        network.sendKeyItemState(self.keyItem2)
+
+        if self.curPlayer == self.player1:
+            network.sendKeyItemState(self.keyItem1)
+        else:
+            network.sendKeyItemState(self.keyItem2)
 
         self.processMessages()
 
