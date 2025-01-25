@@ -5,6 +5,7 @@ import socket
 from bitmapfont import BitmapFont
 from player import Player
 
+import network
 import discover_server
 import discover_client
 
@@ -19,7 +20,7 @@ CL_TXT_CYAN = (96,255, 250)
 
 
 pygame.display.init()
-screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
+screen = pygame.display.set_mode((SCR_W, SCR_H))#, flags=pygame.SCALED)
 
 font = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H)
 bigfont = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H, zoom=2)
@@ -114,12 +115,17 @@ class Screen:
 class GameScreen(Screen):
     def __init__(self):
         Screen.__init__(self)
-        self.currentOverlay = overlay1
         self.player1 = Player('player1', 3, 3, LEV_W-2, LEV_H-2)
         self.player2 = Player('player2', 26, 13, LEV_W-2, LEV_H-2)
         self.player1.setStatusState('alive')
         self.player2.setStatusState('alive')
-        self.curPlayer = self.player1
+
+        if network.NETWORK_ROLE == 'server':
+            self.curPlayer = self.player1
+            self.currentOverlay = overlay1
+        else:
+            self.curPlayer = self.player2
+            self.currentOverlay = overlay2
 
     def render(self):
         for y, line in enumerate(level):
@@ -183,6 +189,11 @@ class GameScreen(Screen):
     def update(self):
         pass
 
+    def serverCallback(self, data):
+        print('received: ', data)
+
+    def clientCallback(self, data):
+        print('received: ', data)
 
 class TitleScreen(Screen):
     def __init__(self):
@@ -238,6 +249,8 @@ class WaitScreen(Screen):
         self.client = None
         self.discovering = True
 
+        network.initServer(port=6000, callback=self.serverCallback)
+
         def discover():
             while self.discovering:
                 try:
@@ -269,6 +282,7 @@ class WaitScreen(Screen):
         if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
             nextScreen = GameScreen()
             self.discovering = False
+            network.shutdownServer()
 
         elif key == pygame.K_ESCAPE:
             nextScreen = TitleScreen()
@@ -276,6 +290,15 @@ class WaitScreen(Screen):
 
     def update(self):
         pass
+
+    def serverCallback(self, data):
+        global nextScreen
+        print('received', data)
+
+        if data == b'LETS GO!':
+            nextScreen = GameScreen()
+            self.discovering = False
+            network.serverCallback = nextScreen.serverCallback
 
 
 class JoinScreen(Screen):
@@ -319,6 +342,7 @@ class JoinScreen(Screen):
             if self.servers:
                 self.discovering = False
                 nextScreen = GameScreen()
+                network.initClient(list(self.servers)[self.cursorY][0], 6000, callback=nextScreen.clientCallback)
 
         elif key == pygame.K_ESCAPE:
             nextScreen = TitleScreen()
@@ -369,5 +393,10 @@ while running:
         currentScreen = nextScreen
         nextScreen = None
 
+
+if network.NETWORK_ROLE == 'server':
+    network.shutdownServer()
+else:
+    network.shutdownClient()
 
 pygame.quit()
