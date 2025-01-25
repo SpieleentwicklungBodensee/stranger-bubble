@@ -229,7 +229,10 @@ class GameScreen(Screen):
         for y, line in enumerate(level):
             for x, tile in enumerate(line):
                 # draw actual tile
-                screen.blit(tiles[tile], (x * TW, y * TH))
+                if tile in ['o', 'p']:
+                    screen.blit(tiles[' '], (x * TW, y * TH))
+                else: 
+                    screen.blit(tiles[tile], (x * TW, y * TH))
 
                 #draw or hide keys
                 for keyItem in (self.keyItem1, self.keyItem2):
