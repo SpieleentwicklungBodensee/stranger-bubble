@@ -372,8 +372,8 @@ class GameScreen(Screen):
 
 
         #draw player/s
-        screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.gety() * TH))
-        screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW, self.player2.gety() * TH))
+        screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW + self.player1.getOffsetAnimX(), self.player1.gety() * TH + self.player1.getOffsetAnimY()))
+        screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW + self.player2.getOffsetAnimX(), self.player2.gety() * TH + self.player2.getOffsetAnimY()))
 
     def keydown(self, key, shift=False):
         global running
