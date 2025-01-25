@@ -342,7 +342,7 @@ class GameScreen(Screen):
                 #print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
                 self.gameoverHandler()
                 network.sendGameOver()
-        if self.curPlayer.getx() == self.player2.getx() and self.curPlayer.gety() == self.player2.gety():
+        if self.player1.getx() == self.player2.getx() and self.player1.gety() == self.player2.gety():
             global nextScreen
             self.currentOverlay = None
             nextScreen = GameWinScreen()
