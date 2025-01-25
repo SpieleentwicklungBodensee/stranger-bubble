@@ -6,8 +6,8 @@ class Player:
         self.minx = 1
         self.miny = 1
         self.maxx = maxx
-        self.maxy = maxy    
-        self.status = "none"
+        self.maxy = maxy
+        self.status = id
 
         
         self.enmStatus = {'none': 0,
@@ -24,7 +24,7 @@ class Player:
                           'stay':2,                          
                           'blocked':3,
                           'waitToLong':4,
-                          'takeitem':5,                                                                          
+                          'takeitem':5,                                                   
            }
 
     def setMaxx(self, x):
@@ -38,32 +38,52 @@ class Player:
             self.status = "blocked"
             return -1
         else:
-            self.y = self.y - 1
-            return 0
+            nextField = level[self.y-1][self.x]
+            if nextField == '#':
+                self.status = "blocked"
+                return -1
+            else:
+                self.y = self.y - 1
+                return 0
 
     def go_down(self, level):
         if self.y == self.maxy:
             self.status = "blocked"
             return -1
         else:
-            self.y = self.y + 1
-            return 0
+            nextField = level[self.y+1][self.x]
+            if nextField == '#':
+                self.status = "blocked"
+                return -1
+            else:
+                self.y = self.y + 1
+                return 0
 
     def go_left(self, level):
         if self.x == self.minx:
             self.status = "blocked"
             return -1
         else:
-            self.x = self.x - 1
-            return 0
+            nextField = level[self.y][self.x-1]
+            if nextField == '#':
+                self.status = "blocked"
+                return -1
+            else:
+                self.x = self.x - 1
+                return 0
 
     def go_right(self, level):
         if self.x == self.maxx:
             self.status = "blocked"
             return -1
         else:
-            self.x = self.x + 1
-            return 0
+            nextField = level[self.y][self.x+1]
+            if nextField == '#':
+                self.status = "blocked"
+                return -1
+            else:
+                self.x = self.x + 1
+                return 0
 
     def getPlayerPosition(self):
         return self.x, self.y
