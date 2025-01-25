@@ -323,9 +323,13 @@ class GameScreen(Screen):
         if 'x' == level[self.curPlayer.gety()][self.curPlayer.getx()]:
             if self.curPlayer.getStatusState() != 'death':
                 self.curPlayer.setStatusState('death')
-                print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
+                #print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
                 self.gameoverHandler()
                 network.sendGameOver()
+        if self.curPlayer.getx() == self.player2.getx() and self.curPlayer.gety() == self.player2.gety():
+            global nextScreen
+            self.currentOverlay = None
+            nextScreen = GameWinScreen()
 
     def logicFortheKey(self, keyItem):
         if keyItem.unlocked == False:
@@ -342,6 +346,59 @@ class GameScreen(Screen):
                             keyItem.key3.setTaken(True)
                     else:
                         keyItem.setDoorState('unlocked')
+
+
+class GameWinScreen(Screen):
+    def __init__(self):
+        super().__init__()
+        self.cursorY = 0
+        self.r = 12
+        self.g = 172
+        self.b = 12
+        self.winEndCounter = 180
+
+    def render(self):
+        if self.winEndCounter > 0:
+            self.winEndCounter = self.winEndCounter -1
+            bigfont.centerText(screen, 'CONGRATULATION !!!', y=4, fgcolor=CL_TXT_CYAN)
+        else:
+            screen.fill((self.r, self.g, self.b))
+            if self.g > 68:
+                self.g = self.g - 1
+            bigfont.centerText(screen, '--- YOU ARE A WINNER TYPE ---', y=4, fgcolor=CL_TXT_CYAN)
+            font.centerText(screen, 'PRESS SPACE TO RESTART', y=20, fgcolor=(255, 255, 255))
+
+    def keydown(self, key, shift=False):
+        pass
+
+    def keyup(self, key, shift=False):
+        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
+            network.sendRestart()
+            self.restartHandler()
+
+        elif key == pygame.K_ESCAPE:
+            global nextScreen
+            nextScreen = TitleScreen()
+
+            nextScreen.cursorY = 0
+
+    def serverCallback(self, data, addr):
+        if addr != network.clientAddr:
+            return
+
+        print('received: ', data)
+        if data == b'RESTART':
+            self.restartHandler()
+
+    def clientCallback(self, data):
+        print('received: ', data)
+
+        if data == b'RESTART':
+            self.restartHandler()
+
+    def restartHandler(self):
+        global nextScreen
+        nextScreen = GameScreen()
 
 
 class GameOverScreen(Screen):
