@@ -1,5 +1,6 @@
 import socket
 import threading
+import pickle
 
 NETWORK_ROLE = None         # 'server', 'client'
 
@@ -105,6 +106,17 @@ def sendPosition(playerpos):
     else:
         msg = 'PLAYER2_POS=%s/%s' % playerpos
         clientSocket.send(bytes(msg, 'utf8'))
+
+def sendKeyItemState(keyitem):
+    if NETWORK_ROLE == 'server':
+        if not clientAddr:
+            return
+
+        msg = b'KEYITEM1=' + pickle.dumps(keyitem, protocol=5)
+        serverSocket.sendto(msg, clientAddr)
+    else:
+        msg = b'KEYITEM2=' + pickle.dumps(keyitem, protocol=5)
+        clientSocket.send(msg)
 
 def sendGameOver():
     if NETWORK_ROLE == 'server':

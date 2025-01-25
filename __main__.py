@@ -1,6 +1,7 @@
 import pygame
 import threading
 import socket
+import pickle
 
 from bitmapfont import BitmapFont
 from player import Player
@@ -231,6 +232,7 @@ class GameScreen(Screen):
         self.logicFortheKey()
 
         network.sendPosition(self.curPlayer.getPlayerPosition())
+        network.sendKeyItemState(self.keyItem)
 
     def serverCallback(self, data, addr):
         if addr != network.clientAddr:
@@ -245,6 +247,10 @@ class GameScreen(Screen):
             self.player2.x = int(x)
             self.player2.y = int(y)
 
+        elif data.startswith(b'KEYITEM2'):
+            pickled = data.split(b'=')[1]
+            self.keyItem2 = pickle.loads(pickled)
+
         elif data == b'GAMEOVER':
             self.gameoverHandler()
 
@@ -257,6 +263,10 @@ class GameScreen(Screen):
 
             self.player1.x = int(x)
             self.player1.y = int(y)
+
+        elif data.startswith(b'KEYITEM1'):
+            pickled = data.split(b'=')[1]
+            self.keyItem1 = pickle.loads(pickled)
 
         elif data == b'GAMEOVER':
             self.gameoverHandler()
