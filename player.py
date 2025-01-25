@@ -1,3 +1,11 @@
+import time
+
+FD_NONE = 0
+FD_RIGHT = 1
+FD_DOWN = 2
+FD_LEFT = 3
+FD_UP = 4
+
 class Player:
     def __init__(self, id="none", x=1, y=1, maxx=30, maxy=17):
         self.spriteid = str(id)
@@ -8,6 +16,8 @@ class Player:
         self.maxx = maxx
         self.maxy = maxy
         self.status = str(id)
+        self.walking = False
+        self.facing = FD_NONE
 
     def setMaxx(self, x):
         self.maxx = int(x)
@@ -22,6 +32,8 @@ class Player:
         return str(self.status)
 
     def go_up(self, level):
+        self.facing = FD_UP
+
         if self.y == self.miny:
             return -1
         else:
@@ -33,6 +45,8 @@ class Player:
                 return 0
 
     def go_down(self, level):
+        self.facing = FD_DOWN
+        self.walking = True
         if self.y == self.maxy:
             return -1
         else:
@@ -44,6 +58,8 @@ class Player:
                 return 0
 
     def go_left(self, level):
+        self.facing = FD_LEFT
+        self.walking = True
         if self.x == self.minx:
             return -1
         else:
@@ -55,6 +71,8 @@ class Player:
                 return 0
 
     def go_right(self, level):
+        self.facing = FD_RIGHT
+        self.walking = True
         if self.x == self.maxx:
             return -1
         else:
@@ -75,4 +93,29 @@ class Player:
         return self.y
 
     def getPlayerSpriteId(self):
-        return str(self.spriteid)
+        sprite = str(self.spriteid)
+
+        if self.facing == FD_RIGHT:
+            sprite += "r"
+        elif self.facing == FD_DOWN or self.facing == FD_NONE:
+            sprite += "d"
+        elif self.facing == FD_LEFT:
+            sprite += "l"
+        elif self.facing == FD_UP:
+            sprite += "u"
+        else:
+            sprite += "d"
+
+        if self.walking:
+            if int(time.time() * 1000) % 400 < 100:
+                sprite += "1"
+            elif 100 <= int(time.time() * 1000) % 400 < 200:
+                sprite += "2"
+            elif 200 <= int(time.time() * 1000) % 400 < 300:
+                sprite += "3"
+            else:
+                sprite += "4"
+        else:
+            sprite += "1"
+
+        return sprite
