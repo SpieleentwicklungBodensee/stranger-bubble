@@ -78,24 +78,27 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
            }
 
 
-level = ['##############################',
-         '#      #      xx             #',
-         '#     ad                     #',
-         '#      #             xxx     #',
-         '#   ####           xxxx      #',
-         '#                            #',
-         '#        xx    b       xx    #',
-         '#  c  xxxx     xx            #',
-         '########### ##################',
-         '#                            #',
-         '#           xx    123        #',
-         '#    xx      x       ##f##   #',
-         '#  xxxxx            xx       #',
-         '#                    xxx     #',
-         '#        xx                  #',
-         '#                            #',
-         '##############################',
-         ]
+level_orig = ['##############################',
+              '#      #      xx             #',
+              '#     ad                     #',
+              '#      #             xxx     #',
+              '#   ####           xxxx      #',
+              '#                            #',
+              '#        xx    b       xx    #',
+              '#  c  xxxx     xx            #',
+              '########### ##################',
+              '#                            #',
+              '#           xx    123        #',
+              '#    xx      x       ##f##   #',
+              '#  xxxxx            xx       #',
+              '#                    xxx     #',
+              '#        xx                  #',
+              '#                            #',
+              '##############################',
+              ]
+
+level = list(level_orig)    # copy level
+
 
 overlay1 = ['OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
             'OOOOOOOOOOOOOOOOOOOOOOOO   OOO',
@@ -165,6 +168,10 @@ class Screen:
 class GameScreen(Screen):
     def __init__(self):
         Screen.__init__(self)
+
+        global level
+        level = list(level_orig)    # copy level
+
         self.player1 = Player('p1', 3, 3, LEV_W-2, LEV_H-2)
         self.player2 = Player('p2', 26, 13, LEV_W-2, LEV_H-2)
         self.player1.setStatusState('alive')
