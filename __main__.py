@@ -246,24 +246,24 @@ class GameScreen(Screen):
                         screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TH))
 
         #draw player/s
-        screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.gety() * TH))
-        screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW, self.player2.gety() * TH))
+        screen.blit(sprites[self.player1.getPlayerSpriteId(tick)], (self.player1.getx() * TW, self.player1.gety() * TH))
+        screen.blit(sprites[self.player2.getPlayerSpriteId(tick)], (self.player2.getx() * TW, self.player2.gety() * TH))
 
     def keydown(self, key, shift=False):
         global running
 
         #current player
         if key in [pygame.K_a, pygame.K_LEFT]:
-            self.curPlayer.go_left(level)
+            self.curPlayer.go_left(level, tick)
 
         if key in [pygame.K_d, pygame.K_RIGHT]:
-            self.curPlayer.go_right(level)
+            self.curPlayer.go_right(level, tick)
 
         if key in [pygame.K_w, pygame.K_UP]:
-            self.curPlayer.go_up(level)
+            self.curPlayer.go_up(level, tick)
 
         if key in [pygame.K_s, pygame.K_DOWN]:
-            self.curPlayer.go_down(level)
+            self.curPlayer.go_down(level, tick)
 
         if key == pygame.K_F12:
             if shift:

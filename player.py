@@ -19,6 +19,7 @@ class Player:
         self.walking = False
         self.facing = FD_NONE
         self.blocklist = blocklist
+        self.last_time_walked = 0
 
     def setMaxx(self, x):
         self.maxx = int(x)
@@ -32,9 +33,10 @@ class Player:
     def getStatusState(self):
         return str(self.status)
 
-    def go_up(self, level):
+    def go_up(self, level, tick):
         self.facing = FD_UP
-
+        self.walking = True
+        self.last_time_walked = tick
         if self.y == self.miny:
             return -1
         else:
@@ -45,9 +47,10 @@ class Player:
                 self.y = self.y - 1
                 return 0
 
-    def go_down(self, level):
+    def go_down(self, level, tick):
         self.facing = FD_DOWN
         self.walking = True
+        self.last_time_walked = tick
         if self.y == self.maxy:
             return -1
         else:
@@ -58,9 +61,10 @@ class Player:
                 self.y = self.y + 1
                 return 0
 
-    def go_left(self, level):
+    def go_left(self, level, tick):
         self.facing = FD_LEFT
         self.walking = True
+        self.last_time_walked = tick
         if self.x == self.minx:
             return -1
         else:
@@ -71,9 +75,10 @@ class Player:
                 self.x = self.x - 1
                 return 0
 
-    def go_right(self, level):
+    def go_right(self, level, tick):
         self.facing = FD_RIGHT
         self.walking = True
+        self.last_time_walked = tick
         if self.x == self.maxx:
             return -1
         else:
@@ -93,7 +98,12 @@ class Player:
     def gety(self):
         return self.y
 
-    def getPlayerSpriteId(self):
+    def getPlayerSpriteId(self, tick):
+
+        if self.walking:
+            if int(tick - self.last_time_walked) > 16:
+                self.walking = False
+
         sprite = str(self.spriteid)
 
         if self.facing == FD_RIGHT:
