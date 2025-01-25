@@ -38,6 +38,7 @@ class Player:
         self.facing = FD_UP
         self.animcnt = 4 * self.animspeed
         if self.y == self.miny:
+            self.blocked = True
             return -1
         else:
             nextField = level[self.y-1][self.x]
@@ -53,6 +54,7 @@ class Player:
         self.facing = FD_DOWN
         self.animcnt = 4 * self.animspeed
         if self.y == self.maxy:
+            self.blocked = True
             return -1
         else:
             nextField = level[self.y+1][self.x]
@@ -68,6 +70,7 @@ class Player:
         self.facing = FD_LEFT
         self.animcnt = 4 * self.animspeed
         if self.x == self.minx:
+            self.blocked = True
             return -1
         else:
             nextField = level[self.y][self.x-1]
@@ -83,6 +86,7 @@ class Player:
         self.facing = FD_RIGHT
         self.animcnt = 4 * self.animspeed
         if self.x == self.maxx:
+            self.blocked = True
             return -1
         else:
             nextField = level[self.y][self.x+1]
