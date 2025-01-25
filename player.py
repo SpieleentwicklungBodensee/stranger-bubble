@@ -20,6 +20,7 @@ class Player:
         self.blocklist = blocklist
         self.animcnt = 0
         self.animspeed = 5
+        self.blocked = False
 
     def setMaxx(self, x):
         self.maxx = int(x)
@@ -37,12 +38,15 @@ class Player:
         self.facing = FD_UP
         self.animcnt = 4 * self.animspeed
         if self.y == self.miny:
+            self.blocked = True
             return -1
         else:
             nextField = level[self.y-1][self.x]
             if nextField in self.blocklist:
+                self.blocked = True
                 return -1
             else:
+                self.blocked = False
                 self.y = self.y - 1
                 return 0
 
@@ -50,12 +54,15 @@ class Player:
         self.facing = FD_DOWN
         self.animcnt = 4 * self.animspeed
         if self.y == self.maxy:
+            self.blocked = True
             return -1
         else:
             nextField = level[self.y+1][self.x]
             if nextField in self.blocklist:
+                self.blocked = True
                 return -1
             else:
+                self.blocked = False
                 self.y = self.y + 1
                 return 0
 
@@ -63,12 +70,15 @@ class Player:
         self.facing = FD_LEFT
         self.animcnt = 4 * self.animspeed
         if self.x == self.minx:
+            self.blocked = True
             return -1
         else:
             nextField = level[self.y][self.x-1]
             if nextField in self.blocklist:
+                self.blocked = True
                 return -1
             else:
+                self.blocked = False
                 self.x = self.x - 1
                 return 0
 
@@ -76,12 +86,15 @@ class Player:
         self.facing = FD_RIGHT
         self.animcnt = 4 * self.animspeed
         if self.x == self.maxx:
+            self.blocked = True
             return -1
         else:
             nextField = level[self.y][self.x+1]
             if nextField in self.blocklist:
+                self.blocked = True
                 return -1
             else:
+                self.blocked = False
                 self.x = self.x + 1
                 return 0
 
@@ -93,6 +106,30 @@ class Player:
 
     def gety(self):
         return self.y
+
+    def getOffsetAnimX(self):
+        if self.animcnt == 0 or self.blocked:
+            return 0
+        b = 16
+        step = (int(self.animcnt / self.animspeed) / b * ((4 * self.animcnt)) )
+        if self.facing == FD_LEFT:
+            return +step
+        elif self.facing == FD_RIGHT:
+            return -step
+
+        return 0
+    
+    def getOffsetAnimY(self):
+        if self.animcnt == 0 or self.blocked:
+            return 0
+        b = 16
+        step = (int(self.animcnt / self.animspeed) / b * ((4 * self.animcnt)) )
+        if self.facing == FD_UP:
+            return  step
+        elif self.facing == FD_DOWN:
+            return -step
+
+        return 0
 
     def getPlayerSpriteId(self):
 
