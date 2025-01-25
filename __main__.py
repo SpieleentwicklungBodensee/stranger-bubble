@@ -125,14 +125,14 @@ level = list(level_orig)    # copy level
 
 
 overlay1 = ['OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
-            'OOghhiOOOOOOOOOOOOOOOOOOghiOOO',
-            'OOj  kOOOOOOOOOOOOOOOOOOlmnOOO',
-            'OOlmmnOOOOOOghiOOOOOOOOOOOOOOO',
-            'OOOOOOOOgiOOlmnOOOghhiOOOOOOOOO',
-            'OOOOOOOOlnOOOOOOOOlmmnOOOOOOOO',
-            'OOOOOOOOOOOOOOOOOOOOOOghiOOOOO',
-            'OOOOOOOOOOOOOOOOOOOOOOlmnOOOOO',
-            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
+            'OghhhiOOOOOOghhiOOOOOOOOghhiOO',
+            'OlmmmnOOOOgilmmnOOghiOOOlmmnOO',
+            'OOOOghhiOOlnOOghiOlmnOOOOOOOgh',
+            'OOOOlmmnOOOOOOlmnOOOghiOOOOOlm',
+            'OOOOOOOOghiOOOOOOOOOj kOghhiOO',
+            'OOghhiOOj kOOghhhiOOlmnOj  kOO',
+            'OOj  kOOlmnOOlmmmnOgiOOOlmmnOO',
+            'OOlmmnOOOOOOOOOOOOOlnOOOOOOOOO',
             '                              ',
             '                              ',
             '                              ',
@@ -151,15 +151,15 @@ overlay2 = ['                              ',
             '                              ',
             '                              ',
             '                              ',
-            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
-            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
-            'OOOOOOOOOOgiOOOOOOghiOOOOOOOOO',
-            'OOOOghhiOOlnOOghiOlmnOOOOOOOOO',
-            'OOOOlmmnOOOOOOlmnOOOOOOOOOOOOO',
-            'OOOOOOOOghiOOOOOOOOOOOOghhiOOO',
-            'OOOOOOOOj kOOOOOOOOOOOOj  kOOO',
-            'OOOOOOOOlmnOOOOOOOOOOOOlmmnOOO',
-            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
+            'OOOOghhiOOOOOghhhiOOOOOOOOOOOO',
+            'hiOOlmmnOOOOOlmmmnOOOOOOghhiOO',
+            'mnOOOOOOOOgiOOOOOOghiOOOj  kOO',
+            'OOOOghhiOOlnOOghiOlmnOOOlmmnOO',
+            'OOOOlmmnOOOOOOlmnOOOgiOOOOOghh',
+            'ghiOOOOOghiOghhhiOOOlnOghhilmm',
+            'lmnOOOOOj kOlmmmnOghiOOj  kOOO',
+            'OOghhiOOlmnOOOOOOOlmnOOlmmnOOO',
+            'OOj  kOOOOOOOOOOOOOOOOOOOOOOOO',
             ]
 
 global key1MsgCounter
@@ -231,7 +231,7 @@ class GameScreen(Screen):
                 # draw actual tile
                 if tile in ['o', 'p']:
                     screen.blit(tiles[' '], (x * TW, y * TH))
-                else: 
+                else:
                     screen.blit(tiles[tile], (x * TW, y * TH))
 
                 #draw or hide keys
