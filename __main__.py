@@ -247,7 +247,7 @@ class GameScreen(Screen):
                         keyItem.setKey3Pos(x, y)
                         if keyItem.key3.getTaken() == True or keyItem.key2.getTaken() == False:
                             screen.blit(tiles[' '], (x * TW, y * TH))
-                            
+
                     if keyItem.getDoorState() != 'locked':
                         if tile == keyItem.getSymDoor():
                             setTile(' ', x, y)
@@ -271,7 +271,7 @@ class GameScreen(Screen):
                         screen.blit(tiles['p'], (x * TW, y * TH))
 
         #draw key taken info
-        
+
         global key1MsgCounter
         global key2MsgCounter
         global key3MsgCounter
@@ -550,7 +550,13 @@ class TitleScreen(Screen):
 
     def render(self):
         screen.fill(CL_BG_DARK)
-        bigfont.centerText(screen, 'STRANGER BUBBLE', y=4, fgcolor=CL_TXT_PURPLE)
+        bigfont.centerText(screen, 'STRANGER BUBBLE', y=3, fgcolor=CL_TXT_PURPLE)
+
+        screen.blit(sprites['p1d1'], (240 - TW, 96))
+        screen.blit(sprites['p2d1'], (240, 96))
+
+        font.centerText(screen, 'CREATED AT GGJ 2025', y=27, fgcolor=CL_TXT_PURPLE)
+        font.centerText(screen, 'BY BUSYBEAVER, MCMURC, ZEHA', y=29, fgcolor=CL_TXT_PURPLE)
 
         for i, entry in enumerate(self.menu):
             font.centerText(screen, entry, y=18 + i * 2, fgcolor=CL_TXT_CYAN)
