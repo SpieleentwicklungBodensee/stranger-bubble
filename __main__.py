@@ -22,7 +22,7 @@ CL_TXT_PURPLE = (248,48,166)
 CL_TXT_CYAN = (96,255, 250)
 
 pygame.display.init()
-screen = pygame.display.set_mode((SCR_W, SCR_H))#, flags=pygame.SCALED)
+screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
 
 font = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H)
 bigfont = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H, zoom=2)
