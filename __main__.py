@@ -557,7 +557,7 @@ class TitleScreen(Screen):
 class WaitScreen(Screen):
     def __init__(self):
         super().__init__()
-        self.client = None
+        self.clients = set()
         self.discovering = True
 
         network.reset()
@@ -570,7 +570,7 @@ class WaitScreen(Screen):
                 try:
                     client, data = discover_server.waitForClient(self.coolRandomName)
                     if data == b'STRANGERBUBBLE':
-                        self.client = client
+                        self.clients.add(client[0])
                 except socket.timeout:
                     pass
             print('stopped discover')
@@ -583,8 +583,8 @@ class WaitScreen(Screen):
         bigfont.centerText(screen, self.coolRandomName, y=2, fgcolor=CL_TXT_CYAN)
         font.centerText(screen, 'WAITING FOR PLAYER 2...', y=8, fgcolor=CL_TXT_PURPLE)
 
-        if self.client:
-            font.centerText(screen, 'FOUND %s' % self.client[0], y=12)
+        for i, client in enumerate(self.clients):
+            font.centerText(screen, '%s ASKED...' % client, y=12+i*2)
 
         font.centerText(screen, 'SPACE = NO NETWORK', y=20, fgcolor=(255, 255, 255))
         font.centerText(screen, '! ONLY FOR TESTING !', y=22, fgcolor=(255, 255, 255))
