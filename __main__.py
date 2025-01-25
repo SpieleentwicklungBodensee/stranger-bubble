@@ -27,13 +27,15 @@ try:
     import settings
     displayflags = 0
 
-    if settings.FULLSCREEN:
-        displayflags |= pygame.FULLSCREEN
+    if hasattr(settings, 'FULLSCREEN'):
+        if settings.FULLSCREEN:
+            displayflags |= pygame.FULLSCREEN
 
-    if settings.SCALED:
-        displayflags |= pygame.SCALED
+    if hasattr(settings, 'SCALED'):
+        if settings.SCALED:
+            displayflags |= pygame.SCALED
 
-    if settings.NETWORK_NAME:
+    if hasattr(settings, 'NETWORK_NAME'):
         networkName = str(settings.NETWORK_NAME)[:16].upper()
 except:
     displayflags = pygame.SCALED
