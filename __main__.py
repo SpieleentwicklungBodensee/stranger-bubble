@@ -2,6 +2,8 @@ import pygame
 import threading
 import socket
 import pickle
+import random
+import string
 
 from bitmapfont import BitmapFont
 from player import Player
@@ -561,10 +563,12 @@ class WaitScreen(Screen):
         network.reset()
         network.initServer(port=6000, callback=self.serverCallback)
 
+        self.coolRandomName = ''.join(random.choices(string.ascii_uppercase, k=4))
+
         def discover():
             while self.discovering:
                 try:
-                    client, data = discover_server.waitForClient()
+                    client, data = discover_server.waitForClient(self.coolRandomName)
                     if data == b'STRANGERBUBBLE':
                         self.client = client
                 except socket.timeout:
@@ -576,6 +580,7 @@ class WaitScreen(Screen):
 
     def render(self):
         screen.fill(CL_BG_DARK)
+        bigfont.centerText(screen, self.coolRandomName, y=2, fgcolor=CL_TXT_CYAN)
         font.centerText(screen, 'WAITING FOR PLAYER 2...', y=8, fgcolor=CL_TXT_PURPLE)
 
         if self.client:
@@ -629,7 +634,7 @@ class JoinScreen(Screen):
             while self.discovering:
                 try:
                     server = discover_client.findServer(b'STRANGERBUBBLE')
-                    self.servers.add(server[1])
+                    self.servers.add(server) # coolRandomName, serverAddress
                 except socket.timeout:
                     pass
 
@@ -641,7 +646,10 @@ class JoinScreen(Screen):
         font.centerText(screen, 'SCANNING FOR GAMES ON YOUR NETWORK...', y=8, fgcolor=CL_TXT_PURPLE)
 
         for i, server in enumerate(self.servers):
-            font.centerText(screen, '%s' % server[0], y=12+i*2)
+            coolRandomName = server[0].decode('utf8')
+            serverName = server[1][0]
+            font.drawText(screen, coolRandomName, x=20, y=12+i*2, fgcolor=CL_TXT_CYAN)
+            font.drawText(screen, serverName, x=25, y=12+i*2, fgcolor=CL_TXT_PURPLE)
 
             if i == self.cursorY:
                 if tick % 32 > 8:
@@ -664,7 +672,9 @@ class JoinScreen(Screen):
             if self.servers:
                 self.discovering = False
                 nextScreen = GameScreen()
-                network.initClient(list(self.servers)[self.cursorY][0], 6000, callback=nextScreen.clientCallback)
+
+                coolRandomName, server = list(self.servers)[self.cursorY]
+                network.initClient(server[0], 6000, callback=nextScreen.clientCallback)
 
         elif key == pygame.K_ESCAPE:
             nextScreen = TitleScreen()
