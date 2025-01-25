@@ -35,6 +35,9 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'a': pygame.image.load('gfx/key.png'),
          'b': pygame.image.load('gfx/cassette.png'),
          'c': pygame.image.load('gfx/coin.png'),
+         '1': pygame.image.load('gfx/key.png'),
+         '2': pygame.image.load('gfx/cassette.png'),
+         '3': pygame.image.load('gfx/coin.png'),         
          }
 
 sprites = {'player1': pygame.image.load('gfx/man-green.png'),
@@ -141,7 +144,10 @@ class GameScreen(Screen):
         else:
             self.curPlayer = self.player2
             self.currentOverlay = overlay2
-        self.keyItem = KeyItem()
+
+        self.keyItem1 = KeyItem('a', 'b', 'c')
+        self.keyItem2 = KeyItem('1', '2', '3')
+        self.keyItem = self.keyItem1
 
 
     def render(self):
@@ -151,15 +157,15 @@ class GameScreen(Screen):
                 screen.blit(tiles[tile], (x * TW, y * TH))
 
                 #draw or hide keys
-                if tile == 'a':
+                if tile == self.keyItem.key1.getSym():
                     self.keyItem.setKey1Pos(x, y)
                     if self.keyItem.key1.getTaken() == True:
                         screen.blit(tiles[' '], (x * TW, y * TH))
-                if tile == 'b':
+                if tile == self.keyItem.key2.getSym():
                     self.keyItem.setKey2Pos(x, y)
                     if self.keyItem.key2.getTaken() == True or self.keyItem.key1.getTaken() == False:
                         screen.blit(tiles[' '], (x * TW, y * TH))
-                if tile == 'c':
+                if tile == self.keyItem.key3.getSym():
                     self.keyItem.setKey3Pos(x, y)
                     if self.keyItem.key3.getTaken() == True or self.keyItem.key2.getTaken() == False:
                         screen.blit(tiles[' '], (x * TW, y * TH))
