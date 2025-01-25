@@ -255,33 +255,33 @@ class GameScreen(Screen):
                         screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'o':
                         screen.blit(tiles['o'], (x * TW, y * TH))
-                
+
                 if self.curPlayer is self.player2:
                     if tile == 'o':
                         screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'p':
-                        screen.blit(tiles['p'], (x * TW, y * TH))               
-    
+                        screen.blit(tiles['p'], (x * TW, y * TH))
+
 
         #draw player/s
-        screen.blit(sprites[self.player1.getPlayerSpriteId(tick)], (self.player1.getx() * TW, self.player1.gety() * TH))
-        screen.blit(sprites[self.player2.getPlayerSpriteId(tick)], (self.player2.getx() * TW, self.player2.gety() * TH))
+        screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.gety() * TH))
+        screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW, self.player2.gety() * TH))
 
     def keydown(self, key, shift=False):
         global running
 
         #current player
         if key in [pygame.K_a, pygame.K_LEFT]:
-            self.curPlayer.go_left(level, tick)
+            self.curPlayer.go_left(level)
 
         if key in [pygame.K_d, pygame.K_RIGHT]:
-            self.curPlayer.go_right(level, tick)
+            self.curPlayer.go_right(level)
 
         if key in [pygame.K_w, pygame.K_UP]:
-            self.curPlayer.go_up(level, tick)
+            self.curPlayer.go_up(level)
 
         if key in [pygame.K_s, pygame.K_DOWN]:
-            self.curPlayer.go_down(level, tick)
+            self.curPlayer.go_down(level)
 
         if key == pygame.K_F12:
             if shift:
@@ -306,8 +306,6 @@ class GameScreen(Screen):
 
         self.logicFortheKey(self.keyItem1)
         self.logicFortheKey(self.keyItem2)
-
-        #network.sendPosition(self.curPlayer.getPlayerPosition())
 
         if self.curPlayer == self.player1:
             network.sendPlayerState(self.player1)

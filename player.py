@@ -16,10 +16,10 @@ class Player:
         self.maxx = maxx
         self.maxy = maxy
         self.status = str(id)
-        self.walking = False
         self.facing = FD_NONE
         self.blocklist = blocklist
-        self.last_time_walked = 0
+        self.animcnt = 0
+        self.animspeed = 5
 
     def setMaxx(self, x):
         self.maxx = int(x)
@@ -33,10 +33,9 @@ class Player:
     def getStatusState(self):
         return str(self.status)
 
-    def go_up(self, level, tick):
+    def go_up(self, level):
         self.facing = FD_UP
-        self.walking = True
-        self.last_time_walked = tick
+        self.animcnt = 4 * self.animspeed
         if self.y == self.miny:
             return -1
         else:
@@ -47,10 +46,9 @@ class Player:
                 self.y = self.y - 1
                 return 0
 
-    def go_down(self, level, tick):
+    def go_down(self, level):
         self.facing = FD_DOWN
-        self.walking = True
-        self.last_time_walked = tick
+        self.animcnt = 4 * self.animspeed
         if self.y == self.maxy:
             return -1
         else:
@@ -61,10 +59,9 @@ class Player:
                 self.y = self.y + 1
                 return 0
 
-    def go_left(self, level, tick):
+    def go_left(self, level):
         self.facing = FD_LEFT
-        self.walking = True
-        self.last_time_walked = tick
+        self.animcnt = 4 * self.animspeed
         if self.x == self.minx:
             return -1
         else:
@@ -75,10 +72,9 @@ class Player:
                 self.x = self.x - 1
                 return 0
 
-    def go_right(self, level, tick):
+    def go_right(self, level):
         self.facing = FD_RIGHT
-        self.walking = True
-        self.last_time_walked = tick
+        self.animcnt = 4 * self.animspeed
         if self.x == self.maxx:
             return -1
         else:
@@ -91,18 +87,17 @@ class Player:
 
     def getPlayerPosition(self):
         return self.x, self.y
-    
+
     def getx(self):
         return self.x
-    
+
     def gety(self):
-        return self.y  
+        return self.y
 
-    def getPlayerSpriteId(self, tick):
+    def getPlayerSpriteId(self):
 
-        if self.walking:
-            if int(tick - self.last_time_walked) > 16:
-                self.walking = False
+        if self.animcnt > 0:
+            self.animcnt -= 1
 
         sprite = str(self.spriteid)
 
@@ -117,16 +112,6 @@ class Player:
         else:
             sprite += "d"
 
-        if self.walking:
-            if int(time.time() * 1000) % 400 < 100:
-                sprite += "1"
-            elif 100 <= int(time.time() * 1000) % 400 < 200:
-                sprite += "2"
-            elif 200 <= int(time.time() * 1000) % 400 < 300:
-                sprite += "3"
-            else:
-                sprite += "4"
-        else:
-            sprite += "1"
+        sprite += str(int(self.animcnt / self.animspeed) + 1)
 
         return sprite
