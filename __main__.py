@@ -111,7 +111,7 @@ class Screen:
     def update(self):
         pass
 
-    def serverCallback(self):
+    def serverCallback(self, addr):
         pass
 
     def clientCallback(self):
