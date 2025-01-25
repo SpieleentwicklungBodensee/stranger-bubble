@@ -418,10 +418,16 @@ class JoinScreen(Screen):
 
             if i == self.cursorY:
                 if tick % 32 > 8:
-                    font.drawText(screen, '}', x=3, y=12+i*2)
+                    font.drawText(screen, '}', x=12, y=12+i*2)
 
     def keydown(self, key, shift=False):
-        pass
+        if key == pygame.K_DOWN:
+            self.cursorY += 1
+            self.cursorY %= len(self.servers)
+
+        elif key == pygame.K_UP:
+            self.cursorY -= 1
+            self.cursorY %= len(self.servers)
 
     def keyup(self, key, shift=False):
         global nextScreen
