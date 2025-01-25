@@ -44,6 +44,39 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
 
 sprites = {'player1': pygame.image.load('gfx/man-green.png'),
            'player2': pygame.image.load('gfx/man-blue.png'),
+           'p1d1': pygame.image.load('gfx/player1down1.png'),
+           'p1d2': pygame.image.load('gfx/player1down2.png'),
+           'p1d3': pygame.image.load('gfx/player1down3.png'),
+           'p1d4': pygame.image.load('gfx/player1down4.png'),
+           'p1u1': pygame.image.load('gfx/player1up1.png'),
+           'p1u2': pygame.image.load('gfx/player1up2.png'),
+           'p1u3': pygame.image.load('gfx/player1up3.png'),
+           'p1u4': pygame.image.load('gfx/player1up4.png'),
+           'p1r1': pygame.image.load('gfx/player1right1.png'),
+           'p1r2': pygame.image.load('gfx/player1right2.png'),
+           'p1r3': pygame.image.load('gfx/player1right3.png'),
+           'p1r4': pygame.image.load('gfx/player1right4.png'),
+           'p1l1': pygame.image.load('gfx/player1left1.png'),
+           'p1l2': pygame.image.load('gfx/player1left2.png'),
+           'p1l3': pygame.image.load('gfx/player1left3.png'),
+           'p1l4': pygame.image.load('gfx/player1left4.png'),
+           'p2d1': pygame.image.load('gfx/player2down1.png'),
+           'p2d2': pygame.image.load('gfx/player2down2.png'),
+           'p2d3': pygame.image.load('gfx/player2down3.png'),
+           'p2d4': pygame.image.load('gfx/player2down4.png'),
+           'p2u1': pygame.image.load('gfx/player2up1.png'),
+           'p2u2': pygame.image.load('gfx/player2up2.png'),
+           'p2u3': pygame.image.load('gfx/player2up3.png'),
+           'p2u4': pygame.image.load('gfx/player2up4.png'),
+           'p2r1': pygame.image.load('gfx/player2right1.png'),
+           'p2r2': pygame.image.load('gfx/player2right2.png'),
+           'p2r3': pygame.image.load('gfx/player2right3.png'),
+           'p2r4': pygame.image.load('gfx/player2right4.png'),
+           'p2l1': pygame.image.load('gfx/player2left1.png'),
+           'p2l2': pygame.image.load('gfx/player2left2.png'),
+           'p2l3': pygame.image.load('gfx/player2left3.png'),
+           'p2l4': pygame.image.load('gfx/player2left4.png'),
+           
            }
 
 
@@ -135,8 +168,8 @@ class Screen:
 class GameScreen(Screen):
     def __init__(self):
         Screen.__init__(self)
-        self.player1 = Player('player1', 3, 3, LEV_W-2, LEV_H-2)
-        self.player2 = Player('player2', 26, 13, LEV_W-2, LEV_H-2)
+        self.player1 = Player('p1', 3, 3, LEV_W-2, LEV_H-2)
+        self.player2 = Player('p2', 26, 13, LEV_W-2, LEV_H-2)
         self.player1.setStatusState('alive')
         self.player2.setStatusState('alive')
 
