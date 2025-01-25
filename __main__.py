@@ -61,8 +61,8 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'l': pygame.image.load('gfx/overlay_bl.png'),
          'm': pygame.image.load('gfx/overlay_b.png'),
          'n': pygame.image.load('gfx/overlay_br.png'),
-         'o': pygame.image.load('gfx/mine.png'),
-         'p': pygame.image.load('gfx/mine.png'),
+         'o': pygame.image.load('gfx/mine_overlay.png'),
+         'p': pygame.image.load('gfx/mine_overlay.png'),
          }
 
 sprites = {'player1': pygame.image.load('gfx/man-green.png'),
