@@ -32,6 +32,7 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'x': pygame.image.load('gfx/lava.png'),
          'O': pygame.image.load('gfx/overlay.png'),
          'd': pygame.image.load('gfx/door.png'),
+         'f': pygame.image.load('gfx/door.png'),
          'a': pygame.image.load('gfx/key.png'),
          'b': pygame.image.load('gfx/cassette.png'),
          'c': pygame.image.load('gfx/coin.png'),
@@ -55,8 +56,8 @@ level = ['##############################',
          '#  c  xxxx     xx            #',
          '########### ##################',
          '#                            #',
-         '#           xx               #',
-         '#    xx      x               #',
+         '#           xx    123        #',
+         '#    xx      x       ##f##   #',
          '#  xxxxx            xx       #',
          '#                    xxx     #',
          '#        xx                  #',
@@ -145,8 +146,8 @@ class GameScreen(Screen):
             self.curPlayer = self.player2
             self.currentOverlay = overlay2
 
-        self.keyItem1 = KeyItem('a', 'b', 'c')
-        self.keyItem2 = KeyItem('1', '2', '3')
+        self.keyItem1 = KeyItem('a', 'b', 'c', 'd')
+        self.keyItem2 = KeyItem('1', '2', '3', 'f')
         self.keyItem = self.keyItem1
 
 
@@ -170,7 +171,7 @@ class GameScreen(Screen):
                     if self.keyItem.key3.getTaken() == True or self.keyItem.key2.getTaken() == False:
                         screen.blit(tiles[' '], (x * TW, y * TH))
                 if self.keyItem.getDoorState() != 'locked':
-                    if tile == 'd':
+                    if tile == self.keyItem.getSymDoor():
                         screen.blit(tiles[' '], (x * TW, y * TH))
                         setTile(' ', x, y)
 
@@ -182,7 +183,7 @@ class GameScreen(Screen):
         if self.currentOverlay is overlay2:
             #draw keyItems - door
             if self.keyItem.getDoorState() != 'locked':
-                if tile == 'd':
+                if tile == self.keyItem.getSymDoor():
                     screen.blit(tiles[' '], (x * TW, y * TH))
 
 

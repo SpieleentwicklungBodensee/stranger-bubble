@@ -1,11 +1,12 @@
 class KeyItem:
-    def __init__(self, sym1, sym2, sym3):
+    def __init__(self, sym1, sym2, sym3, symDoor):
         self.spriteid = str(id)
         self.doorState = 'locked'
         self.unlocked = False
         self.key1 = Keykey(0, 0, sym1)
         self.key2 = Keykey(0, 0, sym2)
         self.key3 = Keykey(0, 0, sym3)
+        self.symDoor = symDoor
 
     def getDoorState(self):
         return self.doorState
@@ -23,6 +24,9 @@ class KeyItem:
 
     def setKey3Pos(self, x, y):
         self.key3.setKeyPos(x, y)
+
+    def getSymDoor(self):
+        return self.symDoor            
 
 
 class Keykey:
@@ -49,5 +53,5 @@ class Keykey:
         return self.y
     
     def getSym(self):
-        return self.sym   
+        return self.sym
     
