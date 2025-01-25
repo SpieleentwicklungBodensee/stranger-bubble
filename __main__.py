@@ -121,9 +121,9 @@ level = list(level_orig)    # copy level
 
 
 overlay1 = ['OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
-            'OOOOOOOOOOOOOOOOOOOOOOOOghiOOO',
-            'OOOghiOOOOOOOOOOOOOOOOOOlmnOOO',
-            'OOOlmnOOOOOOgiOOOOOOOOOOOOOOOO',
+            'OOghhiOOOOOOOOOOOOOOOOOOghiOOO',
+            'OOj  kOOOOOOOOOOOOOOOOOOlmnOOO',
+            'OOlmmnOOOOOOgiOOOOOOOOOOOOOOOO',
             'OOOOOOOOgiOOlnOOOOgiOOOOOOOOOO',
             'OOOOOOOOlnOOOOOOOOlnOOOOOOOOOO',
             'OOOOOOOOOOOOOOOOOOOOOOgiOOOOOO',
@@ -152,9 +152,9 @@ overlay2 = ['                              ',
             'OOOOOOOOOOgiOOOOOOghiOOOOOOOOO',
             'OOOOgiOOOOlnOOOgiOlmnOOOOOOOOO',
             'OOOOlnOOOOOOOOOlnOOOOOOOOOOOOO',
-            'OOOOOOOOOOOOOOOOOOOOOOOOghiOOO',
-            'OOOOOOOOgiOOOOOOOOOOOOOOlmnOOO',
-            'OOOOOOOOlnOOOOOOOOOOOOOOOOOOOO',
+            'OOOOOOOOOOOOOOOOOOOOOOOghhiOOO',
+            'OOOOOOOOgiOOOOOOOOOOOOOj  kOOO',
+            'OOOOOOOOlnOOOOOOOOOOOOOlmmnOOO',
             'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
             ]
 
