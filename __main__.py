@@ -1,6 +1,12 @@
 import pygame
+import threading
+import socket
+
 from bitmapfont import BitmapFont
 from player import Player
+
+import discover_server
+import discover_client
 
 
 SCR_W, SCR_H = 480, 270
@@ -13,7 +19,7 @@ CL_TXT_CYAN = (96,255, 250)
 
 
 pygame.display.init()
-screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
+screen = pygame.display.set_mode((SCR_W, SCR_H))#, flags=pygame.SCALED)
 
 font = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H)
 bigfont = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H, zoom=2)
@@ -183,7 +189,6 @@ class TitleScreen(Screen):
     def render(self):
         screen.fill(CL_BG_DARK)
         bigfont.centerText(screen, 'STRANGER BUBBLE', y=4, fgcolor=CL_TXT_PURPLE)
-        #font.centerText(screen, 'PRESS SPACE TO START', y=12, fgcolor=CL_TXT_PURPLE)
 
         for i, entry in enumerate(self.menu):
             font.centerText(screen, entry, y=18 + i * 2, fgcolor=CL_TXT_CYAN)
@@ -209,7 +214,7 @@ class TitleScreen(Screen):
             entry = self.menu[self.cursorY]
 
             if entry == 'START GAME':
-                nextScreen = GameScreen()
+                nextScreen = WaitScreen()
             elif entry == 'JOIN GAME':
                 nextScreen = JoinScreen()
             elif entry == 'EXIT':
@@ -219,16 +224,32 @@ class TitleScreen(Screen):
             running = False
 
 
-class JoinScreen(Screen):
+class WaitScreen(Screen):
     def __init__(self):
         super().__init__()
+        self.client = None
+        self.discovering = True
+
+        def discover():
+            while self.discovering:
+                try:
+                    client, data = discover_server.waitForClient()
+                    if data == b'STRANGERBUBBLE':
+                        self.client = client
+                except socket.timeout:
+                    pass
+
+        thread = threading.Thread(target=discover)
+        thread.start()
 
     def render(self):
         screen.fill(CL_BG_DARK)
-        font.centerText(screen, 'SCANNING FOR GAMES ON YOUR NETWORK...', y=8, fgcolor=CL_TXT_PURPLE)
+        font.centerText(screen, 'WAITING FOR PLAYER 2...', y=8, fgcolor=CL_TXT_PURPLE)
 
-        font.centerText(screen, 'NOT IMPLEMENTED YET', y=20)
-        font.centerText(screen, 'PRESS ANY KEY', y=21)
+        if self.client:
+            font.centerText(screen, 'FOUND %s:%s' % self.client, y=12)
+
+        font.centerText(screen, 'PRESS SPACE TO SKIP', y=20, fgcolor=(255, 255, 255))
 
     def keydown(self, key, shift=False):
         pass
@@ -238,10 +259,64 @@ class JoinScreen(Screen):
         global running
 
         if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
-            nextScreen = TitleScreen()
+            nextScreen = GameScreen()
+            self.discovering = False
 
         elif key == pygame.K_ESCAPE:
             nextScreen = TitleScreen()
+            self.discovering = False
+
+    def update(self):
+        pass
+
+
+class JoinScreen(Screen):
+    def __init__(self):
+        super().__init__()
+        self.servers = set()
+        self.discovering = True
+
+        self.cursorY = 0
+
+        def discover():
+            while self.discovering:
+                try:
+                    server = discover_client.findServer(b'STRANGERBUBBLE')
+                    self.servers.add(server)
+                except socket.timeout:
+                    pass
+
+        thread = threading.Thread(target=discover)
+        thread.start()
+
+    def render(self):
+        screen.fill(CL_BG_DARK)
+        font.centerText(screen, 'SCANNING FOR GAMES ON YOUR NETWORK...', y=8, fgcolor=CL_TXT_PURPLE)
+
+        for i, server in enumerate(self.servers):
+            font.centerText(screen, '%s:%s' % server, y=12+i*2)
+
+            if i == self.cursorY:
+                if tick % 32 > 8:
+                    font.drawText(screen, '}', x=3, y=12+i*2)
+
+    def keydown(self, key, shift=False):
+        pass
+
+    def keyup(self, key, shift=False):
+        global nextScreen
+        global running
+
+        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
+            if self.servers:
+                self.discovering = False
+                nextScreen = GameScreen()
+
+        elif key == pygame.K_ESCAPE:
+            nextScreen = TitleScreen()
+
+    def update(self):
+        pass
 
 
 running = True
