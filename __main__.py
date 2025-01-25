@@ -189,7 +189,30 @@ class GameScreen(Screen):
             nextScreen = TitleScreen()
 
     def update(self):
-        pass
+        network.sendPosition(self.curPlayer.getPlayerPosition())
+
+    def serverCallback(self, data, addr):
+        if addr != network.clientAddr:
+            return
+
+        print('received: ', data)
+
+        if data.startswith(b'PLAYER2_POS'):
+            pos = data.split(b'=')[1]
+            x, y = pos.split(b'/')
+
+            self.player2.x = int(x)
+            self.player2.y = int(y)
+
+    def clientCallback(self, data):
+        print('received: ', data)
+
+        if data.startswith(b'PLAYER1_POS'):
+            pos = data.split(b'=')[1]
+            x, y = pos.split(b'/')
+
+            self.player1.x = int(x)
+            self.player1.y = int(y)
 
     def gameoverHandler(self):
         global nextScreen
@@ -223,13 +246,6 @@ class GameOverScreen(Screen):
         if self.bGoToMainMenue == True:
             nextScreen = TitleScreen()
             nextScreen.cursorY = 0
-
-
-    def serverCallback(self, data):
-        print('received: ', data)
-
-    def clientCallback(self, data):
-        print('received: ', data)
 
 class TitleScreen(Screen):
     def __init__(self):
@@ -327,7 +343,7 @@ class WaitScreen(Screen):
     def update(self):
         pass
 
-    def serverCallback(self, data):
+    def serverCallback(self, data, addr):
         global nextScreen
         print('received', data)
 
@@ -335,6 +351,7 @@ class WaitScreen(Screen):
             nextScreen = GameScreen()
             self.discovering = False
             network.serverCallback = nextScreen.serverCallback
+            network.clientAddr = addr
 
 
 class JoinScreen(Screen):

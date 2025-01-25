@@ -9,6 +9,8 @@ clientSocket = None
 serverCallback = None
 clientCallback = None
 
+clientAddr = None
+
 running = False
 
 
@@ -39,8 +41,8 @@ def shutdownServer():
 
 def serverThread():
     while running:
-        data = serverSocket.recv(1024)
-        serverCallback(data)
+        data, addr = serverSocket.recvfrom(1024)
+        serverCallback(data, addr)
 
 
 def initClient(host, port, callback):
@@ -73,3 +75,15 @@ def clientThread():
     while running:
         data = clientSocket.recv(1024)
         clientCallback(data)
+
+
+def sendPosition(playerpos):
+    if NETWORK_ROLE == 'server':
+        if not clientAddr:
+            return
+
+        msg = 'PLAYER1_POS=%s/%s' % playerpos
+        serverSocket.sendto(bytes(msg, 'utf8'), clientAddr)
+    else:
+        msg = 'PLAYER2_POS=%s/%s' % playerpos
+        clientSocket.send(bytes(msg, 'utf8'))
