@@ -14,6 +14,13 @@ clientAddr = None
 running = False
 
 
+def reset():
+    if NETWORK_ROLE == 'server':
+        shutdownServer()
+    else:
+        shutdownClient()
+
+
 # -- server
 
 def initServer(port, callback):
@@ -35,11 +42,13 @@ def initServer(port, callback):
     t.start()
 
 def shutdownServer():
-    global running
+    global running, serverSocket, clientAddr
     running = False
     if serverSocket:
         serverSocket.close()
         #serverSocket.shutdown(socket.SHUT_RDWR)
+        serverSocket = None
+        clientAddr = None
 
 def serverThread():
     while running:
@@ -70,10 +79,11 @@ def initClient(host, port, callback):
     clientSocket.send(b'LETS GO!')
 
 def shutdownClient():
-    global running
+    global running, clientSocket
     running = False
     if clientSocket:
         clientSocket.shutdown(socket.SHUT_RDWR)
+        clientSocket = None
 
 def clientThread():
     while running:

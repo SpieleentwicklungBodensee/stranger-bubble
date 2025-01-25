@@ -333,6 +333,7 @@ class WaitScreen(Screen):
         self.client = None
         self.discovering = True
 
+        network.reset()
         network.initServer(port=6000, callback=self.serverCallback)
 
         def discover():
@@ -393,6 +394,8 @@ class JoinScreen(Screen):
         self.discovering = True
 
         self.cursorY = 0
+
+        network.reset()
 
         def discover():
             while self.discovering:
