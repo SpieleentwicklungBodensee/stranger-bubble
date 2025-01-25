@@ -117,6 +117,8 @@ class GameScreen(Screen):
         self.currentOverlay = overlay1
         self.player1 = Player('player1', 3, 3, LEV_W-2, LEV_H-2)
         self.player2 = Player('player2', 26, 13, LEV_W-2, LEV_H-2)
+        self.player1.setStatusState('alive')
+        self.player2.setStatusState('alive')
         self.curPlayer = self.player1
 
     def render(self):
@@ -133,7 +135,14 @@ class GameScreen(Screen):
         #draw player/s
         screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.gety() * TH))
         screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW, self.player2.gety() * TH))
+        self.proofEventPlayer()
 
+    def proofEventPlayer(self):
+        #proof is current player death, beacuse of lava
+        if 'x' == level[self.curPlayer.gety()][self.curPlayer.getx()]:
+            if self.curPlayer.getStatusState() != 'death':
+                self.curPlayer.setStatusState('death')
+                print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
 
     def keydown(self, key, shift=False):
         global running
@@ -163,7 +172,6 @@ class GameScreen(Screen):
                     self.currentOverlay = overlay2
                 else:
                     self.currentOverlay = overlay1
-
 
 
     def keyup(self, key, shift=False):
