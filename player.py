@@ -26,7 +26,7 @@ class Player:
             return -1
         else:
             nextField = level[self.y-1][self.x]
-            if nextField == '#':
+            if nextField in ['#', 'd']:
                 return -1
             else:
                 self.y = self.y - 1
@@ -37,7 +37,7 @@ class Player:
             return -1
         else:
             nextField = level[self.y+1][self.x]
-            if nextField == '#':
+            if nextField in ['#', 'd']:
                 return -1
             else:
                 self.y = self.y + 1
@@ -48,7 +48,7 @@ class Player:
             return -1
         else:
             nextField = level[self.y][self.x-1]
-            if nextField == '#':
+            if nextField in ['#', 'd']:
                 return -1
             else:
                 self.x = self.x - 1
@@ -59,7 +59,7 @@ class Player:
             return -1
         else:
             nextField = level[self.y][self.x+1]
-            if nextField == '#':
+            if nextField in ['#', 'd']:
                 return -1
             else:
                 self.x = self.x + 1

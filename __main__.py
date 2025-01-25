@@ -4,6 +4,7 @@ import socket
 
 from bitmapfont import BitmapFont
 from player import Player
+from keyItem import KeyItem
 
 import network
 import discover_server
@@ -30,6 +31,10 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          ' ': pygame.image.load('gfx/floor.png'),
          'x': pygame.image.load('gfx/lava.png'),
          'O': pygame.image.load('gfx/overlay.png'),
+         'd': pygame.image.load('gfx/door.png'),
+         'a': pygame.image.load('gfx/key.png'),
+         'b': pygame.image.load('gfx/cassette.png'),
+         'c': pygame.image.load('gfx/coin.png'),         
          }
 
 sprites = {'player1': pygame.image.load('gfx/man-green.png'),
@@ -38,13 +43,13 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
 
 
 level = ['##############################',
-         '#             xx             #',
-         '#                            #',
+         '#      #      xx             #',
+         '#     ad                     #',
          '#      #             xxx     #',
          '#   ####           xxxx      #',
          '#                            #',
-         '#        xx            xx    #',
-         '#     xxxx     xx            #',
+         '#        xx    b       xx    #',
+         '#  c  xxxx     xx            #',
          '########### ##################',
          '#                            #',
          '#           xx               #',
@@ -118,7 +123,6 @@ class Screen:
         pass
 
 
-
 class GameScreen(Screen):
     def __init__(self):
         Screen.__init__(self)
@@ -133,6 +137,8 @@ class GameScreen(Screen):
         else:
             self.curPlayer = self.player2
             self.currentOverlay = overlay2
+        self.keyItem = KeyItem()
+
 
     def render(self):
         for y, line in enumerate(level):
@@ -140,18 +146,44 @@ class GameScreen(Screen):
                 # draw actual tile
                 screen.blit(tiles[tile], (x * TW, y * TH))
 
+                #draw or hide keys
+                if tile == 'a':
+                    self.keyItem.setKey1Pos(x, y)
+                    if self.keyItem.key1.getTaken() == True:
+                        screen.blit(tiles[' '], (x * TW, y * TH))
+                if tile == 'b':
+                    self.keyItem.setKey2Pos(x, y)
+                    if self.keyItem.key2.getTaken() == True or self.keyItem.key1.getTaken() == False:
+                        screen.blit(tiles[' '], (x * TW, y * TH))
+                if tile == 'c':
+                    self.keyItem.setKey3Pos(x, y)
+                    if self.keyItem.key3.getTaken() == True or self.keyItem.key2.getTaken() == False:
+                        screen.blit(tiles[' '], (x * TW, y * TH))
+                if self.keyItem.getDoorState() != 'locked':
+                    if tile == 'd':
+                        screen.blit(tiles[' '], (x * TW, y * TH))                        
+
                 # draw overlay
                 if self.currentOverlay is not None:
                     if self.currentOverlay[y][x] != ' ':
                         screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TH))
 
+        if self.currentOverlay is overlay2:
+            #draw keyItems - door
+            if self.keyItem.getDoorState() != 'locked':
+                if tile == 'd':
+                    screen.blit(tiles[' '], (x * TW, y * TH))
+
+
         #draw player/s
         screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.gety() * TH))
         screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW, self.player2.gety() * TH))
         self.proofEventPlayer()
+        self.logicFortheKey()
+
 
     def proofEventPlayer(self):
-        #proof is current player death, beacuse of lava
+        #proof is current player death, because of lava
         if 'x' == level[self.curPlayer.gety()][self.curPlayer.getx()]:
             if self.curPlayer.getStatusState() != 'death':
                 self.curPlayer.setStatusState('death')
@@ -174,7 +206,6 @@ class GameScreen(Screen):
 
         if key in [pygame.K_s, pygame.K_DOWN]:
             self.curPlayer.go_down(level)
-
 
         if key == pygame.K_F12:
             if shift:
@@ -231,6 +262,22 @@ class GameScreen(Screen):
         global nextScreen
         nextScreen = GameOverScreen()
 
+    def logicFortheKey(self):
+        if self.keyItem.unlocked == False:
+            if self.keyItem.key1.getTaken() == False:
+                if self.curPlayer.getx() == self.keyItem.key1.getx() and self.curPlayer.gety() == self.keyItem.key1.gety():
+                    self.keyItem.key1.setTaken(True)
+            else:
+                if self.keyItem.key2.getTaken() == False:
+                    if self.curPlayer.getx() == self.keyItem.key2.getx() and self.curPlayer.gety() == self.keyItem.key2.gety():
+                        self.keyItem.key2.setTaken(True)
+                else:
+                    if self.keyItem.key3.getTaken() == False:
+                        if self.curPlayer.getx() == self.keyItem.key3.getx() and self.curPlayer.gety() == self.keyItem.key3.gety():
+                            self.keyItem.key3.setTaken(True)
+                    else:
+                        self.keyItem.setDoorState('unlocked')        
+
 
 class GameOverScreen(Screen):
     def __init__(self):
@@ -260,12 +307,13 @@ class GameOverScreen(Screen):
             global nextScreen
             nextScreen = TitleScreen()
 
+            nextScreen.cursorY = 0
+
     def serverCallback(self, data, addr):
         if addr != network.clientAddr:
             return
-
+        
         print('received: ', data)
-
         if data == b'RESTART':
             self.restartHandler()
 
