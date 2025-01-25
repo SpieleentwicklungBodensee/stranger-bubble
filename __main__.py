@@ -29,7 +29,7 @@ try:
 
     if hasattr(settings, 'FULLSCREEN'):
         if settings.FULLSCREEN:
-            displayflags |= pygame.FULLSCREEN
+            displayflags |= (pygame.FULLSCREEN | pygame.SCALED)
 
     if hasattr(settings, 'SCALED'):
         if settings.SCALED:
