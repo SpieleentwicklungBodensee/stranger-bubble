@@ -111,6 +111,7 @@ class GameScreen(Screen):
         self.currentOverlay = overlay1
         self.player1 = Player('player1', 3, 3, LEV_W-2, LEV_H-2)
         self.player2 = Player('player2', 26, 13, LEV_W-2, LEV_H-2)
+        self.curPlayer = self.player1
 
     def render(self):
         for y, line in enumerate(level):
@@ -123,7 +124,6 @@ class GameScreen(Screen):
                     if self.currentOverlay[y][x] != ' ':
                         screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TH))
 
-
         #draw player/s
         screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW, self.player1.gety() * TH))
         screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW, self.player2.gety() * TH))
@@ -132,31 +132,18 @@ class GameScreen(Screen):
     def keydown(self, key, shift=False):
         global running
 
-        #player 1
-        if key == pygame.K_a:
-            self.player1.go_left()
+        #current player
+        if key in [pygame.K_a, pygame.K_LEFT]:
+            self.curPlayer.go_left(level)
 
-        if key == pygame.K_d:
-            self.player1.go_right()
+        if key in [pygame.K_d, pygame.K_RIGHT]:
+            self.curPlayer.go_right(level)
 
-        if key == pygame.K_w:
-            self.player1.go_up()
+        if key in [pygame.K_w, pygame.K_UP]:
+            self.curPlayer.go_up(level)
 
-        if key == pygame.K_s:
-            self.player1.go_down()
-        #player 2
-        if key == pygame.K_LEFT:
-            self.player2.go_left()
-
-        if key == pygame.K_RIGHT:
-            self.player2.go_right()
-
-        if key == pygame.K_UP:
-            self.player2.go_up()
-
-        if key == pygame.K_DOWN:
-            self.player2.go_down()
-
+        if key in [pygame.K_s, pygame.K_DOWN]:
+            self.curPlayer.go_down(level)
 
 
         if key == pygame.K_F12:
