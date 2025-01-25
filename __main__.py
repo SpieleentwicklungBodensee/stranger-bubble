@@ -166,6 +166,7 @@ class GameScreen(Screen):
                 if self.keyItem.getDoorState() != 'locked':
                     if tile == 'd':
                         screen.blit(tiles[' '], (x * TW, y * TH))
+                        setTile(' ', x, y)
 
                 # draw overlay
                 if self.currentOverlay is not None:
