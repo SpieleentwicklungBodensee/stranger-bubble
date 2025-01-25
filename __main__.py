@@ -13,7 +13,8 @@ SCR_W, SCR_H = 480, 270
 TW, TH = 16, 16
 LEV_W, LEV_H = 30, 17
 
-CL_BG_DARK =(16,6,26)
+CL_GAME_OVER = (200,12,12)
+CL_BG_DARK = (16,6,26)
 CL_TXT_PURPLE = (248,48,166)
 CL_TXT_CYAN = (96,255, 250)
 
@@ -143,6 +144,7 @@ class GameScreen(Screen):
             if self.curPlayer.getStatusState() != 'death':
                 self.curPlayer.setStatusState('death')
                 print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
+                self.gameoverHandler()
 
     def keydown(self, key, shift=False):
         global running
@@ -182,6 +184,40 @@ class GameScreen(Screen):
 
     def update(self):
         pass
+
+    def gameoverHandler(self):
+        global nextScreen
+        nextScreen = GameOverScreen()
+
+
+class GameOverScreen(Screen):
+    def __init__(self):
+        super().__init__()
+        self.cursorY = 0
+        self.r = 220
+        self.g = 12
+        self.b = 12
+        self.bGoToMainMenue = False
+
+    def render(self):
+        ##screen.fill(CL_GAME_OVER)
+        screen.fill((self.r, self.g, self.b))
+        if self.r > 0:
+            self.r = self.r - 1
+        bigfont.centerText(screen, 'GAME OVER', y=4, fgcolor=CL_TXT_PURPLE)
+        font.centerText(screen, 'PRESS SPACE fOR MAIN MENUE', y=20, fgcolor=(255, 255, 255))
+
+    def keydown(self, key, shift=False):
+        global nextScreen
+        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
+            self.bGoToMainMenue = True
+
+    def keyup(self, key, shift=False):
+        global nextScreen
+        if self.bGoToMainMenue == True:
+            nextScreen = TitleScreen()
+            nextScreen.cursorY = 0            
+
 
 
 class TitleScreen(Screen):
