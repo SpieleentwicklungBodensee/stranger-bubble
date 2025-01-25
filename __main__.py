@@ -418,7 +418,7 @@ class JoinScreen(Screen):
 
             if i == self.cursorY:
                 if tick % 32 > 8:
-                    font.drawText(screen, '}', x=12, y=12+i*2)
+                    font.drawText(screen, '}', x=18, y=12+i*2)
 
     def keydown(self, key, shift=False):
         if key == pygame.K_DOWN:
