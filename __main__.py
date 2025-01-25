@@ -34,7 +34,7 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'd': pygame.image.load('gfx/door.png'),
          'a': pygame.image.load('gfx/key.png'),
          'b': pygame.image.load('gfx/cassette.png'),
-         'c': pygame.image.load('gfx/coin.png'),         
+         'c': pygame.image.load('gfx/coin.png'),
          }
 
 sprites = {'player1': pygame.image.load('gfx/man-green.png'),
@@ -100,6 +100,10 @@ overlay2 = ['                              ',
             ]
 
 
+
+def setTile(t, x, y):
+    level[y] = level[y][:x] + t + level[y][x+1:]
+
 class Screen:
     def __init__(self):
         pass
@@ -161,7 +165,7 @@ class GameScreen(Screen):
                         screen.blit(tiles[' '], (x * TW, y * TH))
                 if self.keyItem.getDoorState() != 'locked':
                     if tile == 'd':
-                        screen.blit(tiles[' '], (x * TW, y * TH))                        
+                        screen.blit(tiles[' '], (x * TW, y * TH))
 
                 # draw overlay
                 if self.currentOverlay is not None:
@@ -276,7 +280,7 @@ class GameScreen(Screen):
                         if self.curPlayer.getx() == self.keyItem.key3.getx() and self.curPlayer.gety() == self.keyItem.key3.gety():
                             self.keyItem.key3.setTaken(True)
                     else:
-                        self.keyItem.setDoorState('unlocked')        
+                        self.keyItem.setDoorState('unlocked')
 
 
 class GameOverScreen(Screen):
@@ -312,7 +316,7 @@ class GameOverScreen(Screen):
     def serverCallback(self, data, addr):
         if addr != network.clientAddr:
             return
-        
+
         print('received: ', data)
         if data == b'RESTART':
             self.restartHandler()
