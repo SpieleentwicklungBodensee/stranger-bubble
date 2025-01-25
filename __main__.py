@@ -202,6 +202,45 @@ overlay2 = ['OOOOOOOO        OOOOOOOO      ',
             ]
 
 
+overlay1 = ['  OOO       OOO        OOO    ',
+            '  OOO       OOO        OOO    ',
+            '  OOOOOOOOOOOOOOOOOOOOOOOO    ',
+            '  OOO       OOO        OOO    ',
+            '  OOO       OOO        OOO    ',
+            '  OOO       OOO        OOO    ',
+            '                              ',
+            '                              ',
+            '  OOO       OOO        OOO    ',
+            '  OOOOOOOOOOOOOOOOOOOOOOOO    ',
+            '  OOO       OOO        OOO    ',
+            '                              ',
+            '                              ',
+            '                              ',
+            '  OOO       OOO        OOO    ',
+            '  OOO       OOO        OOO    ',
+            '  OOO       OOO        OOO    ',
+            ]
+
+overlay2 = ['      OOO           OOO       ',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
+            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            'OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            '      OOO           OOO       ',
+            ]
+
+
 global key1MsgCounter
 global key2MsgCounter
 global key3MsgCounter
