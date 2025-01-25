@@ -34,7 +34,8 @@ def shutdownServer():
     global running
     running = False
     if serverSocket:
-        serverSocket.shutdown(socket.SHUT_RDWR)
+        serverSocket.close()
+        #serverSocket.shutdown(socket.SHUT_RDWR)
 
 def serverThread():
     while running:
