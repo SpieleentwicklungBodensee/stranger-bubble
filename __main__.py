@@ -22,7 +22,7 @@ CL_TXT_PURPLE = (248,48,166)
 CL_TXT_CYAN = (96,255, 250)
 
 pygame.display.init()
-screen = pygame.display.set_mode((SCR_W, SCR_H), flags=pygame.SCALED)
+screen = pygame.display.set_mode((SCR_W, SCR_H))#, flags=pygame.SCALED)
 
 font = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H)
 bigfont = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H, zoom=2)
@@ -188,6 +188,8 @@ class GameScreen(Screen):
         self.keyItem2 = KeyItem('1', '2', '3', 'f')
         #self.keyItem = self.keyItem1
 
+        self.messages = []
+
 
     def render(self):
         screen.fill((0, 0, 0))
@@ -213,8 +215,8 @@ class GameScreen(Screen):
                             screen.blit(tiles[' '], (x * TW, y * TH))
                     if keyItem.getDoorState() != 'locked':
                         if tile == keyItem.getSymDoor():
-                            screen.blit(tiles[' '], (x * TW, y * TH))
                             setTile(' ', x, y)
+                            network.sendTileChange(' ', x, y)
 
                 # draw overlay
                 if self.currentOverlay is not None:
@@ -269,50 +271,52 @@ class GameScreen(Screen):
         network.sendKeyItemState(self.keyItem1)
         network.sendKeyItemState(self.keyItem2)
 
+        self.processMessages()
+
     def serverCallback(self, data, addr):
         if addr != network.clientAddr:
             return
 
         #print('received: ', data)
-
-        if data.startswith(b'PLAYER2_POS'):
-            pos = data.split(b'=')[1]
-            x, y = pos.split(b'/')
-
-            self.player2.x = int(x)
-            self.player2.y = int(y)
-
-        elif data.startswith(b'KEYITEM1'):
-            pickled = data.split(b'=')[1]
-            self.keyItem1 = pickle.loads(pickled)
-
-        elif data.startswith(b'KEYITEM2'):
-            pickled = data.split(b'=')[1]
-            self.keyItem2 = pickle.loads(pickled)
-
-        elif data == b'GAMEOVER':
-            self.gameoverHandler()
+        self.messages.append(data)
 
     def clientCallback(self, data):
         #print('received: ', data)
+        self.messages.append(data)
 
-        if data.startswith(b'PLAYER1_POS'):
-            pos = data.split(b'=')[1]
-            x, y = pos.split(b'/')
+    def processMessages(self):
+        for data in list(self.messages):
+            if data.startswith(b'PLAYER1_POS'):
+                pos = data.split(b'=')[1]
+                x, y = pos.split(b'/')
 
-            self.player1.x = int(x)
-            self.player1.y = int(y)
+                self.player1.x = int(x)
+                self.player1.y = int(y)
 
-        elif data.startswith(b'KEYITEM1'):
-            pickled = data.split(b'=')[1]
-            self.keyItem1 = pickle.loads(pickled)
+            elif data.startswith(b'PLAYER2_POS'):
+                pos = data.split(b'=')[1]
+                x, y = pos.split(b'/')
 
-        elif data.startswith(b'KEYITEM2'):
-            pickled = data.split(b'=')[1]
-            self.keyItem2 = pickle.loads(pickled)
+                self.player2.x = int(x)
+                self.player2.y = int(y)
 
-        elif data == b'GAMEOVER':
-            self.gameoverHandler()
+            elif data.startswith(b'KEYITEM1'):
+                pickled = data.split(b'=')[1]
+                self.keyItem1 = pickle.loads(pickled)
+
+            elif data.startswith(b'KEYITEM2'):
+                pickled = data.split(b'=')[1]
+                self.keyItem2 = pickle.loads(pickled)
+
+            elif data.startswith(b'TILECHANGE'):
+                txy = data.split(b'=')[1]
+                t, x, y = txy.split(b'/')
+                setTile(t.decode('utf8'), int(x), int(y))
+
+            elif data == b'GAMEOVER':
+                self.gameoverHandler()
+
+        self.messages.clear()
 
     def gameoverHandler(self):
         global nextScreen

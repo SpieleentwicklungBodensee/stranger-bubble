@@ -118,6 +118,17 @@ def sendKeyItemState(keyitem):
         msg = b'KEYITEM2=' + pickle.dumps(keyitem, protocol=5)
         clientSocket.send(msg)
 
+def sendTileChange(t, x, y):
+    if NETWORK_ROLE == 'server':
+        if not clientAddr:
+            return
+
+        msg = 'TILECHANGE=%s/%s/%s' % (t, x, y)
+        serverSocket.sendto(bytes(msg, 'utf8'), clientAddr)
+    else:
+        msg = 'TILECHANGE=%s/%s/%s' % (t, x, y)
+        clientSocket.send(bytes(msg, 'utf8'))
+
 def sendGameOver():
     if NETWORK_ROLE == 'server':
         if not clientAddr:
