@@ -14,6 +14,8 @@ clientAddr = None
 running = False
 
 
+# -- server
+
 def initServer(port, callback):
     global NETWORK_ROLE
     NETWORK_ROLE = 'server'
@@ -44,6 +46,8 @@ def serverThread():
         data, addr = serverSocket.recvfrom(1024)
         serverCallback(data, addr)
 
+
+# -- client
 
 def initClient(host, port, callback):
     global NETWORK_ROLE
@@ -77,6 +81,8 @@ def clientThread():
         clientCallback(data)
 
 
+# -- game-specific messages
+
 def sendPosition(playerpos):
     if NETWORK_ROLE == 'server':
         if not clientAddr:
@@ -87,3 +93,22 @@ def sendPosition(playerpos):
     else:
         msg = 'PLAYER2_POS=%s/%s' % playerpos
         clientSocket.send(bytes(msg, 'utf8'))
+
+def sendGameOver():
+    if NETWORK_ROLE == 'server':
+        if not clientAddr:
+            return
+
+        serverSocket.sendto(b'GAMEOVER', clientAddr)
+    else:
+        clientSocket.send(b'GAMEOVER')
+
+def sendRestart():
+    if NETWORK_ROLE == 'server':
+        if not clientAddr:
+            return
+
+        serverSocket.sendto(b'RESTART', clientAddr)
+    else:
+        clientSocket.send(b'RESTART')
+

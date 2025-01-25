@@ -111,6 +111,12 @@ class Screen:
     def update(self):
         pass
 
+    def serverCallback(self):
+        pass
+
+    def clientCallback(self):
+        pass
+
 
 
 class GameScreen(Screen):
@@ -151,6 +157,7 @@ class GameScreen(Screen):
                 self.curPlayer.setStatusState('death')
                 print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
                 self.gameoverHandler()
+                network.sendGameOver()
 
     def keydown(self, key, shift=False):
         global running
@@ -204,6 +211,9 @@ class GameScreen(Screen):
             self.player2.x = int(x)
             self.player2.y = int(y)
 
+        elif data == b'GAMEOVER':
+            self.gameoverHandler()
+
     def clientCallback(self, data):
         print('received: ', data)
 
@@ -213,6 +223,9 @@ class GameScreen(Screen):
 
             self.player1.x = int(x)
             self.player1.y = int(y)
+
+        elif data == b'GAMEOVER':
+            self.gameoverHandler()
 
     def gameoverHandler(self):
         global nextScreen
@@ -226,7 +239,6 @@ class GameOverScreen(Screen):
         self.r = 220
         self.g = 12
         self.b = 12
-        self.bGoToMainMenue = False
 
     def render(self):
         ##screen.fill(CL_GAME_OVER)
@@ -234,18 +246,34 @@ class GameOverScreen(Screen):
         if self.r > 0:
             self.r = self.r - 1
         bigfont.centerText(screen, 'GAME OVER', y=4, fgcolor=CL_TXT_PURPLE)
-        font.centerText(screen, 'PRESS SPACE fOR MAIN MENUE', y=20, fgcolor=(255, 255, 255))
+        font.centerText(screen, 'PRESS SPACE TO RESTART', y=20, fgcolor=(255, 255, 255))
 
     def keydown(self, key, shift=False):
-        global nextScreen
-        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
-            self.bGoToMainMenue = True
+        pass
 
     def keyup(self, key, shift=False):
+        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
+            network.sendRestart()
+            self.restartHandler()
+
+    def serverCallback(self, data, addr):
+        if addr != network.clientAddr:
+            return
+
+        print('received: ', data)
+
+        if data == b'RESTART':
+            self.restartHandler()
+
+    def clientCallback(self, data):
+        print('received: ', data)
+
+        if data == b'RESTART':
+            self.restartHandler()
+
+    def restartHandler(self):
         global nextScreen
-        if self.bGoToMainMenue == True:
-            nextScreen = TitleScreen()
-            nextScreen.cursorY = 0
+        nextScreen = GameScreen()
 
 class TitleScreen(Screen):
     def __init__(self):
@@ -350,7 +378,7 @@ class WaitScreen(Screen):
         if data == b'LETS GO!':
             nextScreen = GameScreen()
             self.discovering = False
-            network.serverCallback = nextScreen.serverCallback
+            #network.serverCallback = nextScreen.serverCallback
             network.clientAddr = addr
 
 
@@ -443,6 +471,9 @@ while running:
 
     # switch to next screen
     if nextScreen is not None:
+        network.serverCallback = nextScreen.serverCallback
+        network.clientCallback = nextScreen.clientCallback
+
         currentScreen = nextScreen
         nextScreen = None
 
