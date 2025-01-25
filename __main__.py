@@ -290,7 +290,7 @@ class JoinScreen(Screen):
             while self.discovering:
                 try:
                     server = discover_client.findServer(b'STRANGERBUBBLE')
-                    self.servers.add(server)
+                    self.servers.add(server[1])
                 except socket.timeout:
                     pass
 
@@ -322,6 +322,7 @@ class JoinScreen(Screen):
 
         elif key == pygame.K_ESCAPE:
             nextScreen = TitleScreen()
+            self.discovering = False
 
     def update(self):
         pass
