@@ -155,7 +155,7 @@ class GameScreen(Screen):
             self.player2.go_up()
 
         if key == pygame.K_DOWN:
-            self.player2.go_down()   
+            self.player2.go_down()
 
 
 
