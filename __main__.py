@@ -355,7 +355,8 @@ class WaitScreen(Screen):
         if self.client:
             font.centerText(screen, 'FOUND %s' % self.client[0], y=12)
 
-        font.centerText(screen, 'PRESS SPACE TO SKIP', y=20, fgcolor=(255, 255, 255))
+        font.centerText(screen, 'SPACE = NO NETWORK', y=20, fgcolor=(255, 255, 255))
+        font.centerText(screen, '! ONLY FOR TESTING !', y=22, fgcolor=(255, 255, 255))
 
     def keydown(self, key, shift=False):
         pass
