@@ -4,6 +4,7 @@ import socket
 import pickle
 import random
 import string
+import time
 
 from bitmapfont import BitmapFont
 from player import Player
@@ -734,8 +735,18 @@ class TitleScreen(Screen):
         screen.fill(CL_BG_DARK)
         bigfont.centerText(screen, 'STRANGER BUBBLE', y=3, fgcolor=CL_TXT_PURPLE)
 
-        screen.blit(sprites['p1d1'], (240 - TW, 96))
-        screen.blit(sprites['p2d1'], (240, 96))
+        if int(time.time() * 1000) % 1000 < 250:
+            screen.blit(sprites['p1d2'], (240 - TW, 96))
+            screen.blit(sprites['p2d1'], (240, 96))
+        elif 100 <= int(time.time() * 1000) % 1000 < 500:
+            screen.blit(sprites['p1d3'], (240 - TW, 96))
+            screen.blit(sprites['p2d2'], (240, 96))
+        elif 200 <= int(time.time() * 1000) % 1000 < 750:
+            screen.blit(sprites['p1d4'], (240 - TW, 96))
+            screen.blit(sprites['p2d3'], (240, 96))
+        elif 300 <= int(time.time() * 1000) % 1000 < 1000:
+            screen.blit(sprites['p1d1'], (240 - TW, 96))
+            screen.blit(sprites['p2d4'], (240, 96))
 
         font.centerText(screen, 'CREATED AT GGJ 2025', y=27, fgcolor=CL_TXT_PURPLE)
         font.centerText(screen, 'BY BUSYBEAVER, MCMURC, ZEHA', y=29, fgcolor=CL_TXT_PURPLE)
