@@ -732,17 +732,17 @@ class TitleScreen(Screen):
         bigfont.centerText(screen, 'STRANGER BUBBLE', y=2.5, fgcolor=CL_TXT_PURPLE)
 
         if int(time.time() * 1000) % 1000 < 250:
-            screen.blit(sprites['p1d2'], (240 - TW, 96))
-            screen.blit(sprites['p2d1'], (240, 96))
+            screen.blit(sprites['p1d2'], (240 - TW, 88))
+            screen.blit(sprites['p2d1'], (240, 88))
         elif 100 <= int(time.time() * 1000) % 1000 < 500:
-            screen.blit(sprites['p1d3'], (240 - TW, 96))
-            screen.blit(sprites['p2d2'], (240, 96))
+            screen.blit(sprites['p1d3'], (240 - TW, 88))
+            screen.blit(sprites['p2d2'], (240, 88))
         elif 200 <= int(time.time() * 1000) % 1000 < 750:
-            screen.blit(sprites['p1d4'], (240 - TW, 96))
-            screen.blit(sprites['p2d3'], (240, 96))
+            screen.blit(sprites['p1d4'], (240 - TW, 88))
+            screen.blit(sprites['p2d3'], (240, 88))
         elif 300 <= int(time.time() * 1000) % 1000 < 1000:
-            screen.blit(sprites['p1d1'], (240 - TW, 96))
-            screen.blit(sprites['p2d4'], (240, 96))
+            screen.blit(sprites['p1d1'], (240 - TW, 88))
+            screen.blit(sprites['p2d4'], (240, 88))
 
         font.centerText(screen, 'CREATED AT GGJ 2025', y=27, fgcolor=CL_TXT_PURPLE)
         font.centerText(screen, 'BY BUSYBEAVER, MCMURC, ZEHA', y=29, fgcolor=CL_TXT_PURPLE)
@@ -921,9 +921,9 @@ class HowtoScreen(Screen):
 
     def render(self):
         screen.fill(CL_BG_DARK)
-        bigfont.centerText(screen, 'INSTRUCTIONS', y=1, fgcolor=CL_TXT_CYAN)
+        bigfont.centerText(screen, 'INSTRUCTIONS', y=1, fgcolor=CL_TXT_PURPLE)
 
-        font.centerText(screen, 'THIS IS A COOP GAME FOR TWO PLAYERS', y=7, fgcolor=CL_TXT_PURPLE)
+        font.centerText(screen, 'THIS IS A COOP GAME FOR TWO PLAYERS', y=7, fgcolor=CL_TXT_CYAN)
         font.centerText(screen, '')
         font.centerText(screen, 'THE AIM OF THE GAME IS FOR BOTH PLAYERS TO MEET')
         font.centerText(screen, '')
@@ -937,7 +937,10 @@ class HowtoScreen(Screen):
         font.centerText(screen, '')
         font.centerText(screen, 'DOORS    ARE OPENED BY COLLECTING THREE KEYS       ')
         font.centerText(screen, '')
+        font.centerText(screen, 'DEADLY SKULLS    CAN NOT BE SEEN BY YOUR CO-PLAYER')
         font.centerText(screen, '')
+        font.centerText(screen, 'MINES CAN BE TEMPORARILY DEACTIVATED BY')
+        font.centerText(screen, 'STEPPING ON THE MAGIC BUBBLE')
 
         screen.blit(tiles['x'], (224, 132))
 
@@ -945,6 +948,8 @@ class HowtoScreen(Screen):
         screen.blit(tiles['1'], (390, 148))
         screen.blit(tiles['2'], (390+16, 148))
         screen.blit(tiles['3'], (390+16+16, 148))
+
+        screen.blit(tiles['o'], (152, 162))
 
 
 
