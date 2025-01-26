@@ -411,12 +411,12 @@ class GameScreen(Screen):
                         screen.blit(tiles['p'], (x * TW, y * TH))
 
                 if tile == 't':
-                    if self.keyItem2.getSuperBubble() == False:
+                    if self.keyItem2.getSuperBubble() == True:
                         screen.blit(tiles[' '], (x * TW, y * TH))
 
                 if tile == 's':
-                    if self.keyItem1.getSuperBubble() == False:
-                        screen.blit(tiles[' '], (x * TW, y * TH))                        
+                    if self.keyItem1.getSuperBubble() == True:
+                        screen.blit(tiles[' '], (x * TW, y * TH))           
 
 
         #draw player/s
@@ -570,9 +570,9 @@ class GameScreen(Screen):
 
         if self.curPlayer == self.player1:
             if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['q']:
-                self.keyItem2.setSuperBubble(True)
+                self.keyItem1.setSuperBubble(True)
             else:
-                self.keyItem2.setSuperBubble(False)
+                self.keyItem1.setSuperBubble(False)
 
             if self.keyItem1.getSuperBubble == False:
                 if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['s']:
@@ -582,15 +582,15 @@ class GameScreen(Screen):
 
         if self.curPlayer == self.player2:
             if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['r']:
-                self.keyItem1.setSuperBubble(True)
+                self.keyItem2.setSuperBubble(True)
             else:
-                self.keyItem1.setSuperBubble(False)
+                self.keyItem2.setSuperBubble(False)
 
-            if self.keyItem1.getSuperBubble == False:
-                if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['t']:
-                    self.curPlayer.setStatusState('death')
-                    self.gameoverHandler()
-                    network.sendGameOver()
+            # if self.keyItem2.getSuperBubble == False:
+            #     if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['t']:
+            #         self.curPlayer.setStatusState('death')
+            #         self.gameoverHandler()
+            #         network.sendGameOver()
 
 
 
