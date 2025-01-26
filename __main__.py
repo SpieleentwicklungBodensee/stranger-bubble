@@ -809,7 +809,7 @@ class WaitScreen(Screen):
                         self.clients.add(client[0])
                 except socket.timeout:
                     pass
-            discover_server.close()
+            discover_server.shutdown()
 
         thread = threading.Thread(target=discover)
         thread.start()
@@ -835,11 +835,13 @@ class WaitScreen(Screen):
         if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
             nextScreen = GameScreen()
             self.discovering = False
+            discover_server.shutdown()
             network.shutdownServer()
 
         elif key == pygame.K_ESCAPE:
             nextScreen = TitleScreen()
             self.discovering = False
+            discover_server.shutdown()
             network.shutdownServer()
 
     def update(self):
@@ -874,7 +876,7 @@ class JoinScreen(Screen):
                     self.servers.add(server) # coolRandomName, serverAddress
                 except socket.timeout:
                     pass
-            discover_client.close()
+            discover_client.shutdown()
 
         thread = threading.Thread(target=discover)
         thread.start()
@@ -909,6 +911,7 @@ class JoinScreen(Screen):
         if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
             if self.servers:
                 self.discovering = False
+                discover_client.shutdown()
                 nextScreen = GameScreen()
 
                 coolRandomName, server = list(self.servers)[self.cursorY]
@@ -917,6 +920,7 @@ class JoinScreen(Screen):
         elif key == pygame.K_ESCAPE:
             nextScreen = TitleScreen()
             self.discovering = False
+            discover_client.shutdown()
 
     def update(self):
         pass

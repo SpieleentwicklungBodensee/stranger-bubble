@@ -19,7 +19,11 @@ def findServer(msg=b'hi'):
     return reply
 
 def shutdown():
-    s.shutdown()
+    global s
+    if s is not None:
+        #s.shutdown(socket.SHUT_RDWR)
+        s.close()
+        s = None
 
 
 if __name__ == '__main__':

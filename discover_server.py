@@ -19,7 +19,11 @@ def waitForClient(server_id='HELLO', forever=False):
             return addr, data
 
 def shutdown():
-    s.shutdown()
+    global s
+    if s is not None:
+        #s.shutdown(socket.SHUT_RDWR)
+        s.close()
+        s = None
 
 if __name__ == '__main__':
     init()
