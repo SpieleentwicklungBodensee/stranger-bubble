@@ -77,7 +77,7 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'v': pygame.image.load('gfx/bubble1.png'),
          'w': pygame.image.load('gfx/bubble2.png'),
          'V': pygame.image.load('gfx/bubble3.png'),
-         'W': pygame.image.load('gfx/bubble4.png'), 
+         'W': pygame.image.load('gfx/bubble4.png'),
          }
 
 alphatiles = {}
@@ -414,6 +414,16 @@ class GameScreen(Screen):
                     #if tile == 's':
                     #    print("--- player 2 - Hit s ...")
 
+        #draw player/s
+        screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW + self.player1.getOffsetAnimX(), self.player1.gety() * TH + self.player1.getOffsetAnimY()))
+        screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW + self.player2.getOffsetAnimX(), self.player2.gety() * TH + self.player2.getOffsetAnimY()))
+
+        # draw overlay again, but with alpha transparency
+        for y, line in enumerate(level):
+            for x, tile in enumerate(line):
+                if self.currentOverlay is not None:
+                    if self.currentOverlay[y][x] != ' ':
+                        screen.blit(alphatiles[self.currentOverlay[y][x]], (x * TW, y * TH), special_flags=pygame.BLEND_ALPHA_SDL2)
 
         #draw key taken info
         global key1MsgCounter
@@ -426,23 +436,11 @@ class GameScreen(Screen):
 
         if key2MsgCounter > 0:
             key2MsgCounter = key2MsgCounter - 1
-            font.centerText(screen, 'KEY TWO TAKEN DOORS HALF UNLOCKED', y=4, fgcolor=CL_TXT_CYAN)
+            font.centerText(screen, 'KEY TWO TAKEN - DOORS HALF UNLOCKED', y=4, fgcolor=CL_TXT_CYAN)
 
         if key3MsgCounter > 0:
             key3MsgCounter = key3MsgCounter - 1
             bigfont.centerText(screen, 'DOOR UNLOCKED', y=4, fgcolor=CL_TXT_CYAN)
-
-
-        #draw player/s
-        screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW + self.player1.getOffsetAnimX(), self.player1.gety() * TH + self.player1.getOffsetAnimY()))
-        screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW + self.player2.getOffsetAnimX(), self.player2.gety() * TH + self.player2.getOffsetAnimY()))
-
-        # draw overlay again, but with alpha transparency
-        for y, line in enumerate(level):
-            for x, tile in enumerate(line):
-                if self.currentOverlay is not None:
-                    if self.currentOverlay[y][x] != ' ':
-                        screen.blit(alphatiles[self.currentOverlay[y][x]], (x * TW, y * TH), special_flags=pygame.BLEND_ALPHA_SDL2)
 
 
     def keydown(self, key, shift=False):
@@ -615,12 +613,12 @@ class GameWinScreen(Screen):
     def render(self):
         if self.winEndCounter > 0:
             self.winEndCounter = self.winEndCounter -1
-            bigfont.centerText(screen, 'CONGRATULATION !!!', y=4, fgcolor=CL_TXT_CYAN)
+            bigfont.centerText(screen, 'CONGRATULATIONS!', y=4, fgcolor=CL_TXT_CYAN)
         else:
             screen.fill((self.r, self.g, self.b))
             if self.g > 68:
                 self.g = self.g - 1
-            bigfont.centerText(screen, '--- YOU ARE A WINNER TYPE ---', y=4, fgcolor=CL_TXT_CYAN)
+            bigfont.centerText(screen, 'YOU ARE A WINNER TYPE', y=4, fgcolor=CL_TXT_CYAN)
             font.centerText(screen, 'PRESS SPACE TO RESTART', y=20, fgcolor=(255, 255, 255))
 
     def keydown(self, key, shift=False):
