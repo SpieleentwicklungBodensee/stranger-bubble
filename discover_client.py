@@ -1,11 +1,14 @@
 import socket
 
+s = None
 
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-s.settimeout(10)
-s.bind(('0.0.0.0', 0))
+def init():
+    global s
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    s.settimeout(10)
+    s.bind(('0.0.0.0', 0))
 
 def findServer(msg=b'hi'):
     s.sendto(msg, ('255.255.255.255', 5000))
@@ -17,4 +20,5 @@ def findServer(msg=b'hi'):
 
 
 if __name__ == '__main__':
+    init()
     findServer()
