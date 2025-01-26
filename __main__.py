@@ -948,7 +948,7 @@ class HowtoScreen(Screen):
         font.centerText(screen, '')
         font.centerText(screen, 'MINES    CAN BE TEMPORARILY DEACTIVATED IF')
         font.centerText(screen, '')
-        font.centerText(screen, 'OTHER PLAYER STEPS ON THE MAGIC BUBBLE   ')
+        font.centerText(screen, 'THE CO-PLAYER STEPS ON THE MAGIC BUBBLE   ')
         font.centerText(screen, '')
         font.centerText(screen, '')
         font.centerText(screen, 'HAVE FUN!', fgcolor=CL_TXT_PURPLE)
@@ -967,7 +967,7 @@ class HowtoScreen(Screen):
         screen.blit(tiles['o'], (152, 162))
 
         screen.blit(tiles['s'], (120, 180))
-        screen.blit(tiles['q'], (386, 196))
+        screen.blit(tiles['q'], (390, 196))
 
     def keydown(self, key, shift=False):
         pass
