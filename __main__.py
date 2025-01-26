@@ -946,9 +946,9 @@ class HowtoScreen(Screen):
         font.centerText(screen, '')
         font.centerText(screen, 'DEADLY SKULLS    CAN NOT BE SEEN BY YOUR CO-PLAYER')
         font.centerText(screen, '')
-        font.centerText(screen, 'MINES    CAN BE TEMPORARILY DEACTIVATED BY')
+        font.centerText(screen, 'MINES    CAN BE TEMPORARILY DEACTIVATED IF')
         font.centerText(screen, '')
-        font.centerText(screen, 'STEPPING ON THE MAGIC BUBBLE   ')
+        font.centerText(screen, 'OTHER PLAYER STEPS ON THE MAGIC BUBBLE   ')
 
         screen.blit(tiles['x'], (224, 132))
 
@@ -960,7 +960,7 @@ class HowtoScreen(Screen):
         screen.blit(tiles['o'], (152, 162))
 
         screen.blit(tiles['s'], (120, 180))
-        screen.blit(tiles['q'], (120, 196))
+        screen.blit(tiles['q'], (360, 196))
 
 
 
