@@ -974,7 +974,8 @@ class HowtoScreen(Screen):
 
     def keyup(self, key, shift=False):
         global nextScreen
-        nextScreen = TitleScreen()
+        if key != pygame.K_F11:
+            nextScreen = TitleScreen()
 
     def update(self):
         pass
