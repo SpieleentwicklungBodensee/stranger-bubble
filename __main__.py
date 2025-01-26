@@ -751,8 +751,8 @@ class TitleScreen(Screen):
             screen.blit(sprites['p1d1'], (240 - TW, 88))
             screen.blit(sprites['p2d4'], (240, 88))
 
-        font.centerText(screen, 'CREATED AT GGJ 2025', y=27, fgcolor=CL_TXT_PURPLE)
-        font.centerText(screen, 'BY BUSYBEAVER, MCMURC, ZEHA', y=29, fgcolor=CL_TXT_PURPLE)
+        font.centerText(screen, 'BY BUSYBEAVER, MCMURC, ZEHA', y=27, fgcolor=CL_TXT_PURPLE)
+        font.centerText(screen, 'GLOBAL GAMEJAM 2025', y=29, fgcolor=CL_TXT_PURPLE)
 
         for i, entry in enumerate(self.menu):
             font.centerText(screen, entry, y=16 + i * 2, fgcolor=CL_TXT_CYAN)
