@@ -75,6 +75,12 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          't': pygame.image.load('gfx/mine_overlay.png'), #<<<< super bubble mine player 2
          }
 
+alphatiles = {}
+for t in tiles.keys():
+    alphatiles[t] = tiles[t].copy()
+    alphatiles[t].convert()
+    alphatiles[t].set_alpha(168)
+
 sprites = {'player1': pygame.image.load('gfx/man-green.png'),
            'player2': pygame.image.load('gfx/man-blue.png'),
            'p1d1': pygame.image.load('gfx/player1down1.png'),
@@ -388,14 +394,14 @@ class GameScreen(Screen):
                         screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TH))
 
                 if self.curPlayer is self.player1:
-                    if tile == 'p':
-                        screen.blit(tiles[' '], (x * TW, y * TH))
+                    #if tile == 'p':
+                    #    screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'o':
                         screen.blit(tiles['o'], (x * TW, y * TH))
 
                 if self.curPlayer is self.player2:
-                    if tile == 'o':
-                        screen.blit(tiles[' '], (x * TW, y * TH))
+                    #if tile == 'o':
+                    #    screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'p':
                         screen.blit(tiles['p'], (x * TW, y * TH))
 
@@ -421,6 +427,14 @@ class GameScreen(Screen):
         #draw player/s
         screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW + self.player1.getOffsetAnimX(), self.player1.gety() * TH + self.player1.getOffsetAnimY()))
         screen.blit(sprites[self.player2.getPlayerSpriteId()], (self.player2.getx() * TW + self.player2.getOffsetAnimX(), self.player2.gety() * TH + self.player2.getOffsetAnimY()))
+
+        # draw overlay again, but with alpha transparency
+        for y, line in enumerate(level):
+            for x, tile in enumerate(line):
+                if self.currentOverlay is not None:
+                    if self.currentOverlay[y][x] != ' ':
+                        screen.blit(alphatiles[self.currentOverlay[y][x]], (x * TW, y * TH), special_flags=pygame.BLEND_ALPHA_SDL2)
+
 
     def keydown(self, key, shift=False):
         global running
