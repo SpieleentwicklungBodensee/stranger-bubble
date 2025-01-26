@@ -40,6 +40,8 @@ try:
 
     if hasattr(settings, 'NETWORK_NAME'):
         networkName = str(settings.NETWORK_NAME)[:16].upper()
+    else:
+        networkName = None
 except:
     displayflags = pygame.SCALED
     networkName = None
