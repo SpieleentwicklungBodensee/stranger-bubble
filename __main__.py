@@ -69,6 +69,10 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'n': pygame.image.load('gfx/overlay_br.png'),
          'o': pygame.image.load('gfx/mine_overlay.png'),
          'p': pygame.image.load('gfx/mine_overlay.png'),
+         'q': pygame.image.load('gfx/mine_overlay.png'), #<<<< super bubble button player 1
+         'r': pygame.image.load('gfx/mine_overlay.png'), #<<<< super bubble button player 2
+         's': pygame.image.load('gfx/mine_overlay.png'), #<<<< super bubble mine eplayer 1
+         't': pygame.image.load('gfx/mine_overlay.png'), #<<<< super bubble mine player 2         
          }
 
 sprites = {'player1': pygame.image.load('gfx/man-green.png'),
