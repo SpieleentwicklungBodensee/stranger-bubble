@@ -355,7 +355,6 @@ class GameScreen(Screen):
 
         self.keyItem1 = KeyItem('a', 'b', 'c', 'd')
         self.keyItem2 = KeyItem('1', '2', '3', 'f')
-        #self.keyItem = self.keyItem1
 
         self.messages = []
 
