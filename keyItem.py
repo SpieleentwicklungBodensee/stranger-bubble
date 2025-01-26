@@ -7,6 +7,7 @@ class KeyItem:
         self.key2 = Keykey(0, 0, sym2)
         self.key3 = Keykey(0, 0, sym3)
         self.symDoor = symDoor
+        self.superBubbleisActive = False
 
     def getDoorState(self):
         return self.doorState
@@ -27,6 +28,12 @@ class KeyItem:
 
     def getSymDoor(self):
         return self.symDoor
+
+    def setSuperBubble(self, state):
+        self.superBubbleisActive = state
+
+    def getSuperBubble(self):
+        return self.superBubbleisActive
 
 
 class Keykey:

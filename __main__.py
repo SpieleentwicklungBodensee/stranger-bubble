@@ -67,12 +67,12 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'l': pygame.image.load('gfx/overlay_bl.png'),
          'm': pygame.image.load('gfx/overlay_b.png'),
          'n': pygame.image.load('gfx/overlay_br.png'),
-         'o': pygame.image.load('gfx/mine_overlay.png'),
-         'p': pygame.image.load('gfx/mine_overlay.png'),
-         'q': pygame.image.load('gfx/mine_overlay.png'), #<<<< super bubble button player 1
-         'r': pygame.image.load('gfx/mine_overlay.png'), #<<<< super bubble button player 2
-         's': pygame.image.load('gfx/mine_overlay.png'), #<<<< super bubble mine eplayer 1
-         't': pygame.image.load('gfx/mine_overlay.png'), #<<<< super bubble mine player 2
+         'o': pygame.image.load('gfx/mine_overlay.png'),  #player 2
+         'p': pygame.image.load('gfx/mine_overlay.png'),  #player 1
+         'q': pygame.image.load('gfx/mine_overlay.png'),  #<<<< super bubble button player 1
+         'r': pygame.image.load('gfx/mine_overlay.png'),  #<<<< super bubble button player 2
+         's': pygame.image.load('gfx/mine_overlay.png'),  #<<<< super bubble mine eplayer 1
+         't': pygame.image.load('gfx/mine_overlay.png'),  #<<<< super bubble mine player 2         
          }
 
 sprites = {'player1': pygame.image.load('gfx/man-green.png'),
@@ -113,7 +113,7 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
 
 
 level_orig = ['##############################',
-              '#  o   #o     xx      o      #',
+              '#q o   #o     xx      o      #',
               '#   o a    #     ##       o  #',
               '# #    #   # # # #   xxx     #',
               '#  #####   #  #    xxxx    o #',
@@ -127,7 +127,7 @@ level_orig = ['##############################',
               '# pxxxxx        xx   xx     x#',
               '#      ##   ###      xxx     #',
               '# p2 x   xx ###   ##      p  #',
-              '#    xx          #    pp  3  #',
+              '#    xx          #    pp  3 s#',
               '##############################',
               ]
 
@@ -392,15 +392,19 @@ class GameScreen(Screen):
                         screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'o':
                         screen.blit(tiles['o'], (x * TW, y * TH))
+                    #if tile == 'q':
+                    #    print("--- player 1 - Hit q ...")
 
                 if self.curPlayer is self.player2:
                     if tile == 'o':
                         screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'p':
                         screen.blit(tiles['p'], (x * TW, y * TH))
+                    #if tile == 's':
+                    #    print("--- player 2 - Hit s ...")
+
 
         #draw key taken info
-
         global key1MsgCounter
         global key2MsgCounter
         global key3MsgCounter
@@ -540,6 +544,21 @@ class GameScreen(Screen):
             global nextScreen
             self.currentOverlay = None
             nextScreen = GameWinScreen()
+        if self.curPlayer == self.player1:
+            if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['q']:
+                print("--- setSuperBubble(True)")
+                self.keyItem1.setSuperBubble(True)
+            else:
+                print("--- setSuperBubble(False)")
+                self.keyItem1.setSuperBubble(False)
+        if self.curPlayer == self.player2:
+            if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['r']:
+                print("--- setSuperBubble(True)")
+                self.keyItem1.setSuperBubble(True)
+            else:
+                print("--- setSuperBubble(False)")
+                self.keyItem1.setSuperBubble(False)
+
 
     def logicFortheKey(self, keyItem):
         global key1MsgCounter
