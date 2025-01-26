@@ -29,11 +29,13 @@ try:
 
     if hasattr(settings, 'FULLSCREEN'):
         if settings.FULLSCREEN:
-            displayflags |= (pygame.FULLSCREEN | pygame.SCALED)
+            displayflags |= pygame.FULLSCREEN
 
     if hasattr(settings, 'SCALED'):
         if settings.SCALED:
             displayflags |= pygame.SCALED
+    else:
+        displayflags |= pygame.SCALED
 
     if hasattr(settings, 'NETWORK_NAME'):
         networkName = str(settings.NETWORK_NAME)[:16].upper()
