@@ -957,7 +957,6 @@ class HowtoScreen(Screen):
 
         font.drawText(screen, 'BOTH PLAYERS TO MEET', x=33.5, y=9, fgcolor=CL_TXT_PURPLE)
 
-
         screen.blit(tiles['x'], (224, 132))
 
         screen.blit(tiles['d'], (84, 148))
@@ -969,8 +968,6 @@ class HowtoScreen(Screen):
 
         screen.blit(tiles['s'], (120, 180))
         screen.blit(tiles['q'], (386, 196))
-
-
 
     def keydown(self, key, shift=False):
         pass
