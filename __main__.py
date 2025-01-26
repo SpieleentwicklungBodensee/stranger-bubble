@@ -399,14 +399,14 @@ class GameScreen(Screen):
                         screen.blit(tiles[self.currentOverlay[y][x]], (x * TW, y * TH))
 
                 if self.curPlayer is self.player1:
-                    #if tile == 'p':
-                    #    screen.blit(tiles[' '], (x * TW, y * TH))
+                    if tile == 'p':
+                        screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'o':
                         screen.blit(tiles['o'], (x * TW, y * TH))
 
                 if self.curPlayer is self.player2:
-                    #if tile == 'o':
-                    #    screen.blit(tiles[' '], (x * TW, y * TH))
+                    if tile == 'o':
+                        screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'p':
                         screen.blit(tiles['p'], (x * TW, y * TH))
 
@@ -581,7 +581,7 @@ class GameScreen(Screen):
                 if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['s']:
                     self.curPlayer.setStatusState('death')
                     self.gameoverHandler()
-                    network.sendGameOver()                
+                    network.sendGameOver()
 
 
 
