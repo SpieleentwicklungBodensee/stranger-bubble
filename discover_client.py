@@ -19,6 +19,8 @@ def findServer(msg=b'hi'):
     return reply
 
 def shutdown():
+    return # TODO at the moment this is buggy but we have no time to fix
+
     global s
     if s is not None:
         #s.shutdown(socket.SHUT_RDWR)
