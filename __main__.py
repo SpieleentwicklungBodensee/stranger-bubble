@@ -587,11 +587,11 @@ class GameScreen(Screen):
             else:
                 self.keyItem2.setSuperBubble(False)
 
-            # if self.keyItem2.getSuperBubble == False:
-            #     if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['t']:
-            #         self.curPlayer.setStatusState('death')
-            #         self.gameoverHandler()
-            #         network.sendGameOver()
+        if self.keyItem1.getSuperBubble() == False or self.keyItem2.getSuperBubble() == False:
+            if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['s','t']:
+                self.curPlayer.setStatusState('death')
+                self.gameoverHandler()
+                network.sendGameOver()
 
 
 
