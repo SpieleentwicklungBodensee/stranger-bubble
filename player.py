@@ -35,6 +35,8 @@ class Player:
         return str(self.status)
 
     def go_up(self, level):
+        if self.getStatusState() == 'deathanim':
+            return -1
         self.facing = FD_UP
         self.animcnt = 4 * self.animspeed
         if self.y == self.miny:
@@ -51,6 +53,8 @@ class Player:
                 return 0
 
     def go_down(self, level):
+        if self.getStatusState() == 'deathanim':
+            return -1
         self.facing = FD_DOWN
         self.animcnt = 4 * self.animspeed
         if self.y == self.maxy:
@@ -67,6 +71,8 @@ class Player:
                 return 0
 
     def go_left(self, level):
+        if self.getStatusState()== 'deathanim':
+            return -1
         self.facing = FD_LEFT
         self.animcnt = 4 * self.animspeed
         if self.x == self.minx:
@@ -83,6 +89,8 @@ class Player:
                 return 0
 
     def go_right(self, level):
+        if self.getStatusState() == 'deathanim':
+            return -1
         self.facing = FD_RIGHT
         self.animcnt = 4 * self.animspeed
         if self.x == self.maxx:
@@ -135,6 +143,9 @@ class Player:
 
         if self.animcnt > 0:
             self.animcnt -= 1
+
+        if self.getStatusState() == 'deathanim' and self.animcnt <= 0:
+            self.setStatusState('death')
 
         sprite = str(self.spriteid)
 
