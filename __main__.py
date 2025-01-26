@@ -949,18 +949,26 @@ class HowtoScreen(Screen):
         font.centerText(screen, 'MINES    CAN BE TEMPORARILY DEACTIVATED IF')
         font.centerText(screen, '')
         font.centerText(screen, 'OTHER PLAYER STEPS ON THE MAGIC BUBBLE   ')
+        font.centerText(screen, '')
+        font.centerText(screen, '')
+        font.centerText(screen, 'HAVE FUN!', fgcolor=CL_TXT_PURPLE)
+        font.centerText(screen, '')
+        font.centerText(screen, 'PRESS A KEY', fgcolor=CL_TXT_PURPLE)
+
+        font.drawText(screen, 'BOTH PLAYERS TO MEET', x=33.5, y=9, fgcolor=CL_TXT_PURPLE)
+
 
         screen.blit(tiles['x'], (224, 132))
 
         screen.blit(tiles['d'], (84, 148))
-        screen.blit(tiles['1'], (390, 148))
-        screen.blit(tiles['2'], (390+16, 148))
-        screen.blit(tiles['3'], (390+16+16, 148))
+        screen.blit(tiles['1'], (392, 148))
+        screen.blit(tiles['2'], (392+16, 148))
+        screen.blit(tiles['3'], (392+16+16, 148))
 
         screen.blit(tiles['o'], (152, 162))
 
         screen.blit(tiles['s'], (120, 180))
-        screen.blit(tiles['q'], (360, 196))
+        screen.blit(tiles['q'], (386, 196))
 
 
 
