@@ -558,13 +558,15 @@ class GameScreen(Screen):
         nextScreen = GameOverScreen()
 
     def proofEventPlayer(self):
-        #proof is current player death, because of lava
-        if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['x', 'o', 'p']:
-            if self.curPlayer.getStatusState() != 'death':
-                self.curPlayer.setStatusState('death')
-                #print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
+        if self.curPlayer.getStatusState() == 'death':
                 self.gameoverHandler()
                 network.sendGameOver()
+
+        #proof is current player death, because of lava
+        if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['x', 'o', 'p']:
+            if self.curPlayer.getStatusState() != 'deathanim' and self.curPlayer.getStatusState() != 'death':
+                self.curPlayer.setStatusState('deathanim')
+                #print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
 
         if self.player1.getx() == self.player2.getx() and self.player1.gety() == self.player2.gety():
             global nextScreen
@@ -585,17 +587,12 @@ class GameScreen(Screen):
                 self.keyItem2.setSuperBubble(False)
         #action
         if self.keyItem2.getSuperBubble() == False:
-            if level[self.player1.gety()][self.player1.getx()] in ['s','t']:
-                self.curPlayer.setStatusState('death')
-                self.gameoverHandler()
-                network.sendGameOver()
+            if level[self.player1.gety()][self.player1.getx()] in ['s','t'] and self.curPlayer.getStatusState() != 'deathanim' and self.curPlayer.getStatusState() != 'death':
+                self.curPlayer.setStatusState('deathanim')
 
         if self.keyItem1.getSuperBubble() == False:
-            if level[self.player2.gety()][self.player2.getx()] in ['s','t']:
-                self.curPlayer.setStatusState('death')
-                self.gameoverHandler()
-                network.sendGameOver()
-
+            if level[self.player2.gety()][self.player2.getx()] in ['s','t'] and self.curPlayer.getStatusState() != 'deathanim' and self.curPlayer.getStatusState() != 'death':
+                self.curPlayer.setStatusState('deathanim')
 
     def logicFortheKey(self, keyItem):
         global key1MsgCounter
