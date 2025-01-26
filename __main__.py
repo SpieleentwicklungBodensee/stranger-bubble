@@ -125,7 +125,7 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
 
 level_orig = ['##############################',
               '#q o   #o     xx      o      #',
-              '#   o a    #     ##       o  #',
+              '#s  o a    #     ##       o  #',
               '# #    #   # # # #   xxx     #',
               '#  #####   #  #    xxxx    o #',
               '#        o  #        #   o   #',
@@ -137,7 +137,7 @@ level_orig = ['##############################',
               '#    xx  #x  xx  x   #   #####',
               '# pxxxxx        xx   xx     x#',
               '#      ##   ###      xxx     #',
-              '# p2 x   xx ###   ##      p  #',
+              '# p2 x   xx ###   ##      p t#',
               '#    xx          #    pp  3 s#',
               '##############################',
               ]
@@ -403,16 +403,12 @@ class GameScreen(Screen):
                     #    screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'o':
                         screen.blit(tiles['o'], (x * TW, y * TH))
-                    #if tile == 'q':
-                    #    print("--- player 1 - Hit q ...")
 
                 if self.curPlayer is self.player2:
                     #if tile == 'o':
                     #    screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'p':
                         screen.blit(tiles['p'], (x * TW, y * TH))
-                    #if tile == 's':
-                    #    print("--- player 2 - Hit s ...")
 
 
         #draw key taken info
@@ -559,24 +555,36 @@ class GameScreen(Screen):
                 #print(" --- player state is : ", self.curPlayer.getStatusState(), ", because of the player lava dance.")
                 self.gameoverHandler()
                 network.sendGameOver()
+
         if self.player1.getx() == self.player2.getx() and self.player1.gety() == self.player2.gety():
             global nextScreen
             self.currentOverlay = None
             nextScreen = GameWinScreen()
+
         if self.curPlayer == self.player1:
             if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['q']:
-                print("--- setSuperBubble(True)")
-                self.keyItem1.setSuperBubble(True)
+                self.keyItem2.setSuperBubble(True)
             else:
-                print("--- setSuperBubble(False)")
-                self.keyItem1.setSuperBubble(False)
+                self.keyItem2.setSuperBubble(False)
+
+            if self.keyItem1.getSuperBubble == False:
+                if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['s']:
+                    self.curPlayer.setStatusState('death')
+                    self.gameoverHandler()
+                    network.sendGameOver()
+
         if self.curPlayer == self.player2:
             if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['r']:
-                print("--- setSuperBubble(True)")
                 self.keyItem1.setSuperBubble(True)
             else:
-                print("--- setSuperBubble(False)")
                 self.keyItem1.setSuperBubble(False)
+
+            if self.keyItem1.getSuperBubble == False:
+                if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['s']:
+                    self.curPlayer.setStatusState('death')
+                    self.gameoverHandler()
+                    network.sendGameOver()                
+
 
 
     def logicFortheKey(self, keyItem):
