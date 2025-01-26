@@ -125,7 +125,7 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
 
 level_orig = ['##############################',
               '#q o   #o     xx      o      #',
-              '#s  o a    #     ##       o  #',
+              '#t  o a    #     ##       o  #',
               '# #    #   # # # #   xxx     #',
               '#  #####   #  #    xxxx    o #',
               '#        o  #        #   o   #',
@@ -138,7 +138,7 @@ level_orig = ['##############################',
               '# pxxxxx        xx   xx     x#',
               '#      ##   ###      xxx     #',
               '# p2 x   xx ###   ##      p r#',
-              '#    xx          #    pp  3 t#',
+              '#    xx          #    pp  3 s#',
               '##############################',
               ]
 
