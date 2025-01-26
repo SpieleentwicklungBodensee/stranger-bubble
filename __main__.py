@@ -582,12 +582,17 @@ class GameScreen(Screen):
             else:
                 self.keyItem2.setSuperBubble(False)
         #action
-        if self.keyItem1.getSuperBubble() == True or self.keyItem2.getSuperBubble() == True:
-            if level[self.player1.gety()][self.player1.getx()] in ['s','t'] or level[self.player1.gety()][self.player1.getx()] in ['s','t']:
+        if self.keyItem1.getSuperBubble() == True:
+            if level[self.player1.gety()][self.player1.getx()] in ['s','t']:
                 self.curPlayer.setStatusState('death')
                 self.gameoverHandler()
                 network.sendGameOver()
 
+        if self.keyItem2.getSuperBubble() == True:
+            if level[self.player2.gety()][self.player2.getx()] in ['s','t']:
+                self.curPlayer.setStatusState('death')
+                self.gameoverHandler()
+                network.sendGameOver()
 
 
     def logicFortheKey(self, keyItem):
