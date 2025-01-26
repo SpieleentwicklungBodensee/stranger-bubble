@@ -722,24 +722,25 @@ class TitleScreen(Screen):
 
         self.menu = ['START GAME',
                      'JOIN GAME',
+                     'HOW TO PLAY',
                      'EXIT',
                      ]
 
     def render(self):
         screen.fill(CL_BG_DARK)
-        bigfont.centerText(screen, 'STRANGER BUBBLE', y=3, fgcolor=CL_TXT_PURPLE)
+        bigfont.centerText(screen, 'STRANGER BUBBLE', y=2.5, fgcolor=CL_TXT_PURPLE)
 
-        screen.blit(sprites['p1d1'], (240 - TW, 96))
-        screen.blit(sprites['p2d1'], (240, 96))
+        screen.blit(sprites['p1d1'], (240 - TW, 88))
+        screen.blit(sprites['p2d1'], (240, 88))
 
         font.centerText(screen, 'CREATED AT GGJ 2025', y=27, fgcolor=CL_TXT_PURPLE)
         font.centerText(screen, 'BY BUSYBEAVER, MCMURC, ZEHA', y=29, fgcolor=CL_TXT_PURPLE)
 
         for i, entry in enumerate(self.menu):
-            font.centerText(screen, entry, y=18 + i * 2, fgcolor=CL_TXT_CYAN)
+            font.centerText(screen, entry, y=16 + i * 2, fgcolor=CL_TXT_CYAN)
 
         if tick % 32 > 8:
-            font.drawText(screen, '}', x=23, y=18 + self.cursorY * 2, fgcolor=CL_TXT_PURPLE)
+            font.drawText(screen, '}', x=22, y=16 + self.cursorY * 2, fgcolor=CL_TXT_PURPLE)
 
     def keydown(self, key, shift=False):
         if key == pygame.K_DOWN:
@@ -761,6 +762,8 @@ class TitleScreen(Screen):
                 nextScreen = WaitScreen()
             elif entry == 'JOIN GAME':
                 nextScreen = JoinScreen()
+            elif entry == 'HOW TO PLAY':
+                nextScreen = HowtoScreen()
             elif entry == 'EXIT':
                 running = False
 
@@ -899,6 +902,41 @@ class JoinScreen(Screen):
 
     def update(self):
         pass
+
+
+class HowtoScreen(Screen):
+    def __init__(self):
+        super().__init__()
+
+    def render(self):
+        screen.fill(CL_BG_DARK)
+        bigfont.centerText(screen, 'INSTRUCTIONS', y=1, fgcolor=CL_TXT_CYAN)
+
+        font.centerText(screen, 'THIS IS A COOP GAME FOR TWO PLAYERS', y=7, fgcolor=CL_TXT_PURPLE)
+        font.centerText(screen, '')
+        font.centerText(screen, 'THE AIM OF THE GAME IS FOR BOTH PLAYERS TO MEET')
+        font.centerText(screen, '')
+        font.centerText(screen, 'HOWEVER, EACH PLAYER LIVES IN HIS OWN INFORMATION BUBBLE')
+        font.centerText(screen, '')
+        font.centerText(screen, '')
+
+
+    def keydown(self, key, shift=False):
+        pass
+
+    def keyup(self, key, shift=False):
+        global nextScreen
+        nextScreen = TitleScreen()
+
+    def update(self):
+        pass
+
+    def serverCallback(self, data, addr):
+        pass
+
+    def clientCallback(self, data):
+        pass
+
 
 running = True
 clock = pygame.time.Clock()
