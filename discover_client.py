@@ -18,6 +18,9 @@ def findServer(msg=b'hi'):
 
     return reply
 
+def shutdown():
+    s.shutdown()
+
 
 if __name__ == '__main__':
     init()

@@ -804,6 +804,7 @@ class WaitScreen(Screen):
             self.coolRandomName = ''.join(random.choices(string.ascii_uppercase, k=4))
 
         def discover():
+            discover_server.init()
             while self.discovering:
                 try:
                     client, data = discover_server.waitForClient(self.coolRandomName)
@@ -811,7 +812,7 @@ class WaitScreen(Screen):
                         self.clients.add(client[0])
                 except socket.timeout:
                     pass
-            print('stopped discover')
+            discover_sever.close()
 
         thread = threading.Thread(target=discover)
         thread.start()
@@ -869,12 +870,14 @@ class JoinScreen(Screen):
         network.reset()
 
         def discover():
+            discover_client.init()
             while self.discovering:
                 try:
                     server = discover_client.findServer(b'STRANGERBUBBLE')
                     self.servers.add(server) # coolRandomName, serverAddress
                 except socket.timeout:
                     pass
+            discover_client.close()
 
         thread = threading.Thread(target=discover)
         thread.start()

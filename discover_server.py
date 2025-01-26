@@ -18,6 +18,8 @@ def waitForClient(server_id='HELLO', forever=False):
         if not forever:
             return addr, data
 
+def shutdown():
+    s.shutdown()
 
 if __name__ == '__main__':
     init()
