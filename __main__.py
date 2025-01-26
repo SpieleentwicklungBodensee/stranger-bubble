@@ -924,7 +924,22 @@ class HowtoScreen(Screen):
         font.centerText(screen, 'HOWEVER, EACH PLAYER LIVES IN HIS OWN BUBBLE')
         font.centerText(screen, 'AND HAS LIMITED INFORMATION ABOUT HIS SURROUNDINGS')
         font.centerText(screen, '')
+        font.centerText(screen, 'THUS, HE SOMETIMES HAS TO ASK THE OTHER PLAYER')
+        font.centerText(screen, 'IF IT\'S SAFE FOR HIM TO WALK ACROSS')
         font.centerText(screen, '')
+        font.centerText(screen, 'STEPPING INTO LAVA    IS AN UNHEALTHY IDEA')
+        font.centerText(screen, '')
+        font.centerText(screen, 'DOORS    ARE OPENED BY COLLECTING THREE KEYS       ')
+        font.centerText(screen, '')
+        font.centerText(screen, '')
+
+        screen.blit(tiles['x'], (224, 132))
+
+        screen.blit(tiles['d'], (84, 148))
+        screen.blit(tiles['1'], (390, 148))
+        screen.blit(tiles['2'], (390+16, 148))
+        screen.blit(tiles['3'], (390+16+16, 148))
+
 
 
     def keydown(self, key, shift=False):
