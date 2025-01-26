@@ -73,7 +73,7 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'p': pygame.image.load('gfx/mine_overlay.png'),  #player 1
          'q': pygame.image.load('gfx/bubble1.png'),  #<<<< super bubble button player 1  Xq
          'r': pygame.image.load('gfx/bubble1.png'),  #<<<< super bubble button player 2
-         's': pygame.image.load('gfx/gate.png'),  #<<<< super bubble mine player 1       
+         's': pygame.image.load('gfx/gate.png'),  #<<<< super bubble mine player 1
          't': pygame.image.load('gfx/gate.png'),  #<<<< super bubble mine player 2       Xt
          'u': pygame.image.load('gfx/gate.png'),
          'V': pygame.image.load('gfx/bubble3.png'),
@@ -416,7 +416,7 @@ class GameScreen(Screen):
 
                 if tile == 's':
                     if self.keyItem1.getSuperBubble() == True:
-                        screen.blit(tiles[' '], (x * TW, y * TH))           
+                        screen.blit(tiles[' '], (x * TW, y * TH))
 
 
         #draw player/s
@@ -921,7 +921,8 @@ class HowtoScreen(Screen):
         font.centerText(screen, '')
         font.centerText(screen, 'THE AIM OF THE GAME IS FOR BOTH PLAYERS TO MEET')
         font.centerText(screen, '')
-        font.centerText(screen, 'HOWEVER, EACH PLAYER LIVES IN HIS OWN INFORMATION BUBBLE')
+        font.centerText(screen, 'HOWEVER, EACH PLAYER LIVES IN HIS OWN BUBBLE')
+        font.centerText(screen, 'AND HAS LIMITED INFORMATION ABOUT HIS SURROUNDINGS')
         font.centerText(screen, '')
         font.centerText(screen, '')
 
