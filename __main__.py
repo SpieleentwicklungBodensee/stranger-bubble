@@ -71,10 +71,10 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'n': pygame.image.load('gfx/overlay_br.png'),
          'o': pygame.image.load('gfx/mine_overlay.png'),  #player 2
          'p': pygame.image.load('gfx/mine_overlay.png'),  #player 1
-         'q': pygame.image.load('gfx/bubble1.png'),  #<<<< super bubble button player 1
+         'q': pygame.image.load('gfx/bubble1.png'),  #<<<< super bubble button player 1  Xq
          'r': pygame.image.load('gfx/bubble1.png'),  #<<<< super bubble button player 2
-         's': pygame.image.load('gfx/gate.png'),  #<<<< super bubble mine player 1
-         't': pygame.image.load('gfx/gate.png'),  #<<<< super bubble mine player 2
+         's': pygame.image.load('gfx/gate.png'),  #<<<< super bubble mine player 1       
+         't': pygame.image.load('gfx/gate.png'),  #<<<< super bubble mine player 2       Xt
          'u': pygame.image.load('gfx/gate.png'),
          'V': pygame.image.load('gfx/bubble3.png'),
          'W': pygame.image.load('gfx/bubble4.png'),
@@ -125,7 +125,7 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
 
 level_orig = ['##############################',
               '#q o   #o     xx      o      #',
-              '#   o a    #     ##       o  #',
+              '#s  o a    #     ##       o  #',
               '# #    #   # # # #   xxx     #',
               '#  #####   #  #    xxxx    o #',
               '#        o  #        #   o   #',
@@ -137,8 +137,8 @@ level_orig = ['##############################',
               '#    xx  #x  xx  x   #   #####',
               '# pxxxxx        xx   xx     x#',
               '#      ##   ###      xxx     #',
-              '# p2 x   xx ###   ##      p t#',
-              '#    xx          #    pp  3 s#',
+              '# p2 x   xx ###   ##      p r#',
+              '#    xx          #    pp  3 t#',
               '##############################',
               ]
 
@@ -402,8 +402,6 @@ class GameScreen(Screen):
                         screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'o':
                         screen.blit(tiles['o'], (x * TW, y * TH))
-                    if self.keyItem1.getSuperBubble == False:
-                        screen.blit(tiles[' '], (x * TW, y * TH))
 
 
                 if self.curPlayer is self.player2:
@@ -411,8 +409,15 @@ class GameScreen(Screen):
                         screen.blit(tiles[' '], (x * TW, y * TH))
                     if tile == 'p':
                         screen.blit(tiles['p'], (x * TW, y * TH))
-                    if self.keyItem1.getSuperBubble == False:
+
+                if tile == 't':
+                    if self.keyItem2.getSuperBubble() == False:
                         screen.blit(tiles[' '], (x * TW, y * TH))
+
+                if tile == 's':
+                    if self.keyItem1.getSuperBubble() == False:
+                        screen.blit(tiles[' '], (x * TW, y * TH))                        
+
 
         #draw player/s
         screen.blit(sprites[self.player1.getPlayerSpriteId()], (self.player1.getx() * TW + self.player1.getOffsetAnimX(), self.player1.gety() * TH + self.player1.getOffsetAnimY()))
