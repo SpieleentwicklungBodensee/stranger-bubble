@@ -559,8 +559,8 @@ class GameScreen(Screen):
 
     def proofEventPlayer(self):
         if self.curPlayer.getStatusState() == 'death':
-                self.gameoverHandler()
-                network.sendGameOver()
+            self.gameoverHandler()
+            network.sendGameOver()
 
         #proof is current player death, because of lava
         if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['x', 'o', 'p']:

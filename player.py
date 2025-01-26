@@ -29,6 +29,9 @@ class Player:
         self.maxy = int(y)
 
     def setStatusState(self, newstate):
+        if newstate == 'deathanim':
+            self.animcnt = 4 * self.animspeed
+        print("Player Status: " + newstate)
         self.status = str(newstate)
 
     def getStatusState(self):
