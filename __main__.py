@@ -4,6 +4,7 @@ import socket
 import pickle
 import random
 import string
+import time
 
 from bitmapfont import BitmapFont
 from player import Player
@@ -574,23 +575,18 @@ class GameScreen(Screen):
             else:
                 self.keyItem1.setSuperBubble(False)
 
-            if self.keyItem1.getSuperBubble == False:
-                if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['s']:
-                    self.curPlayer.setStatusState('death')
-                    self.gameoverHandler()
-                    network.sendGameOver()
 
         if self.curPlayer == self.player2:
             if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['r']:
                 self.keyItem2.setSuperBubble(True)
             else:
                 self.keyItem2.setSuperBubble(False)
-
-            # if self.keyItem2.getSuperBubble == False:
-            #     if level[self.curPlayer.gety()][self.curPlayer.getx()] in ['t']:
-            #         self.curPlayer.setStatusState('death')
-            #         self.gameoverHandler()
-            #         network.sendGameOver()
+        #action
+        if self.keyItem1.getSuperBubble() == True or self.keyItem2.getSuperBubble() == True:
+            if level[self.player1.gety()][self.player1.getx()] in ['s','t'] or level[self.player1.gety()][self.player1.getx()] in ['s','t']:
+                self.curPlayer.setStatusState('death')
+                self.gameoverHandler()
+                network.sendGameOver()
 
 
 
@@ -735,8 +731,18 @@ class TitleScreen(Screen):
         screen.fill(CL_BG_DARK)
         bigfont.centerText(screen, 'STRANGER BUBBLE', y=2.5, fgcolor=CL_TXT_PURPLE)
 
-        screen.blit(sprites['p1d1'], (240 - TW, 88))
-        screen.blit(sprites['p2d1'], (240, 88))
+        if int(time.time() * 1000) % 1000 < 250:
+            screen.blit(sprites['p1d2'], (240 - TW, 96))
+            screen.blit(sprites['p2d1'], (240, 96))
+        elif 100 <= int(time.time() * 1000) % 1000 < 500:
+            screen.blit(sprites['p1d3'], (240 - TW, 96))
+            screen.blit(sprites['p2d2'], (240, 96))
+        elif 200 <= int(time.time() * 1000) % 1000 < 750:
+            screen.blit(sprites['p1d4'], (240 - TW, 96))
+            screen.blit(sprites['p2d3'], (240, 96))
+        elif 300 <= int(time.time() * 1000) % 1000 < 1000:
+            screen.blit(sprites['p1d1'], (240 - TW, 96))
+            screen.blit(sprites['p2d4'], (240, 96))
 
         font.centerText(screen, 'CREATED AT GGJ 2025', y=27, fgcolor=CL_TXT_PURPLE)
         font.centerText(screen, 'BY BUSYBEAVER, MCMURC, ZEHA', y=29, fgcolor=CL_TXT_PURPLE)
