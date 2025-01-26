@@ -809,7 +809,7 @@ class WaitScreen(Screen):
                         self.clients.add(client[0])
                 except socket.timeout:
                     pass
-            discover_sever.close()
+            discover_server.close()
 
         thread = threading.Thread(target=discover)
         thread.start()
