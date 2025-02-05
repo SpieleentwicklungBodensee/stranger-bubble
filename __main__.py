@@ -28,6 +28,11 @@ try:
     import settings
     displayflags = 0
 
+    if hasattr(settings, 'DEBUG_MODE'):
+        DEBUG_MODE = settings.DEBUG_MODE
+    else:
+        DEBUG_MODE = False
+
     if hasattr(settings, 'FULLSCREEN'):
         if settings.FULLSCREEN:
             displayflags |= pygame.FULLSCREEN
@@ -45,6 +50,7 @@ try:
 except:
     displayflags = pygame.SCALED
     networkName = None
+    DEBUG_MODE = False
 
 pygame.display.init()
 screen = pygame.display.set_mode((SCR_W, SCR_H), flags=displayflags)
@@ -147,122 +153,6 @@ level_orig = ['##############################',
 
 level = list(level_orig)    # copy level
 
-
-overlay1 = ['OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
-            'OghhhiOOOOOOghhiOOOOOOOOghhiOO',
-            'OlmmmnOOOOgilmmnOOghiOOOlmmnOO',
-            'OOOOghhiOOlnOOghiOlmnOOOOOOOgh',
-            'OOOOlmmnOOOOOOlmnOOOghiOOOOOlm',
-            'OOOOOOOOghiOOOOOOOOOj kOghhiOO',
-            'OOghhiOOj kOOghhhiOOlmnOj  kOO',
-            'OOj  kOOlmnOOlmmmnOgiOOOlmmnOO',
-            'OOlmmnOOOOOOOOOOOOOlnOOOOOOOOO',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            ]
-
-overlay2 = ['                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            'OOOOghhiOOOOOghhhiOOOOOOOOOOOO',
-            'hiOOlmmnOOOOOlmmmnOOOOOOghhiOO',
-            'mnOOOOOOOOgiOOOOOOghiOOOj  kOO',
-            'OOOOghhiOOlnOOghiOlmnOOOlmmnOO',
-            'OOOOlmmnOOOOOOlmnOOOgiOOOOOghh',
-            'ghiOOOOOghiOghhhiOOOlnOghhilmm',
-            'lmnOOOOOj kOlmmmnOghiOOj  kOOO',
-            'OOghhiOOlmnOOOOOOOlmnOOlmmnOOO',
-            'OOj  kOOOOOOOOOOOOOOOOOOOOOOOO',
-            ]
-
-overlay1 = ['        OOOOOOOO        OOOOOO',
-            '       OOOOOOOO        OOOOOO ',
-            '      OOOOOOOO        OOOOOO  ',
-            '     OOOOOOOO        OOOOOO   ',
-            '    OOOOOOOO        OOOOOO    ',
-            '   OOOOOOOO        OOOOOO     ',
-            '  OOOOOOOO       OOOOOO       ',
-            ' OOOOOOOO       OOOOOO        ',
-            'OOOOOOOO       OOOOOO        O',
-            'OOOOOOO       OOOOOO        OO',
-            'OOOOOO       OOOOOO        OOO',
-            'OOOOO       OOOOOO        OOOO',
-            'OOOO       OOOOOO        OOOOO',
-            'OOO       OOOOOO        OOOOOO',
-            'OO       OOOOOO        OOOOOOO',
-            'O       OOOOOO        OOOOOOO ',
-            '       OOOOOO        OOOOOOO  ',
-            ]
-
-
-overlay2 = ['OOOOOOOO        OOOOOOOO      ',
-            'OOOOOOO        OOOOOOOO      O',
-            'OOOOOO        OOOOOOOO      OO',
-            'OOOOO        OOOOOOOO      OOO',
-            'OOOO        OOOOOOOO      OOOO',
-            'OOO        OOOOOOOO      OOOOO',
-            'OO        OOOOOOO      OOOOOOO',
-            'O        OOOOOOO      OOOOOOOO',
-            '        OOOOOOO      OOOOOOOO ',
-            '       OOOOOOO      OOOOOOOO  ',
-            '      OOOOOOO      OOOOOOOO   ',
-            '     OOOOOOO      OOOOOOOO    ',
-            '    OOOOOOO      OOOOOOOO     ',
-            '   OOOOOOO      OOOOOOOO      ',
-            '  OOOOOOO      OOOOOOOO       ',
-            ' OOOOOOO      OOOOOOOO       O',
-            'OOOOOOO      OOOOOOOO       OO',
-            ]
-
-
-overlay1 = ['                              ',
-            '                              ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '                              ',
-            '                              ',
-            ]
-
-overlay2 = ['                              ',
-            '                              ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '                              ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '                              ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '                              ',
-            '                              ',
-            ]
 
 overlay1 = ['OOOOOOOOOOOghhhhhhiOOOOOOOOOOO',
             'OOghhhhhiOOj      kOOghhhhhiOO',
@@ -467,7 +357,7 @@ class GameScreen(Screen):
         if key in [pygame.K_s, pygame.K_DOWN]:
             self.curPlayer.go_down(level)
 
-        if key == pygame.K_F12:
+        if key == pygame.K_F12 and DEBUG_MODE:
             if shift:
                 if self.currentOverlay is not None:
                     self.currentOverlay = None
@@ -822,8 +712,9 @@ class WaitScreen(Screen):
         for i, client in enumerate(self.clients):
             font.centerText(screen, '%s ASKED...' % client, y=12+i*2)
 
-        font.centerText(screen, 'SPACE = NO NETWORK', y=20, fgcolor=(255, 255, 255))
-        font.centerText(screen, '! ONLY FOR TESTING !', y=22, fgcolor=(255, 255, 255))
+        if DEBUG_MODE:
+            font.centerText(screen, 'SPACE = NO NETWORK', y=20, fgcolor=(255, 255, 255))
+            font.centerText(screen, '! ONLY FOR TESTING !', y=22, fgcolor=(255, 255, 255))
 
     def keydown(self, key, shift=False):
         pass
@@ -832,7 +723,7 @@ class WaitScreen(Screen):
         global nextScreen
         global running
 
-        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
+        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER) and DEBUG_MODE:
             nextScreen = GameScreen()
             self.discovering = False
             discover_server.shutdown()
