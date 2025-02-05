@@ -158,3 +158,14 @@ def sendRestart():
     else:
         clientSocket.send(b'RESTART')
 
+
+def sendStart(levelno):
+    if NETWORK_ROLE == 'server':
+        if not clientAddr:
+            return
+
+        msg = 'START=%s' % levelno
+        serverSocket.sendto(bytes(msg, 'utf8'), clientAddr)
+    else:
+        pass
+
