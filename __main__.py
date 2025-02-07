@@ -28,6 +28,11 @@ try:
     import settings
     displayflags = 0
 
+    if hasattr(settings, 'DEBUG_MODE'):
+        DEBUG_MODE = settings.DEBUG_MODE
+    else:
+        DEBUG_MODE = False
+
     if hasattr(settings, 'FULLSCREEN'):
         if settings.FULLSCREEN:
             displayflags |= pygame.FULLSCREEN
@@ -45,9 +50,11 @@ try:
 except:
     displayflags = pygame.SCALED
     networkName = None
+    DEBUG_MODE = False
 
 pygame.display.init()
 screen = pygame.display.set_mode((SCR_W, SCR_H), flags=displayflags)
+pygame.display.set_caption('Stranger Bubble')
 
 font = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H)
 bigfont = BitmapFont('gfx/heimatfont.png', scr_w=SCR_W, scr_h=SCR_H, zoom=2)
@@ -72,12 +79,12 @@ tiles = {'#': pygame.image.load('gfx/wall.png'),
          'l': pygame.image.load('gfx/overlay_bl.png'),
          'm': pygame.image.load('gfx/overlay_b.png'),
          'n': pygame.image.load('gfx/overlay_br.png'),
-         'o': pygame.image.load('gfx/mine_overlay.png'),  #player 2
-         'p': pygame.image.load('gfx/mine_overlay.png'),  #player 1
-         'q': pygame.image.load('gfx/bubble1.png'),  #<<<< super bubble button player 1  Xq
-         'r': pygame.image.load('gfx/bubble1.png'),  #<<<< super bubble button player 2
-         's': pygame.image.load('gfx/gate.png'),  #<<<< super bubble mine player 1
-         't': pygame.image.load('gfx/gate.png'),  #<<<< super bubble mine player 2       Xt
+         'o': pygame.image.load('gfx/mine_overlay.png'),  # skull player 2
+         'p': pygame.image.load('gfx/mine_overlay.png'),  # skull player 1
+         'q': pygame.image.load('gfx/bubble1.png'),       # super bubble button player 1  Xq
+         'r': pygame.image.load('gfx/bubble1.png'),       # super bubble button player 2
+         's': pygame.image.load('gfx/gate.png'),          # mine player 1
+         't': pygame.image.load('gfx/gate.png'),          # mine player 2       Xt
          'u': pygame.image.load('gfx/gate.png'),
          'V': pygame.image.load('gfx/bubble3.png'),
          'W': pygame.image.load('gfx/bubble4.png'),
@@ -126,7 +133,26 @@ sprites = {'player1': pygame.image.load('gfx/man-green.png'),
            }
 
 
-level_orig = ['##############################',
+level_1    = ['##############################',
+              '#        xxxx  x  #          #',
+              '#     #q     x       o    c  #',
+              '#     #### ##   a   x    x   #',
+              '#        #         x  xx     #',
+              '#        #   x          x    #',
+              '#o######### ##dd##           #',
+              '#  b t      #    #           #',
+              '#############    #############',
+              '#           #    #        #  #',
+              '#  #### xx  ##ff##  xxxx     #',
+              '# 2#     x      r     t3###  #',
+              '#  #   p  x      ########    #',
+              '#  #     x       #  p        #',
+              '#  ######### 1   #  x x      #',
+              '#    t               x       #',
+              '##############################',
+              ]
+
+level_2    = ['##############################',
               '#q o   #o     xx      o      #',
               '#   o a  t #     ##       o  #',
               '# #  t #   #t#t#t#   xxx     #',
@@ -145,124 +171,37 @@ level_orig = ['##############################',
               '##############################',
               ]
 
-level = list(level_orig)    # copy level
+level_3    = ['##############################',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '#                            #',
+              '##############################',
+              ]
 
+levels = [level_1,
+          level_2,
+          level_3,
+          ]
 
-overlay1 = ['OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO',
-            'OghhhiOOOOOOghhiOOOOOOOOghhiOO',
-            'OlmmmnOOOOgilmmnOOghiOOOlmmnOO',
-            'OOOOghhiOOlnOOghiOlmnOOOOOOOgh',
-            'OOOOlmmnOOOOOOlmnOOOghiOOOOOlm',
-            'OOOOOOOOghiOOOOOOOOOj kOghhiOO',
-            'OOghhiOOj kOOghhhiOOlmnOj  kOO',
-            'OOj  kOOlmnOOlmmmnOgiOOOlmmnOO',
-            'OOlmmnOOOOOOOOOOOOOlnOOOOOOOOO',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            ]
+levelNames = ['EASY START',
+              'A BIT MORE CLUTTERED',
+              '(STILL EMPTY)',
+              ]
 
-overlay2 = ['                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            'OOOOghhiOOOOOghhhiOOOOOOOOOOOO',
-            'hiOOlmmnOOOOOlmmmnOOOOOOghhiOO',
-            'mnOOOOOOOOgiOOOOOOghiOOOj  kOO',
-            'OOOOghhiOOlnOOghiOlmnOOOlmmnOO',
-            'OOOOlmmnOOOOOOlmnOOOgiOOOOOghh',
-            'ghiOOOOOghiOghhhiOOOlnOghhilmm',
-            'lmnOOOOOj kOlmmmnOghiOOj  kOOO',
-            'OOghhiOOlmnOOOOOOOlmnOOlmmnOOO',
-            'OOj  kOOOOOOOOOOOOOOOOOOOOOOOO',
-            ]
+level = []  # the actual level, will be copied from one of the above during start
 
-overlay1 = ['        OOOOOOOO        OOOOOO',
-            '       OOOOOOOO        OOOOOO ',
-            '      OOOOOOOO        OOOOOO  ',
-            '     OOOOOOOO        OOOOOO   ',
-            '    OOOOOOOO        OOOOOO    ',
-            '   OOOOOOOO        OOOOOO     ',
-            '  OOOOOOOO       OOOOOO       ',
-            ' OOOOOOOO       OOOOOO        ',
-            'OOOOOOOO       OOOOOO        O',
-            'OOOOOOO       OOOOOO        OO',
-            'OOOOOO       OOOOOO        OOO',
-            'OOOOO       OOOOOO        OOOO',
-            'OOOO       OOOOOO        OOOOO',
-            'OOO       OOOOOO        OOOOOO',
-            'OO       OOOOOO        OOOOOOO',
-            'O       OOOOOO        OOOOOOO ',
-            '       OOOOOO        OOOOOOO  ',
-            ]
-
-
-overlay2 = ['OOOOOOOO        OOOOOOOO      ',
-            'OOOOOOO        OOOOOOOO      O',
-            'OOOOOO        OOOOOOOO      OO',
-            'OOOOO        OOOOOOOO      OOO',
-            'OOOO        OOOOOOOO      OOOO',
-            'OOO        OOOOOOOO      OOOOO',
-            'OO        OOOOOOO      OOOOOOO',
-            'O        OOOOOOO      OOOOOOOO',
-            '        OOOOOOO      OOOOOOOO ',
-            '       OOOOOOO      OOOOOOOO  ',
-            '      OOOOOOO      OOOOOOOO   ',
-            '     OOOOOOO      OOOOOOOO    ',
-            '    OOOOOOO      OOOOOOOO     ',
-            '   OOOOOOO      OOOOOOOO      ',
-            '  OOOOOOO      OOOOOOOO       ',
-            ' OOOOOOO      OOOOOOOO       O',
-            'OOOOOOO      OOOOOOOO       OO',
-            ]
-
-
-overlay1 = ['                              ',
-            '                              ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '                              ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '                              ',
-            '                              ',
-            ]
-
-overlay2 = ['                              ',
-            '                              ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '                              ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '  OOOOOOOO          OOOOOOOO  ',
-            '                              ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '           OOOOOOOO           ',
-            '                              ',
-            '                              ',
-            ]
 
 overlay1 = ['OOOOOOOOOOOghhhhhhiOOOOOOOOOOO',
             'OOghhhhhiOOj      kOOghhhhhiOO',
@@ -338,11 +277,11 @@ class Screen:
 
 
 class GameScreen(Screen):
-    def __init__(self):
+    def __init__(self, levelno):
         Screen.__init__(self)
 
         global level
-        level = list(level_orig)    # copy level
+        level = list(levels[levelno])    # copy level
 
         self.player1 = Player('p1', 3, 3, LEV_W-2, LEV_H-2, ['#', 'd', 'f'])
         self.player2 = Player('p2', 26, 13, LEV_W-2, LEV_H-2, ['#', 'd', 'f'])
@@ -467,7 +406,7 @@ class GameScreen(Screen):
         if key in [pygame.K_s, pygame.K_DOWN]:
             self.curPlayer.go_down(level)
 
-        if key == pygame.K_F12:
+        if key == pygame.K_F12 and DEBUG_MODE:
             if shift:
                 if self.currentOverlay is not None:
                     self.currentOverlay = None
@@ -668,7 +607,7 @@ class GameWinScreen(Screen):
 
     def restartHandler(self):
         global nextScreen
-        nextScreen = GameScreen()
+        nextScreen = LevelSelectScreen()
 
 
 class GameOverScreen(Screen):
@@ -717,7 +656,7 @@ class GameOverScreen(Screen):
 
     def restartHandler(self):
         global nextScreen
-        nextScreen = GameScreen()
+        nextScreen = LevelSelectScreen()
 
 
 class TitleScreen(Screen):
@@ -822,8 +761,9 @@ class WaitScreen(Screen):
         for i, client in enumerate(self.clients):
             font.centerText(screen, '%s ASKED...' % client, y=12+i*2)
 
-        font.centerText(screen, 'SPACE = NO NETWORK', y=20, fgcolor=(255, 255, 255))
-        font.centerText(screen, '! ONLY FOR TESTING !', y=22, fgcolor=(255, 255, 255))
+        if DEBUG_MODE:
+            font.centerText(screen, 'SPACE = NO NETWORK', y=20, fgcolor=(255, 255, 255))
+            font.centerText(screen, '! ONLY FOR TESTING !', y=22, fgcolor=(255, 255, 255))
 
     def keydown(self, key, shift=False):
         pass
@@ -832,8 +772,8 @@ class WaitScreen(Screen):
         global nextScreen
         global running
 
-        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
-            nextScreen = GameScreen()
+        if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER) and DEBUG_MODE:
+            nextScreen = LevelSelectScreen()
             self.discovering = False
             discover_server.shutdown()
             network.shutdownServer()
@@ -852,7 +792,7 @@ class WaitScreen(Screen):
         print('received', data)
 
         if data == b'LETS GO!':
-            nextScreen = GameScreen()
+            nextScreen = LevelSelectScreen()
             self.discovering = False
             #network.serverCallback = nextScreen.serverCallback
             network.clientAddr = addr
@@ -912,7 +852,7 @@ class JoinScreen(Screen):
             if self.servers:
                 self.discovering = False
                 discover_client.shutdown()
-                nextScreen = GameScreen()
+                nextScreen = LevelSelectScreen()
 
                 coolRandomName, server = list(self.servers)[self.cursorY]
                 network.initClient(server[0], 6000, callback=nextScreen.clientCallback)
@@ -924,6 +864,65 @@ class JoinScreen(Screen):
 
     def update(self):
         pass
+
+
+class LevelSelectScreen(Screen):
+    def __init__(self):
+        super().__init__()
+        self.cursorY = 0
+
+    def render(self):
+        screen.fill(CL_BG_DARK)
+
+        if network.NETWORK_ROLE == 'server':
+            font.centerText(screen, 'SELECT WHICH SCENARIO TO PLAY:', y=7, fgcolor=CL_TXT_PURPLE)
+
+            for i, lev in enumerate(levels):
+                font.drawText(screen, 'LEVEL %s' % (i + 1), x=20, y=12+i*2, fgcolor=CL_TXT_CYAN)
+                font.drawText(screen, '- %s ' % levelNames[i], x=28, y=12+i*2, fgcolor=CL_TXT_PURPLE)
+
+                if i == self.cursorY:
+                    if tick % 32 > 8:
+                        font.drawText(screen, '}', x=18, y=12+i*2)
+        else:
+            font.centerText(screen, 'PLEASE WAIT WHILE YOUR HOST', y=7, fgcolor=CL_TXT_PURPLE)
+            font.centerText(screen, 'IS CHOOSING A SCENARIO...', y=9, fgcolor=CL_TXT_PURPLE)
+
+    def keydown(self, key, shift=False):
+        if network.NETWORK_ROLE == 'server':
+            if key == pygame.K_DOWN:
+                self.cursorY += 1
+                self.cursorY %= len(levels)
+
+            elif key == pygame.K_UP:
+                self.cursorY -= 1
+                self.cursorY %= len(levels)
+
+    def keyup(self, key, shift=False):
+        global nextScreen
+
+        if network.NETWORK_ROLE == 'server':
+            if key in (pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER):
+                network.sendStart(levelno=self.cursorY)
+                nextScreen = GameScreen(levelno=self.cursorY)
+
+        if key == pygame.K_ESCAPE:
+            nextScreen = TitleScreen()
+
+    def update(self):
+        pass
+
+    def serverCallback(self, data, addr):
+        pass
+
+    def clientCallback(self, data):
+        global nextScreen
+        print('received', data)
+
+        if data.startswith(b'START'):
+            levelno = data.split(b'=')[1]
+            levelno = int(levelno)
+            nextScreen = GameScreen(levelno)
 
 
 class HowtoScreen(Screen):
