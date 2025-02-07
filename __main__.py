@@ -448,7 +448,7 @@ class GameScreen(Screen):
 
         if key3MsgCounter > 0:
             key3MsgCounter = key3MsgCounter - 1
-            bigfont.centerText(screen, 'DOOR UNLOCKED', y=4, fgcolor=CL_TXT_CYAN)
+            bigfont.centerText(screen, 'DOOR UNLOCKED', y=4, fgcolor=CL_TXT_CYAN, align=False)
 
 
     def keydown(self, key, shift=False):
@@ -630,12 +630,12 @@ class GameWinScreen(Screen):
     def render(self):
         if self.winEndCounter > 0:
             self.winEndCounter = self.winEndCounter -1
-            bigfont.centerText(screen, 'CONGRATULATIONS!', y=4, fgcolor=CL_TXT_CYAN)
+            bigfont.centerText(screen, 'CONGRATULATIONS!', y=4, fgcolor=CL_TXT_CYAN, align=False)
         else:
             screen.fill((self.r, self.g, self.b))
             if self.g > 68:
                 self.g = self.g - 1
-            bigfont.centerText(screen, 'YOU ARE A WINNER TYPE', y=4, fgcolor=CL_TXT_CYAN)
+            bigfont.centerText(screen, 'YOU ARE A WINNER TYPE', y=4, fgcolor=CL_TXT_CYAN, align=False)
             font.centerText(screen, 'PRESS SPACE TO RESTART', y=20, fgcolor=(255, 255, 255))
 
     def keydown(self, key, shift=False):
@@ -684,7 +684,7 @@ class GameOverScreen(Screen):
         screen.fill((self.r, self.g, self.b))
         if self.r > 0:
             self.r = self.r - 1
-        bigfont.centerText(screen, 'GAME OVER', y=4, fgcolor=CL_TXT_PURPLE)
+        bigfont.centerText(screen, 'GAME OVER', y=4, fgcolor=CL_TXT_PURPLE, align=False)
         font.centerText(screen, 'PRESS SPACE TO RESTART', y=20, fgcolor=(255, 255, 255))
 
     def keydown(self, key, shift=False):
@@ -733,7 +733,7 @@ class TitleScreen(Screen):
 
     def render(self):
         screen.fill(CL_BG_DARK)
-        bigfont.centerText(screen, 'STRANGER BUBBLE', y=2.5, fgcolor=CL_TXT_PURPLE)
+        bigfont.centerText(screen, 'STRANGER BUBBLE', y=2.5, fgcolor=CL_TXT_PURPLE, align=False)
 
         if int(time.time() * 1000) % 1000 < 250:
             screen.blit(sprites['p1d2'], (240 - TW, 88))
@@ -752,7 +752,7 @@ class TitleScreen(Screen):
         font.centerText(screen, 'GLOBAL GAMEJAM 2025', y=29, fgcolor=CL_TXT_PURPLE)
 
         for i, entry in enumerate(self.menu):
-            font.centerText(screen, entry, y=16 + i * 2, fgcolor=CL_TXT_CYAN)
+            font.centerText(screen, entry, y=16 + i * 2, fgcolor=CL_TXT_CYAN, align=False)
 
         if tick % 32 > 8:
             font.drawText(screen, '}', x=22, y=16 + self.cursorY * 2, fgcolor=CL_TXT_PURPLE)
@@ -959,14 +959,14 @@ class HowtoScreen(Screen):
         font.centerText(screen, '')
         font.centerText(screen, 'PRESS A KEY', fgcolor=CL_TXT_PURPLE)
 
-        font.drawText(screen, 'BOTH PLAYERS TO MEET', x=33.5, y=9, fgcolor=CL_TXT_PURPLE)
+        font.drawText(screen, 'BOTH PLAYERS TO MEET', x=34, y=9, fgcolor=CL_TXT_PURPLE)
 
         screen.blit(tiles['x'], (224, 132))
 
-        screen.blit(tiles['d'], (84, 148))
-        screen.blit(tiles['1'], (392, 148))
-        screen.blit(tiles['2'], (392+16, 148))
-        screen.blit(tiles['3'], (392+16+16, 148))
+        screen.blit(tiles['d'], (88, 148))
+        screen.blit(tiles['1'], (396, 148))
+        screen.blit(tiles['2'], (396+16, 148))
+        screen.blit(tiles['3'], (396+16+16, 148))
 
         screen.blit(tiles['o'], (152, 162))
 
