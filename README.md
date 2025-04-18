@@ -24,6 +24,12 @@ Have fun!
 - Wait until JOINer (client) discovers STARTer (server), then hit space as JOINer
 - The game should run now
 
+- You can add specific hosts (also via internet!) into a settings.py:
+
+KNOWN_SERVERS = [('example 1', ('ip address or hostname', port)),
+                 ('example 2', ('ip address or hostname', port)),
+                 ]
+
 
 # how to run from source
 note: requires python3.8+ and pygame2+

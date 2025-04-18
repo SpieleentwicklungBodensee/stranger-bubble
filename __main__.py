@@ -808,6 +808,10 @@ class JoinScreen(Screen):
 
         network.reset()
 
+        if hasattr(settings, 'KNOWN_SERVERS'):
+            for server in settings.KNOWN_SERVERS:
+                self.servers.add(server)
+
         def discover():
             discover_client.init()
             while self.discovering:
@@ -826,10 +830,10 @@ class JoinScreen(Screen):
         font.centerText(screen, 'SCANNING FOR GAMES ON YOUR NETWORK...', y=8, fgcolor=CL_TXT_PURPLE)
 
         for i, server in enumerate(self.servers):
-            coolRandomName = server[0].decode('utf8')
+            coolRandomName = server[0].decode('utf8') if type(server[0]) is bytes else str(server[0])
             serverName = server[1][0]
-            font.drawText(screen, coolRandomName, x=20, y=12+i*2, fgcolor=CL_TXT_CYAN)
-            font.drawText(screen, serverName, x=21 + len(coolRandomName), y=12+i*2, fgcolor=CL_TXT_PURPLE)
+            font.drawText(screen, coolRandomName.upper(), x=20, y=12+i*2, fgcolor=CL_TXT_CYAN)
+            font.drawText(screen, serverName.upper(), x=21 + len(coolRandomName), y=12+i*2, fgcolor=CL_TXT_PURPLE)
 
             if i == self.cursorY:
                 if tick % 32 > 8:
