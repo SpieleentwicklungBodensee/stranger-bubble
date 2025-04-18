@@ -51,7 +51,7 @@ try:
     if hasattr(settings, 'KNOWN_SERVERS'):
         knownServers = settings.KNOWN_SERVERS
     else:
-        knownServers = []]
+        knownServers = []
 except:
     displayflags = pygame.SCALED
     networkName = None
