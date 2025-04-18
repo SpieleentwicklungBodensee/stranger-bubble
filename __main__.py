@@ -47,6 +47,9 @@ try:
         networkName = str(settings.NETWORK_NAME)[:16].upper()
     else:
         networkName = None
+
+    if hasattr(settings, 'KNOWN_SERVERS'):
+        knownServers = settings.KNOWN_SERVERS
 except:
     displayflags = pygame.SCALED
     networkName = None
@@ -808,9 +811,8 @@ class JoinScreen(Screen):
 
         network.reset()
 
-        if hasattr(settings, 'KNOWN_SERVERS'):
-            for server in settings.KNOWN_SERVERS:
-                self.servers.add(server)
+        for server in knownServers:
+            self.servers.add(server)
 
         def discover():
             discover_client.init()
