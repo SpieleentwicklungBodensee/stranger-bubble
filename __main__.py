@@ -56,6 +56,7 @@ except:
     displayflags = pygame.SCALED
     networkName = None
     DEBUG_MODE = False
+    knownServers = []
 
 pygame.display.init()
 screen = pygame.display.set_mode((SCR_W, SCR_H), flags=displayflags)
